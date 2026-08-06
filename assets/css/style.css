@@ -819,6 +819,14 @@ a.card { display: block; color: inherit; }
   border-color: var(--navy-900);
   color: #fff;
 }
+.card__photo {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  margin-bottom: var(--s-2);
+}
+.card__photo--low { object-position: 50% 75%; }
+
 .work-card__tags {
   display: flex;
   gap: 6px;
