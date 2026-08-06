@@ -89,6 +89,9 @@ table { border-collapse: collapse; width: 100%; }
 }
 
 /* 白いプレート（切り欠き） */
+.plate__logo { display: block; }
+.plate__logo img { width: 100%; height: auto; display: block; }
+
 .plate {
   position: absolute;
   top: 0; left: 0;
