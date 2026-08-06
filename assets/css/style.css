@@ -522,6 +522,211 @@ table { border-collapse: collapse; width: 100%; }
 }
 a.card { display: block; color: inherit; }
 
+/* =========================================================
+   事業内容セクション（トップ）─ ベントレイアウト＋通電モチーフ
+   ========================================================= */
+
+/* 回路モチーフ：線の上を光が一度だけ走り、5つのノードが順に点灯する */
+.service-circuit {
+  display: block;
+  width: min(420px, 100%);
+  height: 24px;
+  margin-top: var(--s-3);
+  overflow: visible;
+}
+.service-circuit line {
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+.service-circuit .node {
+  fill: var(--paper);
+  stroke: var(--rule);
+  stroke-width: 1;
+  transition: fill .3s var(--ease), stroke .3s var(--ease);
+  transition-delay: calc(220ms + var(--n) * 190ms);
+}
+.service-sec.is-inview .service-circuit .node {
+  fill: var(--copper);
+  stroke: var(--copper);
+}
+.service-circuit .pulse {
+  fill: #E8A96A;
+  opacity: 0;
+}
+.service-sec.is-inview .service-circuit .pulse {
+  animation: circuitPulse 1100ms var(--ease) 150ms 1 both;
+}
+@keyframes circuitPulse {
+  0%   { opacity: 0; transform: translateX(0); }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(420px); }
+}
+
+/* ベントグリッド：主力2枚を大きく、3領域を下段に */
+.service-bento {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--s-3);
+}
+.service-card {
+  grid-column: span 2;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: var(--s-4);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  color: inherit;
+  overflow: hidden;
+  transition: transform .3s var(--ease), border-color .3s var(--ease);
+}
+.service-card--main { grid-column: span 3; padding: var(--s-5); }
+
+/* 上辺の銅ライン：ホバーで左から通電する */
+.service-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: var(--copper);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .45s var(--ease);
+}
+.service-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--copper);
+}
+.service-card:hover::before { transform: scaleX(1); }
+
+/* 入場アニメーション：下からふわっと、1枚ずつ */
+.service-sec .service-card {
+  opacity: 0;
+  translate: 0 26px;
+  transition:
+    opacity .6s var(--ease),
+    translate .6s var(--ease),
+    transform .3s var(--ease),
+    border-color .3s var(--ease);
+  transition-delay: calc(var(--i) * 110ms), calc(var(--i) * 110ms), 0ms, 0ms;
+}
+.service-sec.is-inview .service-card {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.service-card__icon {
+  width: 44px;
+  height: 44px;
+  fill: none;
+  stroke: var(--navy-700);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.service-card--main .service-card__icon { width: 56px; height: 56px; }
+.service-card__icon .ic-copper { fill: var(--copper); stroke: none; }
+.service-card__icon .ic-copper-stroke { stroke: var(--copper); }
+
+.service-chip {
+  position: absolute;
+  top: var(--s-3);
+  right: var(--s-3);
+  font-family: var(--font-util);
+  font-size: 12px;
+  letter-spacing: .18em;
+  color: var(--copper);
+  border: 1px solid rgba(184,115,51,.45);
+  border-radius: var(--radius-pill);
+  padding: 3px 12px;
+}
+.service-card__title { font-size: 18px; font-weight: 700; }
+.service-card--main .service-card__title { font-size: 22px; }
+.service-card__text { font-size: 14px; color: var(--ink-60); }
+.service-card__list { font-size: 14px; color: var(--ink-60); }
+.service-card__list li {
+  position: relative;
+  padding-left: 16px;
+  margin-bottom: 2px;
+}
+.service-card__list li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: .85em;
+  width: 8px; height: 1px;
+  background: var(--copper);
+}
+.service-card__more {
+  margin-top: auto;
+  padding-top: var(--s-1);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--blue-500);
+}
+.service-card__more .arrow {
+  display: inline-block;
+  transition: transform .3s var(--ease);
+}
+.service-card:hover .service-card__more .arrow { transform: translateX(5px); }
+
+/* ---- アイコンのご褒美アニメーション（ホバー中だけ動く） ---- */
+/* 空調：ファンが回る */
+.ic-blades { transform-origin: 12px 12px; }
+.service-card:hover .ic-blades { animation: fanSpin 1.4s linear infinite; }
+@keyframes fanSpin { to { transform: rotate(360deg); } }
+
+/* 電気：ONのスイッチが入る */
+.ic-sw--on circle { transition: transform .25s var(--ease); }
+.service-card:hover .ic-sw--on circle { transform: translateY(-4px); }
+
+/* 換気：風が流れる */
+.ic-wind path { stroke-dasharray: 26; stroke-dashoffset: 0; }
+.service-card:hover .ic-wind path { animation: windFlow 1.2s var(--ease) infinite; }
+.service-card:hover .ic-wind path:nth-child(2) { animation-delay: .15s; }
+.service-card:hover .ic-wind path:nth-child(3) { animation-delay: .3s; }
+@keyframes windFlow {
+  0% { stroke-dashoffset: 26; opacity: 0; }
+  35% { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+/* 弱電：電波が広がる */
+.service-card:hover .ic-waves path { animation: wavePulse 1.5s var(--ease) infinite; }
+.service-card:hover .ic-waves path:nth-child(3),
+.service-card:hover .ic-waves path:nth-child(4) { animation-delay: .25s; }
+@keyframes wavePulse { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+
+/* 防災：リングが脈打つ */
+.ic-ring { transform-origin: 12px 12px; }
+.service-card:hover .ic-ring { stroke: var(--copper); animation: ringBeat 1.1s var(--ease) infinite; }
+@keyframes ringBeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.16); } }
+
+@media (max-width: 899px) {
+  .service-card { grid-column: span 3; }
+  .service-card--main { grid-column: span 3; padding: var(--s-4); }
+  .service-card:last-child { grid-column: span 6; }
+}
+@media (max-width: 639px) {
+  .service-card, .service-card--main { grid-column: span 6; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-sec .service-card { opacity: 1; translate: 0 0; transition: none; }
+  .service-sec.is-inview .service-circuit .pulse,
+  .service-card:hover .ic-blades,
+  .service-card:hover .ic-wind path,
+  .service-card:hover .ic-waves path,
+  .service-card:hover .ic-ring { animation: none; }
+  .service-circuit .node { transition: none; fill: var(--copper); stroke: var(--copper); }
+  .service-card:hover { transform: none; }
+}
+
 /* 選ばれる理由 */
 .reasons {
   display: grid;

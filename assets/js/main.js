@@ -13,6 +13,24 @@
     });
   }
 
+  /* ---------- スクロール入場アニメーション ---------- */
+  var animated = document.querySelectorAll("[data-animate]");
+  if (animated.length) {
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-inview");
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.18 });
+      animated.forEach(function (el) { io.observe(el); });
+    } else {
+      animated.forEach(function (el) { el.classList.add("is-inview"); });
+    }
+  }
+
   /* ---------- /works/ 絞り込み ---------- */
   var filter = document.querySelector("[data-filter]");
   if (filter) {
