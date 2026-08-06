@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 1000" role="img" aria-label="施工写真（差し替え予定）">
+  <!-- 実写真（分電盤・配管の接写）に差し替えるまでの仮画像 -->
+  <rect width="1160" height="1000" fill="#0C2238"/>
+  <g stroke="#B87333" stroke-opacity=".28" stroke-width="1.5" fill="none">
+    <path d="M180 0 V1000"/>
+    <path d="M420 0 V620 H760 V1000"/>
+    <path d="M980 0 V1000"/>
+    <path d="M0 260 H1160"/>
+    <path d="M0 780 H420"/>
+    <path d="M760 820 H1160"/>
+  </g>
+  <g fill="#B87333" fill-opacity=".45">
+    <circle cx="180" cy="260" r="5"/>
+    <circle cx="420" cy="620" r="5"/>
+    <circle cx="760" cy="820" r="5"/>
+    <circle cx="980" cy="260" r="5"/>
+  </g>
+  <g stroke="#E8EDF2" stroke-opacity=".12" stroke-width="1" fill="none">
+    <rect x="300" y="340" width="560" height="360"/>
+    <path d="M300 430 H860 M395 340 V700 M490 340 V700 M585 340 V700 M680 340 V700 M775 340 V700"/>
+  </g>
+  <text x="580" y="905" text-anchor="middle" font-family="'Barlow Condensed', sans-serif" font-size="22" letter-spacing="6" fill="#E8EDF2" fill-opacity=".35">PHOTO COMING SOON</text>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 560" role="img" aria-label="代表者写真（差し替え予定）">
+  <rect width="560" height="560" fill="#E8EDF2"/>
+  <g stroke="#B87333" stroke-opacity=".3" stroke-width="1.5" fill="none">
+    <path d="M110 0 V560 M0 140 H560 M450 0 V560 M0 430 H560"/>
+  </g>
+  <text x="280" y="290" text-anchor="middle" font-family="'Barlow Condensed', sans-serif" font-size="20" letter-spacing="5" fill="#08192B" fill-opacity=".35">PHOTO COMING SOON</text>
+</svg>
