@@ -385,6 +385,7 @@ table { border-collapse: collapse; width: 100%; }
   inset: auto;
   min-height: 100%;
 }
+.hero[data-hero="split"] .hero__media img { object-position: 50% 62%; } /* 街の灯りを画角に残す */
 .hero[data-hero="split"] .hero__panel {
   grid-column: 1;
   grid-row: 1;
