@@ -643,6 +643,17 @@ a.card { display: block; color: inherit; }
   100% { opacity: 0; transform: translateX(420px); }
 }
 
+/* セクション全体を方眼紙の面に */
+.service-sec {
+  background-color: #FBF7EE;
+  background-image: url("../img/bg-paper-white.jpg");
+  background-image: image-set(
+    url("../img/bg-paper-white.webp") type("image/webp"),
+    url("../img/bg-paper-white.jpg") type("image/jpeg"));
+  background-size: cover;
+  background-position: center;
+}
+
 /* ベントグリッド：主力2枚を大きく、3領域を下段に */
 .service-bento {
   display: grid;
@@ -654,17 +665,110 @@ a.card { display: block; color: inherit; }
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  padding: var(--s-4);
-  background: var(--paper);
-  border: 1px solid var(--rule);
-  border-radius: 4px;
+  align-items: center;      /* 参考デザインに合わせて中央揃え */
+  text-align: center;
+  gap: var(--s-2);
+  padding: var(--s-5) var(--s-4);
   color: inherit;
   overflow: hidden;
-  transition: transform .3s var(--ease), border-color .3s var(--ease);
+  border: 1px solid rgba(8,25,43,.16);
+  border-radius: 2px;
+  /* 白い方眼紙 */
+  background-color: #FDFBF6;
+  background-image: url("../img/bg-paper-white.jpg");
+  background-image: image-set(
+    url("../img/bg-paper-white.webp") type("image/webp"),
+    url("../img/bg-paper-white.jpg") type("image/jpeg"));
+  background-size: cover;
+  background-position: center;
+  transition: transform .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
 }
-.service-card--main { grid-column: span 3; padding: var(--s-5); }
+/* 主力＝黄色い方眼紙 */
+.service-card--yellow {
+  background-color: #FBF0C4;
+  background-image: url("../img/bg-paper-yellow.jpg");
+  background-image: image-set(
+    url("../img/bg-paper-yellow.webp") type("image/webp"),
+    url("../img/bg-paper-yellow.jpg") type("image/jpeg"));
+}
+.service-card--main {
+  grid-column: span 3;
+  padding: var(--s-6) var(--s-5);
+  gap: var(--s-3);
+}
+/* 大きな見出しでは残像を控えめに（濃いと影に見えるため） */
+.service-card .echo-echo { opacity: .2; translate: .06em 0; }
+.js .service-card[data-animate].is-inview .echo-echo,
+.js [data-animate].is-inview .service-card .echo-echo { opacity: .2; translate: .06em 0; }
+
+/* 参考デザインに合わせ、このセクションだけ見出しも中央揃え */
+.service-sec .section__head { text-align: center; }
+.service-sec .section__lead { margin-inline: auto; }
+.service-sec .service-circuit { margin-inline: auto; }
+
+/* 括弧付きラベル：( ELECTRICAL ) の括弧を外側へ押し出す */
+.service-label {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--s-3);
+  width: min(280px, 100%);
+  font-family: var(--font-util);
+  font-size: 13px;
+  letter-spacing: .2em;
+  color: var(--ink-60);
+}
+.service-label::before,
+.service-label::after {
+  content: "(";
+  font-size: 15px;
+  line-height: 1;
+  color: var(--ink-40);
+}
+.service-label::after { content: ")"; justify-self: end; }
+.service-label::before { justify-self: start; }
+.service-label__text { white-space: nowrap; }
+.service-card--main .service-label { width: min(340px, 100%); font-size: 14px; }
+
+/* 詳細項目：小さなタグとして中央に並べる */
+.service-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.service-card__tags li {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--ink-60);
+  border: 1px solid rgba(8,25,43,.18);
+  border-radius: var(--radius-pill);
+  padding: 3px 12px;
+  background: rgba(255,255,255,.5);
+}
+
+/* 枠線のボタン */
+.service-card__btn {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  height: 52px;
+  padding: 0 var(--s-4);
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  font-family: var(--font-util);
+  font-size: 15px;
+  letter-spacing: .12em;
+  color: var(--ink);
+  background: transparent;
+  transition: background .3s var(--ease), color .3s var(--ease);
+}
+.service-card:hover .service-card__btn {
+  background: var(--navy-900);
+  color: #fff;
+}
 
 /* 上辺の銅ライン：ホバーで左から通電する */
 .service-card::before {
@@ -676,10 +780,12 @@ a.card { display: block; color: inherit; }
   transform: scaleX(0);
   transform-origin: left;
   transition: transform .45s var(--ease);
+  z-index: 1;
 }
 .service-card:hover {
   transform: translateY(-4px);
-  border-color: var(--copper);
+  border-color: rgba(8,25,43,.4);
+  box-shadow: 0 10px 30px rgba(8,25,43,.09);
 }
 .service-card:hover::before { transform: scaleX(1); }
 
@@ -715,48 +821,20 @@ a.card { display: block; color: inherit; }
 .service-card__icon .ic-copper { fill: var(--copper); stroke: none; }
 .service-card__icon .ic-copper-stroke { stroke: var(--copper); }
 
-.service-chip {
-  position: absolute;
-  top: var(--s-3);
-  right: var(--s-3);
-  font-family: var(--font-util);
-  font-size: 12px;
-  letter-spacing: .18em;
-  color: var(--copper);
-  border: 1px solid rgba(184,115,51,.45);
-  border-radius: var(--radius-pill);
-  padding: 3px 12px;
+.service-card__title {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  line-height: 1.3;
 }
-.service-card__title { font-size: 18px; font-weight: 700; }
-.service-card--main .service-card__title { font-size: 22px; }
-.service-card__text { font-size: 14px; color: var(--ink-60); }
-.service-card__list { font-size: 14px; color: var(--ink-60); }
-.service-card__list li {
-  position: relative;
-  padding-left: 16px;
-  margin-bottom: 2px;
-}
-.service-card__list li::before {
-  content: "";
-  position: absolute;
-  left: 0; top: .85em;
-  width: 8px; height: 1px;
-  background: var(--copper);
-}
-.service-card__more {
-  margin-top: auto;
-  padding-top: var(--s-1);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+.service-card--main .service-card__title { font-size: 40px; }
+.service-card__text {
   font-size: 14px;
-  color: var(--blue-500);
+  color: var(--ink-60);
+  line-height: 1.9;
+  max-width: 34em;
 }
-.service-card__more .arrow {
-  display: inline-block;
-  transition: transform .3s var(--ease);
-}
-.service-card:hover .service-card__more .arrow { transform: translateX(5px); }
+.service-card--main .service-card__text { font-size: 16px; }
 
 /* ---- アイコンのご褒美アニメーション（ホバー中だけ動く） ---- */
 /* 空調：ファンが回る */
