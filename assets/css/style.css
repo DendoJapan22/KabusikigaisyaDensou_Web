@@ -686,27 +686,27 @@ a.card { display: block; color: inherit; }
 
 /* 領域ごとの色紙。テクスチャは同一で色だけが違う */
 .service-card[data-paper="yellow"] {
-  background-color: #FCF3C2;
+  background-color: #F5D23C;
   background-image: url("../img/bg-paper-yellow.jpg");
   background-image: image-set(url("../img/bg-paper-yellow.webp") type("image/webp"), url("../img/bg-paper-yellow.jpg") type("image/jpeg"));
 }
 .service-card[data-paper="blue"] {
-  background-color: #DAECF4;
+  background-color: #75BFEB;
   background-image: url("../img/bg-paper-blue.jpg");
   background-image: image-set(url("../img/bg-paper-blue.webp") type("image/webp"), url("../img/bg-paper-blue.jpg") type("image/jpeg"));
 }
 .service-card[data-paper="green"] {
-  background-color: #DDF3DD;
+  background-color: #7BD495;
   background-image: url("../img/bg-paper-green.jpg");
   background-image: image-set(url("../img/bg-paper-green.webp") type("image/webp"), url("../img/bg-paper-green.jpg") type("image/jpeg"));
 }
 .service-card[data-paper="purple"] {
-  background-color: #EBDFF2;
+  background-color: #BBA0EB;
   background-image: url("../img/bg-paper-purple.jpg");
   background-image: image-set(url("../img/bg-paper-purple.webp") type("image/webp"), url("../img/bg-paper-purple.jpg") type("image/jpeg"));
 }
 .service-card[data-paper="rose"] {
-  background-color: #FCDFD5;
+  background-color: #F59B86;
   background-image: url("../img/bg-paper-rose.jpg");
   background-image: image-set(url("../img/bg-paper-rose.webp") type("image/webp"), url("../img/bg-paper-rose.jpg") type("image/jpeg"));
 }
@@ -735,14 +735,14 @@ a.card { display: block; color: inherit; }
   font-family: var(--font-util);
   font-size: 13px;
   letter-spacing: .2em;
-  color: var(--ink-60);
+  color: rgba(8,25,43,.72);
 }
 .service-label::before,
 .service-label::after {
   content: "(";
   font-size: 15px;
   line-height: 1;
-  color: var(--ink-40);
+  color: rgba(8,25,43,.5);
 }
 .service-label::after { content: ")"; justify-self: end; }
 .service-label::before { justify-self: start; }
@@ -759,11 +759,11 @@ a.card { display: block; color: inherit; }
 .service-card__tags li {
   font-size: 12px;
   line-height: 1.6;
-  color: var(--ink-60);
-  border: 1px solid rgba(8,25,43,.18);
+  color: rgba(8,25,43,.78);
+  border: 1px solid rgba(8,25,43,.14);
   border-radius: var(--radius-pill);
   padding: 3px 12px;
-  background: rgba(255,255,255,.5);
+  background: rgba(255,255,255,.72);
 }
 
 /* 枠線のボタン */
@@ -849,7 +849,7 @@ a.card { display: block; color: inherit; }
 .service-card--main .service-card__title { font-size: 40px; }
 .service-card__text {
   font-size: 14px;
-  color: var(--ink-60);
+  color: rgba(8,25,43,.8);   /* 鮮やかな地色に負けないよう濃いめ */
   line-height: 1.9;
   max-width: 34em;
 }
