@@ -4,11 +4,20 @@
    ========================================================= */
 
 :root {
-  /* 色 ─ 深藍を基調に、銅を少量。グラデーションはヒーローのスクリムのみ */
-  --navy-900: #08192B;  /* 最濃面・主CTA・フッター */
+  /* =======================================================
+     イメージカラー：黄 / 濃紺 / 白 の3色
+     黄 = 面（塗り・ハイライト・太い線）
+     紺 = 文字と構造
+     白 = 地
+     ※ヒーローの導線だけは従来の銅色を維持（色を直接指定）
+     ======================================================= */
+  --yellow:      #F7CE2E;  /* 主役の黄。塗り・ハイライトに使う */
+  --yellow-deep: #EE9800;  /* ロゴ由来のアンバー。細い線・小さな印に */
+
+  --navy-900: #08192B;  /* 最濃面・フッター */
   --navy-700: #123A5E;  /* 見出し・副次面 */
-  --blue-500: #2E6BA8;  /* リンク・副CTA */
-  --copper:   #B87333;  /* アクセント。線と小さな印にのみ */
+  --blue-500: #1B4D80;  /* リンク（紺の系統） */
+  --copper:   var(--yellow-deep);  /* 旧アクセント名。実体はアンバー */
   --mist:     #E8EDF2;  /* 明るいセクション背景・採用ページ地色 */
   --paper:    #FFFFFF;
 
@@ -52,8 +61,10 @@ button { font: inherit; cursor: pointer; background: none; border: 0; color: inh
 table { border-collapse: collapse; width: 100%; }
 
 :focus-visible {
-  outline: 2px solid var(--copper);
-  outline-offset: 3px;
+  outline: 2px solid var(--navy-900);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px var(--yellow);
+  border-radius: 2px;
 }
 
 .wrap { max-width: var(--wrap); margin-inline: auto; padding-inline: var(--s-3); }
@@ -255,19 +266,19 @@ table { border-collapse: collapse; width: 100%; }
   fill: currentColor;
 }
 
-/* CTA */
+/* CTA ─ 主要な行動は黄の面＋紺の文字 */
 .btn-cta {
   display: inline-flex;
   align-items: center;
   height: 52px;
   padding: 0 30px;
   border-radius: var(--radius-pill);
-  background: var(--navy-900);
-  color: #fff;
+  background: var(--yellow);
+  color: var(--navy-900);
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 700;
 }
-.btn-cta:hover { background: var(--navy-700); }
+.btn-cta:hover { background: var(--yellow-deep); color: var(--navy-900); }
 
 /* ハンバーガー（<900pxで表示） */
 .menu-toggle {
@@ -454,15 +465,24 @@ table { border-collapse: collapse; width: 100%; }
    ========================================================= */
 .section { padding-block: var(--s-7); }
 .section--mist { background: var(--mist); }
-.section__head { margin-bottom: var(--s-5); }
+.section__head {
+  margin-bottom: var(--s-5);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 .section__label {
-  display: block;
+  display: inline-block;
   font-family: var(--font-util);
   font-size: 13px;
   letter-spacing: .2em;
-  color: var(--copper);
+  color: var(--navy-900);
+  background: var(--yellow);
+  padding: 3px 12px 2px;
+  border-radius: 3px;
   text-transform: uppercase;
   margin-bottom: 6px;
+  font-weight: 600;
 }
 .section__title {
   font-family: var(--font-display);
@@ -498,8 +518,8 @@ table { border-collapse: collapse; width: 100%; }
 .card:hover { border-color: var(--copper); }
 .card__rule {
   display: block;
-  width: 32px; height: 2px;
-  background: var(--copper);
+  width: 32px; height: 3px;
+  background: var(--yellow);
   margin-bottom: var(--s-2);
 }
 .card__title {
@@ -721,7 +741,7 @@ a.card { display: block; color: inherit; }
 .js [data-animate].is-inview .service-card .echo-echo { opacity: .2; translate: .06em 0; }
 
 /* 参考デザインに合わせ、このセクションだけ見出しも中央揃え */
-.service-sec .section__head { text-align: center; }
+.service-sec .section__head { text-align: center; align-items: center; }
 .service-sec .section__lead { margin-inline: auto; }
 .service-sec .service-circuit { margin-inline: auto; }
 
@@ -914,7 +934,7 @@ a.card { display: block; color: inherit; }
   gap: var(--s-4);
 }
 .reason {
-  border-top: 2px solid var(--copper);
+  border-top: 3px solid var(--yellow);
   padding-top: var(--s-2);
 }
 .reason__num {
@@ -942,8 +962,8 @@ a.card { display: block; color: inherit; }
 }
 .split-card__rule {
   display: block;
-  width: 32px; height: 2px;
-  background: var(--copper);
+  width: 32px; height: 3px;
+  background: var(--yellow);
   margin-bottom: var(--s-2);
 }
 .split-card__title { font-size: 20px; font-weight: 700; margin-bottom: var(--s-1); }
@@ -989,12 +1009,12 @@ a.card { display: block; color: inherit; }
   padding: 0 32px;
   margin-top: var(--s-3);
   border-radius: var(--radius-pill);
-  background: var(--blue-500);
-  color: #fff;
+  background: var(--yellow);
+  color: var(--navy-900);
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 700;
 }
-.btn-form:hover { background: #3d7cb8; }
+.btn-form:hover { background: var(--yellow-deep); }
 
 /* =========================================================
    フッター
@@ -1041,6 +1061,12 @@ a.card { display: block; color: inherit; }
    6. 下層ページ共通
    ========================================================= */
 /* T-A / T-B ページヘッダー */
+.page-head__inner,
+.page-head > .wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 .page-head {
   background: var(--mist);
   min-height: 220px;
@@ -1050,10 +1076,15 @@ a.card { display: block; color: inherit; }
   padding-block: var(--s-4);
 }
 .page-head__label {
+  display: inline-block;
   font-family: var(--font-util);
   font-size: 13px;
   letter-spacing: .2em;
-  color: var(--copper);
+  color: var(--navy-900);
+  background: var(--yellow);
+  padding: 3px 12px 2px;
+  border-radius: 3px;
+  font-weight: 600;
   text-transform: uppercase;
 }
 .page-head__title {
@@ -1090,8 +1121,8 @@ a.card { display: block; color: inherit; }
   content: "";
   position: absolute;
   left: 0; top: .75em;
-  width: 32px; height: 2px;
-  background: var(--copper);
+  width: 32px; height: 3px;
+  background: var(--yellow);
 }
 .article h2:first-child { margin-top: 0; }
 .article h3 {
@@ -1318,9 +1349,12 @@ body.page-recruit .split-card { background: var(--paper); }
 }
 .form .req {
   font-size: 11px;
-  color: var(--copper);
+  color: var(--navy-900);
+  background: var(--yellow);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
   margin-left: 8px;
-  font-weight: 400;
+  font-weight: 700;
 }
 .form input[type="text"],
 .form input[type="tel"],
@@ -1379,12 +1413,12 @@ body.page-recruit .split-card { background: var(--paper); }
   height: 56px;
   padding: 0 var(--s-6);
   border-radius: var(--radius-pill);
-  background: var(--navy-900);
-  color: #fff;
+  background: var(--yellow);
+  color: var(--navy-900);
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 700;
 }
-.form__submit:hover { background: var(--navy-700); }
+.form__submit:hover { background: var(--yellow-deep); }
 
 /* FAQ */
 .faq { margin-block: var(--s-3); }
@@ -1435,7 +1469,7 @@ body.page-recruit .split-card { background: var(--paper); }
   font-weight: 500;
 }
 .mobile-bar__tel { background: var(--navy-900); }
-.mobile-bar__contact { background: var(--blue-500); }
+.mobile-bar__contact { background: var(--yellow); color: var(--navy-900); font-weight: 700; }
 
 /* =========================================================
    7. レスポンシブ
