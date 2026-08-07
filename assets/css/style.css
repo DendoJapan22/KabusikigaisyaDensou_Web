@@ -532,48 +532,74 @@ a.card { display: block; color: inherit; }
   z-index: 0;
   display: inline-block;
 }
-.section__title-solid {
+.echo-solid {
   display: block;
   position: relative;
   z-index: 1;
 }
-.section__title-echo {
+.echo-echo {
   display: block;
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   color: var(--copper);
-  opacity: 0;
+  opacity: .3;
+  translate: .09em 0;
 }
-/* 初期状態：左端で待機 */
-[data-animate] .section__title-solid {
+/* 初期状態：左端で待機（JSが動く環境でのみ隠す） */
+.js [data-animate] .echo-solid {
   clip-path: inset(0 100% 0 0);
-  transition: clip-path .85s var(--ease) .1s;
+  transition: clip-path .85s var(--ease) calc(.1s + var(--echo-delay, 0ms));
 }
-[data-animate] .section__title-echo {
+.js [data-animate] .echo-echo {
   clip-path: inset(0 100% 0 0);
   translate: -.32em 0;
+  opacity: 0;
   transition:
-    clip-path .85s var(--ease) .24s,
-    translate .85s var(--ease) .24s,
-    opacity .5s var(--ease) .24s;
+    clip-path .85s var(--ease) calc(.24s + var(--echo-delay, 0ms)),
+    translate .85s var(--ease) calc(.24s + var(--echo-delay, 0ms)),
+    opacity .5s var(--ease) calc(.24s + var(--echo-delay, 0ms));
 }
 /* 表示時 */
-[data-animate].is-inview .section__title-solid { clip-path: inset(0 0 0 0); }
-[data-animate].is-inview .section__title-echo {
+.js [data-animate].is-inview .echo-solid { clip-path: inset(0 0 0 0); }
+.js [data-animate].is-inview .echo-echo {
   clip-path: inset(0 0 0 0);
   translate: .09em 0;
   opacity: .3;
 }
+/* 濃紺の面では残像を少し強める */
+.cta-block .echo-echo { opacity: .45; }
+.js .cta-block[data-animate].is-inview .echo-echo { opacity: .45; }
+
+/* ---------- 汎用：下からフェードイン（順送り） ---------- */
+.js [data-animate] .reveal {
+  opacity: 0;
+  translate: 0 24px;
+  transition:
+    opacity .6s var(--ease),
+    translate .6s var(--ease),
+    border-color .25s var(--ease),
+    transform .3s var(--ease);
+  transition-delay: calc(var(--i, 0) * 90ms), calc(var(--i, 0) * 90ms), 0ms, 0ms;
+}
+.js [data-animate].is-inview .reveal {
+  opacity: 1;
+  translate: 0 0;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  [data-animate] .section__title-solid,
-  [data-animate] .section__title-echo {
+  .js [data-animate] .echo-solid,
+  .js [data-animate] .echo-echo {
     transition: none;
     clip-path: inset(0 0 0 0);
   }
-  [data-animate] .section__title-echo { translate: .09em 0; opacity: .3; }
+  .js [data-animate] .echo-echo { translate: .09em 0; opacity: .3; }
+  .js [data-animate] .reveal {
+    opacity: 1;
+    translate: 0 0;
+    transition: none;
+  }
 }
 
 /* =========================================================
@@ -657,8 +683,11 @@ a.card { display: block; color: inherit; }
 }
 .service-card:hover::before { transform: scaleX(1); }
 
+/* カード内の見出しエコーは、カードの入場に合わせて遅らせる */
+.service-card { --echo-delay: calc(var(--i) * 110ms); }
+
 /* 入場アニメーション：下からふわっと、1枚ずつ */
-.service-sec .service-card {
+.js .service-sec .service-card {
   opacity: 0;
   translate: 0 26px;
   transition:
@@ -771,7 +800,7 @@ a.card { display: block; color: inherit; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .service-sec .service-card { opacity: 1; translate: 0 0; transition: none; }
+  .js .service-sec .service-card { opacity: 1; translate: 0 0; transition: none; }
   .service-sec.is-inview .service-circuit .pulse,
   .service-card:hover .ic-blades,
   .service-card:hover .ic-wind path,

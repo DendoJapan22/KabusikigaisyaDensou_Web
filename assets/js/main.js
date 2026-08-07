@@ -2,6 +2,39 @@
 (function () {
   "use strict";
 
+  /* JS が動く環境であることを示す。
+     アニメーションの初期状態（非表示）は .js 配下でのみ適用し、
+     JS が無効でもコンテンツが消えないようにする */
+  document.documentElement.classList.add("js");
+
+  /* ---------- 見出しのエコー（残像）markup を自動生成 ---------- */
+  document.querySelectorAll("[data-echo]").forEach(function (el) {
+    var text = el.textContent.trim();
+    if (!text) return;
+    el.textContent = "";
+    el.classList.add("is-echo-host");
+
+    var solid = document.createElement("span");
+    solid.className = "echo-solid";
+    solid.textContent = text;
+
+    var echo = document.createElement("span");
+    echo.className = "echo-echo";
+    echo.setAttribute("aria-hidden", "true");
+    echo.textContent = text;
+
+    el.appendChild(solid);
+    el.appendChild(echo);
+  });
+
+  /* ---------- 順送りフェードイン：子要素に連番を振る ---------- */
+  document.querySelectorAll("[data-stagger]").forEach(function (group) {
+    Array.prototype.forEach.call(group.children, function (child, i) {
+      child.classList.add("reveal");
+      child.style.setProperty("--i", i);
+    });
+  });
+
   /* ---------- ハンバーガーメニュー ---------- */
   var header = document.querySelector(".site-header");
   var toggle = document.querySelector(".menu-toggle");
