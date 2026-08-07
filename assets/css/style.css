@@ -27,9 +27,9 @@
   --rule:   rgba(8,25,43,.12);  /* 表組みの罫 */
 
   /* 書体 */
-  --font-display: "Shippori Mincho", "Noto Serif JP", "游明朝", serif;
+  --font-display: "Noto Serif JP", "游明朝", serif;
   --font-body:    "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
-  --font-util:    "Barlow Condensed", "Zen Kaku Gothic New", sans-serif;
+  --font-util:    "Anton", "Zen Kaku Gothic New", sans-serif;
 
   /* 余白 ─ 8の倍数 */
   --s-1: 8px;  --s-2: 16px; --s-3: 24px; --s-4: 32px;
@@ -335,8 +335,8 @@ table { border-collapse: collapse; width: 100%; }
   letter-spacing: .02em;
 }
 .trust__value strong {
-  font-weight: 600;
-  font-size: 32px;
+  font-weight: 400;
+  font-size: 34px;
 }
 /* 写真上（ヒーロー内） */
 .trust--hero {
@@ -417,7 +417,7 @@ table { border-collapse: collapse; width: 100%; }
   writing-mode: vertical-rl;   /* 右→左に列が進む */
   text-orientation: mixed;
   font-family: var(--font-display);
-  font-weight: 300;
+  font-weight: 400;
   font-size: clamp(2.25rem, 4.4vw, 4rem);
   letter-spacing: .14em;       /* 縦組みでは字送り＝縦方向 */
   line-height: 2.05;           /* 縦組みでは行送り＝列の間隔 */
@@ -482,7 +482,7 @@ table { border-collapse: collapse; width: 100%; }
   border-radius: 3px;
   text-transform: uppercase;
   margin-bottom: 6px;
-  font-weight: 600;
+  font-weight: 400;
 }
 .section__title {
   font-family: var(--font-display);
@@ -1084,7 +1084,7 @@ a.card { display: block; color: inherit; }
   background: var(--yellow);
   padding: 3px 12px 2px;
   border-radius: 3px;
-  font-weight: 600;
+  font-weight: 400;
   text-transform: uppercase;
 }
 .page-head__title {
