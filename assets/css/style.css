@@ -672,8 +672,8 @@ a.card { display: block; color: inherit; }
   color: inherit;
   overflow: hidden;
   border: 1px solid rgba(8,25,43,.16);
-  border-radius: 2px;
-  /* 白い方眼紙 */
+  border-radius: 18px;
+  /* 既定は白い方眼紙 */
   background-color: #FDFBF6;
   background-image: url("../img/bg-paper-white.jpg");
   background-image: image-set(
@@ -683,13 +683,32 @@ a.card { display: block; color: inherit; }
   background-position: center;
   transition: transform .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
 }
-/* 主力＝黄色い方眼紙 */
-.service-card--yellow {
-  background-color: #FBF0C4;
+
+/* 領域ごとの色紙。テクスチャは同一で色だけが違う */
+.service-card[data-paper="yellow"] {
+  background-color: #FCF3C2;
   background-image: url("../img/bg-paper-yellow.jpg");
-  background-image: image-set(
-    url("../img/bg-paper-yellow.webp") type("image/webp"),
-    url("../img/bg-paper-yellow.jpg") type("image/jpeg"));
+  background-image: image-set(url("../img/bg-paper-yellow.webp") type("image/webp"), url("../img/bg-paper-yellow.jpg") type("image/jpeg"));
+}
+.service-card[data-paper="blue"] {
+  background-color: #DAECF4;
+  background-image: url("../img/bg-paper-blue.jpg");
+  background-image: image-set(url("../img/bg-paper-blue.webp") type("image/webp"), url("../img/bg-paper-blue.jpg") type("image/jpeg"));
+}
+.service-card[data-paper="green"] {
+  background-color: #DDF3DD;
+  background-image: url("../img/bg-paper-green.jpg");
+  background-image: image-set(url("../img/bg-paper-green.webp") type("image/webp"), url("../img/bg-paper-green.jpg") type("image/jpeg"));
+}
+.service-card[data-paper="purple"] {
+  background-color: #EBDFF2;
+  background-image: url("../img/bg-paper-purple.jpg");
+  background-image: image-set(url("../img/bg-paper-purple.webp") type("image/webp"), url("../img/bg-paper-purple.jpg") type("image/jpeg"));
+}
+.service-card[data-paper="rose"] {
+  background-color: #FCDFD5;
+  background-image: url("../img/bg-paper-rose.jpg");
+  background-image: image-set(url("../img/bg-paper-rose.webp") type("image/webp"), url("../img/bg-paper-rose.jpg") type("image/jpeg"));
 }
 .service-card--main {
   grid-column: span 3;
@@ -757,7 +776,7 @@ a.card { display: block; color: inherit; }
   height: 52px;
   padding: 0 var(--s-4);
   border: 1px solid var(--ink);
-  border-radius: 2px;
+  border-radius: var(--radius-pill);
   font-family: var(--font-util);
   font-size: 15px;
   letter-spacing: .12em;
