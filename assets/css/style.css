@@ -523,6 +523,60 @@ table { border-collapse: collapse; width: 100%; }
 a.card { display: block; color: inherit; }
 
 /* =========================================================
+   見出しのエコー（残像）演出
+   本体（solid）と残像（echo）を重ね、左→右に現れる。
+   残像は銅色で少し遅れて追いかけ、最後にわずかなズレを残して止まる
+   ========================================================= */
+.is-echo-host {
+  position: relative;
+  z-index: 0;
+  display: inline-block;
+}
+.section__title-solid {
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+.section__title-echo {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  color: var(--copper);
+  opacity: 0;
+}
+/* 初期状態：左端で待機 */
+[data-animate] .section__title-solid {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path .85s var(--ease) .1s;
+}
+[data-animate] .section__title-echo {
+  clip-path: inset(0 100% 0 0);
+  translate: -.32em 0;
+  transition:
+    clip-path .85s var(--ease) .24s,
+    translate .85s var(--ease) .24s,
+    opacity .5s var(--ease) .24s;
+}
+/* 表示時 */
+[data-animate].is-inview .section__title-solid { clip-path: inset(0 0 0 0); }
+[data-animate].is-inview .section__title-echo {
+  clip-path: inset(0 0 0 0);
+  translate: .09em 0;
+  opacity: .3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-animate] .section__title-solid,
+  [data-animate] .section__title-echo {
+    transition: none;
+    clip-path: inset(0 0 0 0);
+  }
+  [data-animate] .section__title-echo { translate: .09em 0; opacity: .3; }
+}
+
+/* =========================================================
    事業内容セクション（トップ）─ ベントレイアウト＋通電モチーフ
    ========================================================= */
 

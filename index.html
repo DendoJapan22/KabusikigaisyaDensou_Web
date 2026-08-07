@@ -87,7 +87,11 @@
   <div class="wrap">
     <div class="section__head">
       <span class="section__label">Service</span>
-      <h2 class="section__title">事業内容</h2>
+      <!-- 二重構造：solid が本体、echo が銅色の残像（読み上げ対象からは除外） -->
+      <h2 class="section__title is-echo-host">
+        <span class="section__title-solid">事業内容</span>
+        <span class="section__title-echo" aria-hidden="true">事業内容</span>
+      </h2>
       <p class="section__lead">電気設備を中心に、空調・換気・弱電・防災まで。関連する工事を分業せず、一社で完結させます。</p>
       <!-- 5領域をつなぐ回路モチーフ。表示時に一度だけ通電する -->
       <svg class="service-circuit" viewBox="0 0 420 24" aria-hidden="true">
