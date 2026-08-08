@@ -1154,10 +1154,10 @@ a.card { display: block; color: inherit; }
 /* =========================================================
    4-3. CTA ブロック
    ========================================================= */
+/* 地は .endzone が持つ。ここは面を作らない */
 .cta-block {
-  background: var(--navy-900);
   color: #fff;
-  padding-block: var(--s-7);
+  padding-block: var(--s-7) var(--s-6);
 }
 .cta-block__inner {
   display: flex;
@@ -1171,7 +1171,7 @@ a.card { display: block; color: inherit; }
   font-size: 32px;
   line-height: 1.6;
 }
-.cta-block__note { margin-top: var(--s-1); font-size: 14px; color: rgba(255,255,255,.7); }
+.cta-block__note { margin-top: var(--s-1); font-size: 14px; color: rgba(255,255,255,.92); }
 .cta-block__contact { text-align: right; flex: none; }
 .cta-block__tel {
   display: inline-flex;
@@ -1220,8 +1220,10 @@ a.card { display: block; color: inherit; }
 /* =========================================================
    フッター
    ========================================================= */
-/* 壁のブラケットライトを背景に。灯りは左上、文字は光を避けて置く */
-.site-footer {
+/* =========================================================
+   ページの締め：CTA とフッターを、壁の灯り一枚の上でつなぐ
+   ========================================================= */
+.endzone {
   position: relative;
   isolation: isolate;
   background-color: var(--navy-900);
@@ -1229,28 +1231,44 @@ a.card { display: block; color: inherit; }
   background-image: image-set(
     url("../img/footer.webp") type("image/webp"),
     url("../img/footer.jpg") type("image/jpeg"));
-  /* 画像を切らずに丸ごと収める。フッター自身が画像と同じ縦横比を持つ */
+  /* 画像を切らずに丸ごと収める。この面が画像と同じ縦横比を持つ */
   aspect-ratio: 1920 / 852;
   background-size: 100% 100%;
   background-position: center;
+  min-height: 620px;
   color: rgba(255,255,255,.8);
-  min-height: 480px;
-  /* 上半分は灯りに譲り、文字は下へ寄せる */
+  /* 中身は下寄せ。余った上側を灯りに明け渡す */
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding-block: var(--s-6) var(--s-4);
-  font-size: 14px;
 }
 /* 膜は上を空けて下だけ沈める。器具の暗い笠を背景に溶かさないため */
-.site-footer::before {
+.endzone::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   background: linear-gradient(180deg,
-    rgba(8,25,43,0) 0%, rgba(8,25,43,.10) 34%,
-    rgba(8,25,43,.62) 56%, rgba(8,25,43,.86) 78%, rgba(8,25,43,.90) 100%);
+    rgba(8,25,43,.18) 0%, rgba(8,25,43,.14) 20%,
+    rgba(8,25,43,.34) 44%, rgba(8,25,43,.62) 64%,
+    rgba(8,25,43,.80) 82%, rgba(8,25,43,.86) 100%);
+}
+
+.site-footer {
+  position: relative;
+  color: rgba(255,255,255,.8);
+  padding-block: var(--s-5) var(--s-4);
+  font-size: 14px;
+}
+/* CTA とフッターの境目に、細い罫だけを残す */
+.site-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--s-3);
+  right: var(--s-3);
+  height: 1px;
+  background: rgba(255,255,255,.14);
 }
 .site-footer__inner {
   display: flex;
@@ -1859,16 +1877,14 @@ body.page-recruit .split-card { background: var(--paper); }
   .site-footer__inner { flex-direction: column; }
   /* 幅が狭いと縦横比を保てないので、画像は上部に原寸比で丸ごと敷き、
      その下は紺のベタにして文字を置く（画像は切らない） */
-  .site-footer {
+  .endzone {
     aspect-ratio: auto;
     min-height: 0;
     background-size: 100% auto;
     background-repeat: no-repeat;
     background-position: left top;
-    /* 画像の高さ＝幅÷2.253。その下から本文を始める */
-    padding-block: calc(44.4vw + var(--s-3)) var(--s-3);
   }
-  .site-footer::before {
+  .endzone::before {
     /* 帯の中に文字は来ないので膜をかけない。画像が終わる位置で紺へ溶かす */
     background: linear-gradient(180deg,
       rgba(8,25,43,0) 0,
@@ -1877,6 +1893,10 @@ body.page-recruit .split-card { background: var(--paper); }
       rgba(8,25,43,.92) 50vw,
       rgba(8,25,43,.94) 100%);
   }
+  /* 画像の高さ＝幅÷2.253。その下から CTA を始める */
+  .cta-block { padding-block: calc(44.4vw + var(--s-4)) var(--s-5); }
+  .endzone > .site-footer:first-child { padding-top: calc(44.4vw + var(--s-4)); }
+  .endzone > .site-footer:first-child::before { display: none; }
   .site-footer nav ul { grid-template-columns: repeat(2, 1fr); gap: 10px var(--s-4); }
 }
 
