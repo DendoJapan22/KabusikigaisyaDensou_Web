@@ -927,6 +927,145 @@ a.card { display: block; color: inherit; }
   .service-card:hover { transform: none; }
 }
 
+/* =========================================================
+   ビジュアルバンド（回路図＋電球）
+   ========================================================= */
+.lightband {
+  position: relative;
+  padding-block: var(--s-7);
+  background-color: #0B2044;
+  background-image: url("../img/circuit.jpg");
+  background-image: image-set(
+    url("../img/circuit.webp") type("image/webp"),
+    url("../img/circuit.jpg") type("image/jpeg"));
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  overflow: hidden;
+}
+/* 回路図を沈めて文字を読みやすく */
+.lightband::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(8,25,43,.35) 0%, rgba(8,25,43,.72) 55%);
+}
+.lightband__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 420px) 1fr;
+  align-items: center;
+  gap: var(--s-6);
+}
+.lightband__visual { position: relative; justify-self: center; }
+.lightband__bulb {
+  position: relative;
+  z-index: 1;
+  width: min(380px, 68vw);
+  height: auto;
+}
+/* 電球の背後ににじむ光。ゆっくり明滅する */
+.lightband__glow {
+  position: absolute;
+  left: 50%; top: 36%;
+  width: 78%; aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(247,206,46,.55) 0%, rgba(247,206,46,.16) 45%, transparent 70%);
+  filter: blur(18px);
+  animation: bulbGlow 4.5s ease-in-out infinite;
+}
+@keyframes bulbGlow {
+  0%, 100% { opacity: .75; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.07); }
+}
+
+/* ラベル・見出し・本文を縦に積む */
+.lightband__body,
+.recruit-banner__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.lightband__body .section__label { background: var(--yellow); color: var(--navy-900); }
+.lightband__body .section__title { color: #fff; }
+.lightband__body .echo-echo { color: var(--yellow); opacity: .5; }
+.js .lightband[data-animate].is-inview .echo-echo { opacity: .5; }
+.lightband__text {
+  margin-block: var(--s-3);
+  color: rgba(255,255,255,.85);
+  font-size: 16px;
+}
+.lightband .text-link { color: var(--yellow); border-bottom-color: var(--yellow); }
+
+@media (max-width: 899px) {
+  .lightband__inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: var(--s-4);
+  }
+  .lightband__body { display: flex; flex-direction: column; align-items: center; }
+  .lightband__text br { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lightband__glow { animation: none; }
+}
+
+/* =========================================================
+   採用バナー（紺の面＋電球）
+   ========================================================= */
+.recruit-banner {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 300px);
+  align-items: center;
+  gap: var(--s-5);
+  background: #091734;          /* 電球画像の地色に合わせる */
+  border-radius: 18px;
+  padding: var(--s-6) var(--s-6) var(--s-6) var(--s-6);
+  overflow: hidden;
+  color: #fff;
+}
+.recruit-banner .section__title { color: #fff; }
+.recruit-banner .echo-echo { color: var(--yellow); opacity: .5; }
+.js [data-animate].is-inview .recruit-banner .echo-echo { opacity: .5; }
+.recruit-banner__text {
+  margin-block: var(--s-2) var(--s-3);
+  color: rgba(255,255,255,.82);
+  font-size: 15px;
+  max-width: 42em;
+}
+.recruit-banner .text-link { color: var(--yellow); border-bottom-color: var(--yellow); }
+/* 画像の地色（rgb(9,23,52)）とカードの地色を一致させ、継ぎ目を消す */
+.recruit-banner__figure {
+  justify-self: end;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  margin: calc(var(--s-6) * -1) calc(var(--s-6) * -1) calc(var(--s-6) * -1) 0;
+}
+.recruit-banner__figure img {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+}
+
+@media (max-width: 899px) {
+  .recruit-banner {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: var(--s-5) var(--s-4);
+  }
+  .recruit-banner__body { align-items: center; }
+  .recruit-banner__figure {
+    order: -1;
+    justify-self: center;
+    margin: calc(var(--s-5) * -1) 0 0 0;
+  }
+  .recruit-banner__figure img { width: min(220px, 55vw); }
+}
+
 /* 選ばれる理由 */
 .reasons {
   display: grid;
