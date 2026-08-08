@@ -1017,15 +1017,15 @@ a.card { display: block; color: inherit; }
   inset: 0;
   z-index: 2;
   background: var(--navy-900);
-  opacity: .55;
+  opacity: .62;
   pointer-events: none;
-  transition: opacity .9s var(--ease) .3s;
+  transition: opacity .9s var(--ease) .25s;
 }
-.js .insight.is-inview::after { opacity: 0; }
+.js .insight.is-lit::after { opacity: 0; }
 /* 電球は消えた状態から、点きかけのゆらぎを経て灯る */
 .js .insight .lightband__glow { animation: none; opacity: 0; }
-.js .insight.is-inview .lightband__glow {
-  animation: glowIgnite .6s linear .15s both, bulbGlow 4.5s ease-in-out .8s infinite;
+.js .insight.is-lit .lightband__glow {
+  animation: glowIgnite .7s linear .05s both, bulbGlow 4.5s ease-in-out .8s infinite;
 }
 @keyframes glowIgnite {
   0%   { opacity: 0; }
@@ -1137,15 +1137,15 @@ a.card { display: block; color: inherit; }
 .works-pick__item:hover .works-pick__photo { filter: brightness(1.06); }
 
 /* --- スクロール点灯：写真は蛍光灯の点きかけ。1枚ずつパパッと点く --- */
-.js [data-animate] .works-pick__photo {
+.js [data-lightup] .works-pick__photo {
   filter: brightness(.22) saturate(.6);
   transition: none;
 }
-.js [data-animate].is-inview .works-pick__photo { animation: fluorOn .6s linear both; }
-.js [data-animate].is-inview .works-pick__item:nth-child(2) .works-pick__photo { animation-delay: .22s; }
-.js [data-animate].is-inview .works-pick__item:nth-child(3) .works-pick__photo { animation-delay: .44s; }
+.js [data-lightup].is-lit .works-pick__photo { animation: fluorOn .75s linear both; }
+.js [data-lightup].is-lit .works-pick__item:nth-child(2) .works-pick__photo { animation-delay: .26s; }
+.js [data-lightup].is-lit .works-pick__item:nth-child(3) .works-pick__photo { animation-delay: .52s; }
 /* 点き終わったらアニメーションを外し、ホバーの明るさを返す */
-.js [data-animate].is-inview .works-pick__item:hover .works-pick__photo {
+.js [data-lightup].is-lit .works-pick__item:hover .works-pick__photo {
   animation: none;
   filter: brightness(1.06);
   transition: filter .4s var(--ease);
@@ -1212,9 +1212,9 @@ a.card { display: block; color: inherit; }
   pointer-events: none;
   transition: opacity .55s var(--ease) .15s;
 }
-.js .section--band.is-inview::after { opacity: 0; }
+.js .section--band.is-lit::after { opacity: 0; }
 .js .section--band .area-line { opacity: 0; }
-.js .section--band.is-inview .area-line { animation: fluorText .55s linear .2s both; }
+.js .section--band.is-lit .area-line { animation: fluorText .6s linear .15s both; }
 @keyframes fluorText {
   0%   { opacity: 0; }
   28%  { opacity: .9; }
@@ -1224,8 +1224,8 @@ a.card { display: block; color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   .js .section--band::after { opacity: 0; transition: none; }
   .js .section--band .area-line,
-  .js .section--band.is-inview .area-line { opacity: 1; animation: none; }
-  .js [data-animate] .works-pick__photo { filter: none; animation: none; }
+  .js .section--band.is-lit .area-line { opacity: 1; animation: none; }
+  .js [data-lightup] .works-pick__photo { filter: none; animation: none; }
 }
 .section--band .area-note { color: rgba(255,255,255,.7); }
 .section--band .text-link { color: var(--yellow); border-bottom-color: var(--yellow); }
