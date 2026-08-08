@@ -64,6 +64,32 @@
     }
   }
 
+  /* ---------- 証拠バー：数字のカウントアップ ---------- */
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var nums = document.querySelectorAll(".trust__value strong");
+  if (nums.length && !reduced && "IntersectionObserver" in window) {
+    var ioNum = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        ioNum.unobserve(entry.target);
+        var el = entry.target;
+        var target = parseInt(el.textContent, 10);
+        if (!target || target < 2) return;   /* 「1」は回しても見えない */
+        var t0 = null, dur = 1100;
+        el.textContent = "0";
+        function step(t) {
+          if (t0 === null) t0 = t;
+          var p = Math.min((t - t0) / dur, 1);
+          var e = 1 - Math.pow(1 - p, 3);     /* 減速して着地する */
+          el.textContent = String(Math.round(target * e));
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.6 });
+    nums.forEach(function (el) { ioNum.observe(el); });
+  }
+
   /* ---------- /works/ 絞り込み ---------- */
   var filter = document.querySelector("[data-filter]");
   if (filter) {

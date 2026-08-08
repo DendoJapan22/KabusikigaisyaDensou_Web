@@ -349,6 +349,21 @@ table { border-collapse: collapse; width: 100%; }
   object-fit: cover;
 }
 
+/* --- 窓の灯り：ベースは点灯前の街。3群の灯り層を順に点け、以後息をさせる --- */
+.hero__light {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.hero__light img { width: 100%; height: 100%; object-fit: cover; }
+/* JSなし環境では静止画として全点灯 */
+.js .hero__light--a { opacity: 0; animation: lightsOn 1.1s var(--ease) .7s  both, lightsBreathe 9s    ease-in-out 1.8s infinite; }
+.js .hero__light--b { opacity: 0; animation: lightsOn 1.1s var(--ease) 1.4s both, lightsBreathe 12.5s ease-in-out 2.5s infinite; }
+.js .hero__light--c { opacity: 0; animation: lightsOn 1.1s var(--ease) 2.1s both, lightsBreathe 15.5s ease-in-out 3.2s infinite; }
+@keyframes lightsOn { to { opacity: 1; } }
+/* 生活の気配：2割だけ暗くなって戻る。群ごとに周期が違うので揃わない */
+@keyframes lightsBreathe { 0%, 100% { opacity: 1; } 50% { opacity: .8; } }
+
 /* --- A案：人物写真 --- */
 .hero[data-hero="photo"] .hero__media img { object-position: 70% 50%; }
 .hero[data-hero="photo"] .hero__media::after {
@@ -409,8 +424,9 @@ table { border-collapse: collapse; width: 100%; }
   opacity: 0;
   animation: heroFade 900ms var(--ease) forwards;
 }
-.hero__copy .hero__line:nth-child(1) { animation-delay: 1500ms; }
-.hero__copy .hero__line:nth-child(2) { animation-delay: 1900ms; }
+/* 街の灯りが点き終わるのを待ってから現れる */
+.hero__copy .hero__line:nth-child(1) { animation-delay: 2400ms; }
+.hero__copy .hero__line:nth-child(2) { animation-delay: 2800ms; }
 @keyframes heroFade { to { opacity: 1; } }
 
 /* --- Signature：「導線」 --- */
@@ -430,13 +446,21 @@ table { border-collapse: collapse; width: 100%; }
   inset-inline: 0;
   height: 88px;
   background: linear-gradient(180deg, transparent, #E8A96A, transparent);
-  animation: current 1400ms var(--ease) 200ms 1 both;
+  /* 9秒周期：最初の1.4秒だけ光が流れ、残りは休む */
+  animation: current 9s var(--ease) 200ms infinite both;
 }
-@keyframes current { from { top: -88px; } to { top: 100%; } }
+@keyframes current {
+  0%          { top: -88px; opacity: 1; }
+  15.5%       { top: 100%;  opacity: 1; }
+  15.6%, 100% { top: 100%;  opacity: 0; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .hero__rule::after { display: none; }
   .hero__copy .hero__line { opacity: 1; animation: none; }
+  .js .hero__light--a,
+  .js .hero__light--b,
+  .js .hero__light--c { animation: none; opacity: 1; }
 }
 
 /* =========================================================

@@ -47,8 +47,21 @@
 <section class="hero" data-hero="split">
   <div class="hero__media">
     <picture>
-      <source srcset="assets/img/hero.webp" type="image/webp">
-      <img src="assets/img/hero.jpg" alt="夕暮れどき、窓の灯りがともり始めた住宅街とマンションの街並み" width="1536" height="1024" fetchpriority="high">
+      <source srcset="assets/img/hero-dusk.webp" type="image/webp">
+      <img src="assets/img/hero-dusk.jpg" alt="夕暮れどき、窓の灯りがともり始めた住宅街とマンションの街並み" width="1536" height="1024" fetchpriority="high">
+    </picture>
+    <!-- 窓の灯り：3群に分けて順に点き、以後ゆっくり明滅し続ける -->
+    <picture class="hero__light hero__light--a" aria-hidden="true">
+      <source srcset="assets/img/hero-lights-0.webp" type="image/webp">
+      <img src="assets/img/hero-lights-0.png" alt="" width="1536" height="1024" decoding="async" fetchpriority="low">
+    </picture>
+    <picture class="hero__light hero__light--b" aria-hidden="true">
+      <source srcset="assets/img/hero-lights-1.webp" type="image/webp">
+      <img src="assets/img/hero-lights-1.png" alt="" width="1536" height="1024" decoding="async" fetchpriority="low">
+    </picture>
+    <picture class="hero__light hero__light--c" aria-hidden="true">
+      <source srcset="assets/img/hero-lights-2.webp" type="image/webp">
+      <img src="assets/img/hero-lights-2.png" alt="" width="1536" height="1024" decoding="async" fetchpriority="low">
     </picture>
   </div>
   <div class="hero__panel">
