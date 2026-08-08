@@ -1230,20 +1230,23 @@ a.card { display: block; color: inherit; }
     url("../img/footer.webp") type("image/webp"),
     url("../img/footer.jpg") type("image/jpeg"));
   background-size: cover;
-  background-position: left center;
+  /* 器具は画像の上から23%の位置。center だと横長の画面で切れるので上端に固定する */
+  background-position: left top;
   color: rgba(255,255,255,.8);
-  padding-block: var(--s-7) var(--s-4);
+  min-height: 520px;
+  /* 器具と光だまりが出きるまで、本文を下げる */
+  padding-block: 232px var(--s-4);
   font-size: 14px;
 }
-/* 光だまりの上でも白文字が読めるところまで沈める */
+/* 膜は薄く。器具の暗い笠を背景に溶かさない程度に留める */
 .site-footer::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(92deg,
-    rgba(8,25,43,.74) 0%, rgba(8,25,43,.66) 42%,
-    rgba(8,25,43,.50) 72%, rgba(8,25,43,.44) 100%);
+  background: linear-gradient(180deg,
+    rgba(8,25,43,.06) 0%, rgba(8,25,43,.16) 22%,
+    rgba(8,25,43,.74) 38%, rgba(8,25,43,.88) 100%);
 }
 .site-footer__inner {
   display: flex;
@@ -1258,7 +1261,7 @@ a.card { display: block; color: inherit; }
   letter-spacing: .22em;
   color: rgba(255,255,255,.45);
 }
-.site-footer__meta { margin-top: var(--s-2); font-size: 13px; color: rgba(255,255,255,.6); }
+.site-footer__meta { margin-top: var(--s-2); font-size: 13px; color: rgba(255,255,255,.78); }
 .site-footer nav ul {
   display: grid;
   grid-template-columns: repeat(3, auto);
@@ -1850,13 +1853,16 @@ body.page-recruit .split-card { background: var(--paper); }
   .type-cards { grid-template-columns: 1fr; }
   .split-cards { grid-template-columns: 1fr; }
   .site-footer__inner { flex-direction: column; }
-  /* 幅が狭いと灯りが文字の真後ろに来るので、上下方向の膜に切り替える */
+  /* 幅が狭いと画面いっぱいが光だまりになるので、器具の下で一気に沈める */
   .site-footer {
-    background-position: 32% center;
-    padding-block: var(--s-6) var(--s-3);
+    background-position: left top;
+    min-height: 0;
+    padding-block: 220px var(--s-3);
   }
   .site-footer::before {
-    background: linear-gradient(180deg, rgba(8,25,43,.78) 0%, rgba(8,25,43,.84) 100%);
+    background: linear-gradient(180deg,
+      rgba(8,25,43,.16) 0%, rgba(8,25,43,.24) 23%,
+      rgba(8,25,43,.88) 33%, rgba(8,25,43,.93) 100%);
   }
   .site-footer nav ul { grid-template-columns: repeat(2, 1fr); gap: 10px var(--s-4); }
 }
