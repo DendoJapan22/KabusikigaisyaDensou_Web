@@ -64,27 +64,6 @@
     }
   }
 
-  /* ---------- スクロール点灯：暗い面は、しっかり見えてから通電する ----------
-     通常の入場（18%で発火）とは別のしきい値を持つ。
-     rootMargin で下端を38%狭め、セクションが画面の中ほどまで
-     入ってきたときに初めて点灯させる */
-  var lit = document.querySelectorAll("[data-lightup]");
-  if (lit.length) {
-    if ("IntersectionObserver" in window) {
-      var ioLit = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-lit");
-            ioLit.unobserve(entry.target);
-          }
-        });
-      }, { rootMargin: "0px 0px -38% 0px", threshold: 0.1 });
-      lit.forEach(function (el) { ioLit.observe(el); });
-    } else {
-      lit.forEach(function (el) { el.classList.add("is-lit"); });
-    }
-  }
-
   /* ---------- 証拠バー：数字のカウントアップ ---------- */
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var nums = document.querySelectorAll(".trust__value strong");

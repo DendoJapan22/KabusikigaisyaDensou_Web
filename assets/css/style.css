@@ -1010,36 +1010,8 @@ a.card { display: block; color: inherit; }
   .reason { border-left: 0; padding-inline: 0; padding-top: var(--s-3); border-top: 1px solid rgba(8,25,43,.2); }
   .reason:first-child { border-top: 0; padding-top: 0; }
 }
-/* --- スクロール点灯：バンドは薄暗く始まり、電球が灯って明るくなる --- */
-.js .insight::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: var(--navy-900);
-  opacity: .62;
-  pointer-events: none;
-  transition: opacity .9s var(--ease) .25s;
-}
-.js .insight.is-lit::after { opacity: 0; }
-/* 電球は消えた状態から、点きかけのゆらぎを経て灯る */
-.js .insight .lightband__glow { animation: none; opacity: 0; }
-.js .insight.is-lit .lightband__glow {
-  animation: glowIgnite .7s linear .05s both, bulbGlow 4.5s ease-in-out .8s infinite;
-}
-@keyframes glowIgnite {
-  0%   { opacity: 0; }
-  35%  { opacity: .6; }
-  50%  { opacity: .12; }
-  65%  { opacity: .85; }
-  100% { opacity: .75; }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .lightband__glow { animation: none; }
-  .js .insight::after { opacity: 0; transition: none; }
-  .js .insight .lightband__glow,
-  .js .insight.is-inview .lightband__glow { animation: none; opacity: .75; }
 }
 
 /* =========================================================
@@ -1135,29 +1107,6 @@ a.card { display: block; color: inherit; }
 .works-pick__item:first-child .works-pick__photo { aspect-ratio: 4 / 5.4; }
 .works-pick__photo--low { object-position: 50% 72%; }
 .works-pick__item:hover .works-pick__photo { filter: brightness(1.06); }
-
-/* --- スクロール点灯：写真は蛍光灯の点きかけ。1枚ずつパパッと点く --- */
-.js [data-lightup] .works-pick__photo {
-  filter: brightness(.22) saturate(.6);
-  transition: none;
-}
-.js [data-lightup].is-lit .works-pick__photo { animation: fluorOn .75s linear both; }
-.js [data-lightup].is-lit .works-pick__item:nth-child(2) .works-pick__photo { animation-delay: .26s; }
-.js [data-lightup].is-lit .works-pick__item:nth-child(3) .works-pick__photo { animation-delay: .52s; }
-/* 点き終わったらアニメーションを外し、ホバーの明るさを返す */
-.js [data-lightup].is-lit .works-pick__item:hover .works-pick__photo {
-  animation: none;
-  filter: brightness(1.06);
-  transition: filter .4s var(--ease);
-}
-@keyframes fluorOn {
-  0%   { filter: brightness(.22) saturate(.6); }
-  20%  { filter: brightness(.95) saturate(1); }
-  30%  { filter: brightness(.28) saturate(.6); }
-  42%  { filter: brightness(1.04) saturate(1); }
-  52%  { filter: brightness(.5) saturate(.8); }
-  64%, 100% { filter: brightness(1) saturate(1); }
-}
 .works-pick__title {
   margin-top: var(--s-2);
   font-size: 17px;
@@ -1200,35 +1149,6 @@ a.card { display: block; color: inherit; }
 .section--band .section__title { color: #fff; }
 .section--band .area-line { color: var(--yellow); }
 .section--band .area-line span { color: rgba(255,255,255,.45); }
-
-/* --- スクロール点灯：帯は消灯状態で待ち、入った瞬間に県名が点く --- */
-.js .section--band::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: #04101E;
-  opacity: .8;
-  pointer-events: none;
-  transition: opacity .55s var(--ease) .15s;
-}
-.js .section--band.is-lit::after { opacity: 0; }
-.js .section--band .area-line { opacity: 0; }
-.js .section--band.is-lit .area-line { animation: fluorText .6s linear .15s both; }
-@keyframes fluorText {
-  0%   { opacity: 0; }
-  28%  { opacity: .9; }
-  42%  { opacity: .2; }
-  58%, 100% { opacity: 1; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .js .section--band::after { opacity: 0; transition: none; }
-  .js .section--band .area-line,
-  .js .section--band.is-lit .area-line { opacity: 1; animation: none; }
-  .js [data-lightup] .works-pick__photo { filter: none; animation: none; }
-}
-.section--band .area-note { color: rgba(255,255,255,.7); }
-.section--band .text-link { color: var(--yellow); border-bottom-color: var(--yellow); }
 
 /* =========================================================
    4-4. 法人 / 個人の分岐カード
