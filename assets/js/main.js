@@ -91,7 +91,7 @@
     var plSvg = pline.querySelector(".powerline__wire");
     var plItems = Array.prototype.slice.call(pline.querySelectorAll(".powerline__item"));
     var SVG_NS = "http://www.w3.org/2000/svg";
-    var wirePath = null, tipDot = null, wireLen = 0, marks = [];
+    var wirePath = null, tipDot = null, tailFar = null, tailNear = null, wireLen = 0, marks = [];
 
     var mk = function (tag, attrs) {
       var el = document.createElementNS(SVG_NS, tag);
@@ -166,6 +166,12 @@
       });
       marks = nodes;
 
+      /* 彗星の尾：電子の後ろに残る2層の光（描画区間はスクロール時に更新） */
+      tailFar = mk("path", { d: d, "class": "tail-far", opacity: 0 });
+      tailNear = mk("path", { d: d, "class": "tail-near", opacity: 0 });
+      plSvg.appendChild(tailFar);
+      plSvg.appendChild(tailNear);
+
       tipDot = mk("circle", { r: 5.5, "class": "tip", cx: W / 2, cy: 0, opacity: 0 });
       plSvg.appendChild(tipDot);
     };
@@ -180,22 +186,56 @@
       if (p === plProgress) return;
       plProgress = p;
       wirePath.style.strokeDashoffset = wireLen * (1 - p);
-      var pt = wirePath.getPointAtLength(wireLen * p);
+      var pos = wireLen * p;
+      var pt = wirePath.getPointAtLength(pos);
       tipDot.setAttribute("cx", pt.x);
       tipDot.setAttribute("cy", pt.y);
-      tipDot.setAttribute("opacity", p > 0.004 ? 1 : 0);
+      var vis = p > 0.004 ? 1 : 0;
+      tipDot.setAttribute("opacity", vis);
+      /* 尾：先端から後ろへ、長い淡い光(110px)と短い強い光(38px) */
+      var setTail = function (el, len) {
+        var eff = Math.min(len, pos);
+        el.style.strokeDasharray = eff + " " + (wireLen + 200);
+        el.style.strokeDashoffset = eff - pos;
+        el.setAttribute("opacity", vis);
+      };
+      setTail(tailFar, 110);
+      setTail(tailNear, 38);
       marks.forEach(function (m, k) {
-        if (p >= m.frac) {
+        if (p >= m.frac && !plItems[k].classList.contains("is-on")) {
           plItems[k].classList.add("is-on");
           m.el.classList.add("is-lit");
+          typeLabel(plItems[k]);
         }
       });
+    };
+
+    /* タイプライター：ELECTRICAL などの英字を1文字ずつ打つ。
+       幅は最初に測って固定し、隣の工事名がガタつかないようにする */
+    var typeLabel = function (item) {
+      if (reducedPl()) return;
+      var el = item.querySelector(".powerline__label");
+      if (!el || el.dataset.typed) return;
+      el.dataset.typed = "1";
+      var text = el.textContent;
+      el.style.minWidth = el.offsetWidth + "px";
+      setTimeout(function () {
+        el.textContent = "";
+        var i = 0;
+        var timer = setInterval(function () {
+          i++;
+          el.textContent = text.slice(0, i);
+          if (i >= text.length) clearInterval(timer);
+        }, 45);
+      }, 420);
     };
 
     if (reducedPl()) {
       buildWire();
       wirePath.style.strokeDashoffset = 0;
       tipDot.setAttribute("opacity", 0);
+      tailFar.setAttribute("opacity", 0);
+      tailNear.setAttribute("opacity", 0);
       plItems.forEach(function (it) { it.classList.add("is-on"); });
       marks.forEach(function (m) { m.el.classList.add("is-lit"); });
     } else {
