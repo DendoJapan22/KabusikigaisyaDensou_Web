@@ -630,39 +630,6 @@ a.card { display: block; color: inherit; }
    事業内容セクション（トップ）─ ベントレイアウト＋通電モチーフ
    ========================================================= */
 
-/* 回路モチーフ：5枚のカードへ配線が引かれ、ノードが順に点灯する */
-.service-circuit {
-  display: block;
-  width: 100%;
-  height: 82px;
-  margin-top: var(--s-2);
-  overflow: visible;
-}
-.service-circuit .trace {
-  fill: none;
-  stroke: var(--yellow-deep);
-  stroke-width: 1.6;
-  stroke-linecap: square;
-  stroke-linejoin: miter;
-}
-/* 配線を左から引く。pathLength="1" で長さを正規化してある */
-.js .service-circuit .trace {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 1.1s var(--ease) calc(var(--d, 0) * 1ms);
-}
-.js .service-sec.is-inview .service-circuit .trace { stroke-dashoffset: 0; }
-.service-circuit .node {
-  fill: #F4F4F4;
-  stroke: var(--yellow-deep);
-  stroke-width: 1.6;
-}
-.js .service-circuit .node {
-  opacity: 0;
-  transition: opacity .25s var(--ease) calc(400ms + var(--n) * 130ms);
-}
-.js .service-sec.is-inview .service-circuit .node { opacity: 1; }
-
 /* =========================================================
    ナイトゾーン：事業内容〜対応エリアを包む、濃紺のひと続きの面
    上端は中央が持ち上がる緩やかな弧。その頂点に見出しが乗る
@@ -723,215 +690,168 @@ a.card { display: block; color: inherit; }
 .service-sec .section__title { white-space: nowrap; }
 .service-sec .section__lead { margin-inline: auto; }
 
-/* 5領域を横一列に。主従はつけず、色でだけ分ける */
-.service-bento {
+/* =========================================================
+   パワーライン：電線が引かれ、電子が走り、
+   通過した場所で写真が下から生成されていく
+   ========================================================= */
+.powerline { margin-top: var(--s-4); }
+.powerline__grid {
+  --ph: clamp(140px, 15vw, 205px);   /* 写真の高さ。電線の位置もこれに従う */
+  position: relative;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 18px;
 }
-.service-card {
-  position: relative;
+.powerline__item {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 22px 20px 0;
-  color: var(--navy-900);
-  overflow: hidden;
-  border-radius: 10px;
-  background-color: #EDEDED;
-  transition: transform .3s var(--ease), box-shadow .3s var(--ease);
-}
-/* ごく薄い漆喰の目。ベタ塗りに見せない程度に */
-.service-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(102deg,
-    rgba(255,255,255,.055) 0 2px, rgba(0,0,0,.028) 2px 5px);
-  mix-blend-mode: overlay;
-}
-
-/* 領域ごとの地色 */
-.service-card[data-paper="yellow"] { background-color: #F5BE25; }
-.service-card[data-paper="blue"]   { background-color: #6EB5D9; }
-.service-card[data-paper="green"]  { background-color: #A6C88A; }
-.service-card[data-paper="purple"] { background-color: #A68FD7; }
-.service-card[data-paper="rose"]   { background-color: #F07F54; }
-
-/* 黄以外の4枚は、ラベルとアイコンだけ白で抜く */
-.service-card:not([data-paper="yellow"]) .service-label,
-.service-card:not([data-paper="yellow"]) .service-card__icon { color: #fff; }
-.service-card:not([data-paper="yellow"]) .service-card__icon { stroke: #fff; }
-
-.service-card .echo-echo { opacity: .18; translate: .06em 0; }
-.js .service-card[data-animate].is-inview .echo-echo,
-.js [data-animate].is-inview .service-card .echo-echo { opacity: .18; translate: .06em 0; }
-
-.service-sec .section__title { letter-spacing: .1em; }
-.service-sec .section__lead { margin-top: 0; }
-
-.service-label {
-  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-family: var(--font-util);
-  font-size: 12px;
-  letter-spacing: .16em;
-  color: rgba(8,25,43,.82);
+  text-align: center;
+  padding-inline: 11px;
+  color: #fff;
 }
-.service-label__text { white-space: nowrap; }
-/* ラベル頭の小さな結線マーク */
-.service-label::before {
-  content: "";
-  width: 14px; height: 1px;
-  background: currentColor;
-  opacity: .7;
-}
-
-.service-card__title {
-  font-size: 19px;
-  font-weight: 700;
-  letter-spacing: .06em;
-  line-height: 1.4;
-}
-.service-card__text {
-  font-size: 12.5px;
-  color: rgba(8,25,43,.82);
-  line-height: 1.85;
-}
-
-/* カード下端の写真。角丸の内側にぴったり収める */
-.service-card__photo {
+.powerline__photo {
   position: relative;
-  display: block;
-  width: calc(100% + 40px);
-  margin: auto -20px 0;
-  aspect-ratio: 5 / 4;
+  width: 100%;
+  height: var(--ph);
   overflow: hidden;
+  border-radius: 4px;
+  /* 電線が通る隙間 */
+  margin-bottom: 46px;
 }
-.service-card__photo img {
+.powerline__photo img {
   width: 100%; height: 100%;
   object-fit: cover;
-  /* 明るさとトーンを5枚で揃える */
-  filter: brightness(.72) saturate(.72) contrast(1.06);
-  transition: transform .6s var(--ease);
+  /* 5枚のトーンを参考デザインの暗さに揃える */
+  filter: brightness(.6) saturate(.65) contrast(1.08);
+  transition: filter .4s var(--ease), transform .6s var(--ease);
 }
-.service-card__photo::after {
+.powerline__photo::after {
   content: "";
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(8,25,43,.30), rgba(8,25,43,.48));
+  background: linear-gradient(180deg, rgba(8,25,43,.12), rgba(8,25,43,.5));
 }
-.service-card:hover .service-card__photo img { transform: scale(1.06); }
-.service-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 14px 34px rgba(8,25,43,.16);
+.powerline__item:hover .powerline__photo img {
+  filter: brightness(.78) saturate(.8) contrast(1.06);
+  transform: scale(1.05);
+}
+.powerline__label {
+  font-family: var(--font-util);
+  font-size: 12px;
+  letter-spacing: .22em;
+  color: var(--yellow-deep);
+}
+.powerline__title {
+  margin-top: 4px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: .04em;
 }
 
-/* カード内の見出しエコーは、カードの入場に合わせて遅らせる */
-.service-card { --echo-delay: calc(var(--i) * 110ms); }
-
-/* 入場アニメーション：下からふわっと、1枚ずつ */
-.js .service-sec .service-card {
-  opacity: 0;
-  translate: 0 26px;
-  transition:
-    opacity .6s var(--ease),
-    translate .6s var(--ease),
-    transform .3s var(--ease),
-    border-color .3s var(--ease);
-  transition-delay: calc(var(--i) * 110ms), calc(var(--i) * 110ms), 0ms, 0ms;
+/* --- 電線：写真の下端をまたいで全幅に走る --- */
+.powerline__wire {
+  position: absolute;
+  left: 0; right: 0;
+  top: calc(var(--ph) + 3px);
+  width: 100%;
+  height: 40px;
+  overflow: visible;
+  pointer-events: none;
 }
-.service-sec.is-inview .service-card {
+.powerline__wire .wire {
+  fill: none;
+  stroke: var(--yellow-deep);
+  stroke-width: 1.8;
+  stroke-linejoin: miter;
+  opacity: .85;
+}
+/* 電子：線上を走る短い光 */
+.powerline__wire .pulse {
+  fill: none;
+  stroke: #FFE28A;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-dasharray: .05 1;
+  filter: drop-shadow(0 0 5px rgba(255,214,102,.95));
+}
+.powerline__wire .node {
+  fill: #12283E;
+  stroke: var(--yellow-deep);
+  stroke-width: 1.5;
+}
+
+/* --- 入場シーケンス（.js のみ）：
+   0s     電線が左から引かれる
+   0.8s   電子が走り出す
+   1.05s〜 通過した項目から順に、写真が下から立ち上がる --- */
+.powerline__item:nth-child(1) { --t: 1.05s; }
+.powerline__item:nth-child(2) { --t: 1.35s; }
+.powerline__item:nth-child(3) { --t: 1.65s; }
+.powerline__item:nth-child(4) { --t: 1.95s; }
+.powerline__item:nth-child(5) { --t: 2.25s; }
+
+.js .powerline .wire { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.js .service-sec.is-inview .powerline .wire {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset .8s linear .1s;
+}
+.js .powerline .pulse { opacity: 0; }
+.js .service-sec.is-inview .powerline .pulse { animation: pulseRun 1.6s linear .8s both; }
+@keyframes pulseRun {
+  0%   { stroke-dashoffset: 1.05;  opacity: 1; }
+  94%  { opacity: 1; }
+  100% { stroke-dashoffset: -0.05; opacity: 0; }
+}
+
+.js .powerline__photo { clip-path: inset(100% 0 0 0); }
+.js .service-sec.is-inview .powerline__photo {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path .6s var(--ease) var(--t, 0s);
+}
+.js .powerline__label,
+.js .powerline__title { opacity: 0; translate: 0 10px; }
+.js .service-sec.is-inview .powerline__label,
+.js .service-sec.is-inview .powerline__title {
   opacity: 1;
   translate: 0 0;
+  transition: opacity .45s var(--ease) calc(var(--t, 0s) + .18s),
+              translate .45s var(--ease) calc(var(--t, 0s) + .18s);
 }
-
-.service-card__icon {
-  width: 40px;
-  height: 40px;
-  margin-top: 2px;
-  fill: none;
-  stroke: var(--navy-900);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+/* ノード：電子の到着と同時に点灯する */
+.js .powerline .node { opacity: .3; }
+.js .service-sec.is-inview .powerline .node {
+  opacity: 1;
+  fill: #FFD966;
+  filter: drop-shadow(0 0 4px rgba(255,214,102,.9));
+  transition: opacity .2s linear, fill .2s linear, filter .2s linear;
 }
-.service-card__icon .ic-copper { fill: currentColor; stroke: none; }
-.service-card__icon .ic-copper-stroke { stroke: currentColor; }
-/* 塗りのアイコン（稲妻・ベル） */
-.service-card__icon .ic-fill { fill: currentColor; stroke: none; }
+.js .service-sec.is-inview .powerline .node:nth-of-type(1) { transition-delay: 1s; }
+.js .service-sec.is-inview .powerline .node:nth-of-type(2) { transition-delay: 1.3s; }
+.js .service-sec.is-inview .powerline .node:nth-of-type(3) { transition-delay: 1.6s; }
+.js .service-sec.is-inview .powerline .node:nth-of-type(4) { transition-delay: 1.9s; }
+.js .service-sec.is-inview .powerline .node:nth-of-type(5) { transition-delay: 2.2s; }
 
-/* 電気：稲妻がまたたく */
-.service-card:hover .ic-bolt { animation: boltFlash 1.1s var(--ease) infinite; }
-@keyframes boltFlash { 0%, 100% { opacity: 1; } 45% { opacity: .35; } }
-/* 防災：ベルが鳴る */
-.ic-bell { transform-origin: 12px 4px; }
-.service-card:hover .ic-bell { animation: bellRing 1s var(--ease) infinite; }
-@keyframes bellRing {
-  0%, 100% { transform: rotate(0); }
-  25% { transform: rotate(9deg); }
-  75% { transform: rotate(-9deg); }
-}
-
-/* ---- アイコンのご褒美アニメーション（ホバー中だけ動く） ---- */
-/* 空調：ファンが回る */
-.ic-blades { transform-origin: 12px 12px; }
-.service-card:hover .ic-blades { animation: fanSpin 1.4s linear infinite; }
-@keyframes fanSpin { to { transform: rotate(360deg); } }
-
-/* 電気：ONのスイッチが入る */
-.ic-sw--on circle { transition: transform .25s var(--ease); }
-.service-card:hover .ic-sw--on circle { transform: translateY(-4px); }
-
-/* 換気：風が流れる */
-.ic-wind path { stroke-dasharray: 26; stroke-dashoffset: 0; }
-.service-card:hover .ic-wind path { animation: windFlow 1.2s var(--ease) infinite; }
-.service-card:hover .ic-wind path:nth-child(2) { animation-delay: .15s; }
-.service-card:hover .ic-wind path:nth-child(3) { animation-delay: .3s; }
-@keyframes windFlow {
-  0% { stroke-dashoffset: 26; opacity: 0; }
-  35% { opacity: 1; }
-  100% { stroke-dashoffset: 0; opacity: 1; }
-}
-
-/* 弱電：電波が広がる */
-.service-card:hover .ic-waves path { animation: wavePulse 1.5s var(--ease) infinite; }
-.service-card:hover .ic-waves path:nth-child(3),
-.service-card:hover .ic-waves path:nth-child(4) { animation-delay: .25s; }
-@keyframes wavePulse { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
-
-/* 防災：リングが脈打つ */
-.ic-ring { transform-origin: 12px 12px; }
-.service-card:hover .ic-ring { stroke: var(--copper); animation: ringBeat 1.1s var(--ease) infinite; }
-@keyframes ringBeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.16); } }
-
-@media (max-width: 1199px) {
-  .service-bento { grid-template-columns: repeat(3, 1fr); }
-  /* 配線は5列のときだけ意味がある。折り返したら出さない */
-  .service-circuit { display: none; }
-  .service-sec .section__head { margin-bottom: var(--s-5); }
-}
 @media (max-width: 899px) {
-  .service-bento { grid-template-columns: repeat(2, 1fr); }
-  .service-sec .section__head { flex-direction: column; gap: var(--s-2); }
-  .service-sec .section__title { white-space: normal; }
-}
-@media (max-width: 479px) {
-  .service-bento { grid-template-columns: 1fr; }
+  /* 電線は5列で横一列のときだけ。折り返したら出さない */
+  .powerline__wire { display: none; }
+  .powerline__grid { grid-template-columns: repeat(2, 1fr); gap: 22px 14px; }
+  .powerline__item { padding-inline: 0; }
+  .powerline__item:last-child { grid-column: 1 / -1; }
+  .powerline__photo { margin-bottom: 12px; }
+  .powerline__item:nth-child(1) { --t: 0s; }
+  .powerline__item:nth-child(2) { --t: .12s; }
+  .powerline__item:nth-child(3) { --t: .24s; }
+  .powerline__item:nth-child(4) { --t: .36s; }
+  .powerline__item:nth-child(5) { --t: .48s; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .js .service-sec .service-card { opacity: 1; translate: 0 0; transition: none; }
-  .js .service-circuit .trace { stroke-dashoffset: 0; transition: none; }
-  .js .service-circuit .node { opacity: 1; transition: none; }
-  .service-card:hover .ic-blades,
-  .service-card:hover .ic-wind path,
-  .service-card:hover .ic-waves path,
-  .service-card:hover .ic-bolt,
-  .service-card:hover .ic-bell { animation: none; }
-  .service-card:hover { transform: none; }
+  .js .powerline .wire { stroke-dashoffset: 0; transition: none; }
+  .js .powerline .pulse { animation: none !important; opacity: 0; }
+  .js .powerline__photo { clip-path: none; transition: none; }
+  .js .powerline__label,
+  .js .powerline__title { opacity: 1; translate: 0 0; transition: none; }
+  .js .powerline .node { opacity: 1; fill: #FFD966; transition: none; }
+  .powerline__item:hover .powerline__photo img { transform: none; }
 }
 
 /* =========================================================
