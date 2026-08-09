@@ -663,8 +663,59 @@ a.card { display: block; color: inherit; }
 }
 .js .service-sec.is-inview .service-circuit .node { opacity: 1; }
 
-/* セクションの地は、ごく明るいグレー */
-.service-sec { background: #F4F4F4; }
+/* =========================================================
+   ナイトゾーン：事業内容〜対応エリアを包む、濃紺のひと続きの面
+   上端は中央が持ち上がる緩やかな弧。その頂点に見出しが乗る
+   ========================================================= */
+.nightzone {
+  position: relative;
+  background: var(--navy-700);
+  color: #fff;
+  /* 上端を弧に。左右の角が100px下がり、中央が最も高くなる */
+  border-radius: 50% 50% 0 0 / 110px 110px 0 0;
+}
+/* 弧の頂点あたりに見出しが来るよう、最初のセクションの上余白を確保 */
+.nightzone > .service-sec { padding-top: 96px; }
+
+/* 内側のセクションは自前の地色を持たない */
+.nightzone .service-sec,
+.nightzone .section--band { background: none; }
+/* 電球の帯：左のグレーをやめ、紺一色の中に電球を立てる */
+.nightzone .insight { background: none; }
+.nightzone .insight__heading { color: #fff; }
+.nightzone .section--band::before,
+.nightzone .insight::after { display: none; }
+
+/* 濃紺の上での文字色 */
+.nightzone .section__title,
+.nightzone .insight__heading,
+.nightzone .reason__title,
+.nightzone .works-pick__title { color: #fff; }
+.nightzone .section__lead,
+.nightzone .reason__text,
+.nightzone .works-pick__text,
+.nightzone .area-note { color: rgba(255,255,255,.78); }
+.nightzone .reason__n { color: var(--yellow); }
+.nightzone .reason { border-left-color: rgba(255,255,255,.24); }
+@media (max-width: 899px) {
+  .nightzone .reason { border-top-color: rgba(255,255,255,.24); }
+}
+.nightzone .text-link { color: var(--yellow); border-bottom-color: rgba(247,206,46,.5); }
+.nightzone .text-link:hover { border-bottom-color: var(--yellow); }
+/* 見出しの残像は、暗い地では黄で置く */
+.nightzone .echo-echo { color: var(--yellow); opacity: .42; }
+.js .nightzone [data-animate].is-inview .echo-echo { opacity: .42; }
+
+/* 事業内容の見出しだけは、弧の頂点に合わせて中央へ */
+.service-sec .section__head {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--s-2);
+  margin-bottom: var(--s-5);
+}
+.service-sec .section__title { white-space: nowrap; }
+.service-sec .section__lead { margin-inline: auto; }
 
 /* 5領域を横一列に。主従はつけず、色でだけ分ける */
 .service-bento {
@@ -712,14 +763,7 @@ a.card { display: block; color: inherit; }
 .js .service-card[data-animate].is-inview .echo-echo,
 .js [data-animate].is-inview .service-card .echo-echo { opacity: .18; translate: .06em 0; }
 
-/* 見出しは左、リードは右。2カラムの頭 */
-.service-sec .section__head {
-  flex-direction: row;
-  align-items: baseline;
-  gap: var(--s-6);
-  margin-bottom: var(--s-3);
-}
-.service-sec .section__title { letter-spacing: .1em; white-space: nowrap; }
+.service-sec .section__title { letter-spacing: .1em; }
 .service-sec .section__lead { margin-top: 0; }
 
 .service-label {
