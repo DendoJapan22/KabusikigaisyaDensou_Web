@@ -64,8 +64,25 @@
     }
   }
 
-  /* ---------- 証拠バー：数字のカウントアップ ---------- */
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- ヒーロー動画 ----------
+     動きを抑える設定・データ節約モードでは、2MBの動画を落とさずに
+     静止画（.hero__fallback）だけを見せる */
+  var heroVideo = document.querySelector(".hero__video");
+  if (heroVideo) {
+    var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    var saveData = !!(conn && conn.saveData);
+    if (reduced || saveData) {
+      heroVideo.remove();
+    } else {
+      /* 自動再生が拒否されても静止画が残るので、握りつぶしてよい */
+      var p = heroVideo.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+  }
+
+  /* ---------- 証拠バー：数字のカウントアップ ---------- */
   var nums = document.querySelectorAll(".trust__value strong");
   if (nums.length && !reduced && "IntersectionObserver" in window) {
     var ioNum = new IntersectionObserver(function (entries) {
