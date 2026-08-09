@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Noto+Serif+JP:wght@400;500&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=5">
+<link rel="stylesheet" href="assets/css/style.css?v=6">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -99,9 +99,10 @@
 <!-- ヒーロー：data-hero="photo"（A案）| "split"（B案）で切替。写真許可未確定のため初期値はB案 -->
 <section class="hero" data-hero="split">
   <div class="hero__media">
-    <!-- 夕暮れから夜へ、街に灯りがともっていくタイムラプス。継ぎ目なくループする。
+    <!-- 夕暮れから夜へ、街に灯りがともっていくタイムラプス。
+         ループさせず1回だけ再生し、灯りきった最後のコマで止める。
          JS無効・データ節約モード・prefers-reduced-motion ではポスター画像を出す -->
-    <video class="hero__video" autoplay muted loop playsinline preload="auto"
+    <video class="hero__video" autoplay muted playsinline preload="auto"
            poster="assets/img/hero-poster.jpg"
            aria-label="夕暮れから夜へ、灯りがともっていく住宅街のタイムラプス">
       <source src="assets/video/hero-dusk.webm" type="video/webm">
@@ -428,6 +429,6 @@
   <a class="mobile-bar__contact" href="contact/">お問い合わせ</a>
 </div>
 
-<script src="assets/js/main.js?v=5" defer></script>
+<script src="assets/js/main.js?v=6" defer></script>
 </body>
 </html>
