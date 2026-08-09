@@ -82,6 +82,140 @@
     }
   }
 
+  /* ---------- パワーライン：スクロールに追従する蛇行配線 ----------
+     電線の経路は実際のレイアウトを測って生成する（どの幅でもズレない）。
+     スクロールした分だけ電線が引かれ、先端を電子が走り、
+     通過した項目の写真が浮かび上がる（一度出たものは戻さない） */
+  var pline = document.querySelector(".powerline");
+  if (pline) {
+    var plSvg = pline.querySelector(".powerline__wire");
+    var plItems = Array.prototype.slice.call(pline.querySelectorAll(".powerline__item"));
+    var SVG_NS = "http://www.w3.org/2000/svg";
+    var wirePath = null, tipDot = null, wireLen = 0, marks = [];
+
+    var mk = function (tag, attrs) {
+      var el = document.createElementNS(SVG_NS, tag);
+      for (var k in attrs) el.setAttribute(k, attrs[k]);
+      return el;
+    };
+
+    /* 直角の角を45°に面取りして、回路図の配線らしくする */
+    var chamfer = function (pts) {
+      var C = 16, out = [pts[0]];
+      for (var i = 1; i < pts.length - 1; i++) {
+        var p = pts[i], a = out[out.length - 1], b = pts[i + 1];
+        var d1x = Math.sign(p[0] - a[0]), d1y = Math.sign(p[1] - a[1]);
+        var d2x = Math.sign(b[0] - p[0]), d2y = Math.sign(b[1] - p[1]);
+        if (d1x === d2x && d1y === d2y) continue;  /* 直進はそのまま */
+        out.push([p[0] - d1x * C, p[1] - d1y * C]);
+        out.push([p[0] + d2x * C, p[1] + d2y * C]);
+      }
+      out.push(pts[pts.length - 1]);
+      return out;
+    };
+
+    var buildWire = function () {
+      var box = pline.getBoundingClientRect();
+      var W = box.width, H = box.height;
+      plSvg.setAttribute("viewBox", "0 0 " + W + " " + H);
+      while (plSvg.firstChild) plSvg.removeChild(plSvg.firstChild);
+      marks = [];
+
+      /* 経路：上辺中央から入り、項目の真上を通って端まで抜け、
+         端で折れて下り、逆方向へ走る……を繰り返す */
+      var pts = [[W / 2, 0]];
+      var nodePts = [];
+      plItems.forEach(function (it) {
+        var r = it.getBoundingClientRect();
+        var cx = r.left - box.left + r.width / 2;
+        var ny = r.top - box.top - 30;
+        var prev = pts[pts.length - 1];
+        pts.push([prev[0], ny]);
+        pts.push([cx, ny]);
+        nodePts.push([cx, ny]);
+        pts.push([cx < prev[0] ? 10 : W - 10, ny]);
+      });
+
+      var d = chamfer(pts).map(function (p, i) {
+        return (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1);
+      }).join(" ");
+      wirePath = mk("path", { d: d, "class": "wire" });
+      plSvg.appendChild(wirePath);
+
+      wireLen = wirePath.getTotalLength();
+      wirePath.style.strokeDasharray = wireLen;
+      wirePath.style.strokeDashoffset = wireLen;
+
+      /* 各ノードが経路上のどの位置（割合）にあるかを求める */
+      var nodes = nodePts.map(function (np) {
+        var best = 0, bestD = Infinity;
+        for (var i = 0; i <= 400; i++) {
+          var pt = wirePath.getPointAtLength(wireLen * i / 400);
+          var dx = pt.x - np[0], dy = pt.y - np[1];
+          var dist = dx * dx + dy * dy;
+          if (dist < bestD) { bestD = dist; best = i / 400; }
+        }
+        var c = mk("circle", { cx: np[0], cy: np[1], r: 5, "class": "node" });
+        plSvg.appendChild(c);
+        return { frac: best, el: c };
+      });
+      marks = nodes;
+
+      tipDot = mk("circle", { r: 5.5, "class": "tip", cx: W / 2, cy: 0, opacity: 0 });
+      plSvg.appendChild(tipDot);
+    };
+
+    var plProgress = -1;
+    var drawWire = function () {
+      if (!wirePath) return;
+      var box = pline.getBoundingClientRect();
+      /* 画面の下から3割の位置を「先端」が追いかける */
+      var p = (window.innerHeight * 0.78 - box.top) / (box.height + window.innerHeight * 0.08);
+      p = Math.max(0, Math.min(1, p));
+      if (p === plProgress) return;
+      plProgress = p;
+      wirePath.style.strokeDashoffset = wireLen * (1 - p);
+      var pt = wirePath.getPointAtLength(wireLen * p);
+      tipDot.setAttribute("cx", pt.x);
+      tipDot.setAttribute("cy", pt.y);
+      tipDot.setAttribute("opacity", p > 0.004 ? 1 : 0);
+      marks.forEach(function (m, k) {
+        if (p >= m.frac) {
+          plItems[k].classList.add("is-on");
+          m.el.classList.add("is-lit");
+        }
+      });
+    };
+
+    if (reducedPl()) {
+      buildWire();
+      wirePath.style.strokeDashoffset = 0;
+      tipDot.setAttribute("opacity", 0);
+      plItems.forEach(function (it) { it.classList.add("is-on"); });
+      marks.forEach(function (m) { m.el.classList.add("is-lit"); });
+    } else {
+      buildWire();
+      drawWire();
+      var plTick = false;
+      var onPlScroll = function () {
+        if (plTick) return;
+        plTick = true;
+        requestAnimationFrame(function () { plTick = false; drawWire(); });
+      };
+      window.addEventListener("scroll", onPlScroll, { passive: true });
+      var plResize = null;
+      window.addEventListener("resize", function () {
+        clearTimeout(plResize);
+        plResize = setTimeout(function () { buildWire(); plProgress = -1; drawWire(); }, 150);
+      });
+      /* 画像の読み込みでレイアウト高が変わったら引き直す */
+      window.addEventListener("load", function () { buildWire(); plProgress = -1; drawWire(); });
+    }
+  }
+  function reducedPl() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
   /* ---------- 証拠バー：数字のカウントアップ ---------- */
   var nums = document.querySelectorAll(".trust__value strong");
   if (nums.length && !reduced && "IntersectionObserver" in window) {

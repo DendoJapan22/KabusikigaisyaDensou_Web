@@ -691,69 +691,24 @@ a.card { display: block; color: inherit; }
 .service-sec .section__lead { margin-inline: auto; }
 
 /* =========================================================
-   パワーライン：電線が引かれ、電子が走り、
-   通過した場所で写真が下から生成されていく
+   パワーライン（蛇行配線）：スクロールに追従して電線が引かれ、
+   電子が先行して走り、通過した項目の写真が浮かび上がる。
+   電線の経路は JS が実際のレイアウトを測って生成する
    ========================================================= */
-.powerline { margin-top: var(--s-4); }
-.powerline__grid {
-  --ph: clamp(140px, 15vw, 205px);   /* 写真の高さ。電線の位置もこれに従う */
+.powerline {
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-}
-.powerline__item {
+  margin-top: var(--s-5);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding-inline: 11px;
-  color: #fff;
+  gap: 92px;
+  padding-top: 56px;
+  padding-bottom: 32px;
 }
-.powerline__photo {
-  position: relative;
-  width: 100%;
-  height: var(--ph);
-  overflow: hidden;
-  border-radius: 4px;
-  /* 電線が通る隙間 */
-  margin-bottom: 46px;
-}
-.powerline__photo img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  /* 5枚のトーンを参考デザインの暗さに揃える */
-  filter: brightness(.6) saturate(.65) contrast(1.08);
-  transition: filter .4s var(--ease), transform .6s var(--ease);
-}
-.powerline__photo::after {
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(8,25,43,.12), rgba(8,25,43,.5));
-}
-.powerline__item:hover .powerline__photo img {
-  filter: brightness(.78) saturate(.8) contrast(1.06);
-  transform: scale(1.05);
-}
-.powerline__label {
-  font-family: var(--font-util);
-  font-size: 12px;
-  letter-spacing: .22em;
-  color: var(--yellow-deep);
-}
-.powerline__title {
-  margin-top: 4px;
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: .04em;
-}
-
-/* --- 電線：写真の下端をまたいで全幅に走る --- */
 .powerline__wire {
   position: absolute;
-  left: 0; right: 0;
-  top: calc(var(--ph) + 3px);
+  inset: 0;
   width: 100%;
-  height: 40px;
+  height: 100%;
   overflow: visible;
   pointer-events: none;
 }
@@ -762,95 +717,98 @@ a.card { display: block; color: inherit; }
   stroke: var(--yellow-deep);
   stroke-width: 1.8;
   stroke-linejoin: miter;
-  opacity: .85;
-}
-/* 電子：線上を走る短い光 */
-.powerline__wire .pulse {
-  fill: none;
-  stroke: #FFE28A;
-  stroke-width: 3.5;
-  stroke-linecap: round;
-  stroke-dasharray: .05 1;
-  filter: drop-shadow(0 0 5px rgba(255,214,102,.95));
+  opacity: .9;
 }
 .powerline__wire .node {
   fill: #12283E;
   stroke: var(--yellow-deep);
   stroke-width: 1.5;
+  transition: fill .25s linear, filter .25s linear;
 }
-
-/* --- 入場シーケンス（.js のみ）：
-   0s     電線が左から引かれる
-   0.8s   電子が走り出す
-   1.05s〜 通過した項目から順に、写真が下から立ち上がる --- */
-.powerline__item:nth-child(1) { --t: 1.05s; }
-.powerline__item:nth-child(2) { --t: 1.35s; }
-.powerline__item:nth-child(3) { --t: 1.65s; }
-.powerline__item:nth-child(4) { --t: 1.95s; }
-.powerline__item:nth-child(5) { --t: 2.25s; }
-
-.js .powerline .wire { stroke-dasharray: 1; stroke-dashoffset: 1; }
-.js .service-sec.is-inview .powerline .wire {
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset .8s linear .1s;
-}
-.js .powerline .pulse { opacity: 0; }
-.js .service-sec.is-inview .powerline .pulse { animation: pulseRun 1.6s linear .8s both; }
-@keyframes pulseRun {
-  0%   { stroke-dashoffset: 1.05;  opacity: 1; }
-  94%  { opacity: 1; }
-  100% { stroke-dashoffset: -0.05; opacity: 0; }
-}
-
-.js .powerline__photo { clip-path: inset(100% 0 0 0); }
-.js .service-sec.is-inview .powerline__photo {
-  clip-path: inset(0 0 0 0);
-  transition: clip-path .6s var(--ease) var(--t, 0s);
-}
-.js .powerline__label,
-.js .powerline__title { opacity: 0; translate: 0 10px; }
-.js .service-sec.is-inview .powerline__label,
-.js .service-sec.is-inview .powerline__title {
-  opacity: 1;
-  translate: 0 0;
-  transition: opacity .45s var(--ease) calc(var(--t, 0s) + .18s),
-              translate .45s var(--ease) calc(var(--t, 0s) + .18s);
-}
-/* ノード：電子の到着と同時に点灯する */
-.js .powerline .node { opacity: .3; }
-.js .service-sec.is-inview .powerline .node {
-  opacity: 1;
+.powerline__wire .node.is-lit {
   fill: #FFD966;
   filter: drop-shadow(0 0 4px rgba(255,214,102,.9));
-  transition: opacity .2s linear, fill .2s linear, filter .2s linear;
 }
-.js .service-sec.is-inview .powerline .node:nth-of-type(1) { transition-delay: 1s; }
-.js .service-sec.is-inview .powerline .node:nth-of-type(2) { transition-delay: 1.3s; }
-.js .service-sec.is-inview .powerline .node:nth-of-type(3) { transition-delay: 1.6s; }
-.js .service-sec.is-inview .powerline .node:nth-of-type(4) { transition-delay: 1.9s; }
-.js .service-sec.is-inview .powerline .node:nth-of-type(5) { transition-delay: 2.2s; }
+.powerline__wire .tip {
+  fill: #FFE28A;
+  filter: drop-shadow(0 0 6px rgba(255,214,102,.95));
+}
 
-@media (max-width: 899px) {
-  /* 電線は5列で横一列のときだけ。折り返したら出さない */
-  .powerline__wire { display: none; }
-  .powerline__grid { grid-template-columns: repeat(2, 1fr); gap: 22px 14px; }
-  .powerline__item { padding-inline: 0; }
-  .powerline__item:last-child { grid-column: 1 / -1; }
-  .powerline__photo { margin-bottom: 12px; }
-  .powerline__item:nth-child(1) { --t: 0s; }
-  .powerline__item:nth-child(2) { --t: .12s; }
-  .powerline__item:nth-child(3) { --t: .24s; }
-  .powerline__item:nth-child(4) { --t: .36s; }
-  .powerline__item:nth-child(5) { --t: .48s; }
+/* 項目：左右交互に置く大きなカード */
+.powerline__item {
+  position: relative;
+  z-index: 1;
+  width: min(58%, 560px);
+  color: #fff;
+}
+.powerline__item:nth-of-type(odd)  { align-self: flex-start; margin-left: 5%; }
+.powerline__item:nth-of-type(even) { align-self: flex-end;  margin-right: 5%; }
+
+.powerline__photo {
+  display: block;               /* span のため明示。aspect-ratio と clip-path を効かせる */
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 6px;
+}
+.powerline__photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: brightness(.62) saturate(.68) contrast(1.08);
+  transition: filter .4s var(--ease), transform .6s var(--ease);
+}
+.powerline__photo::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(8,25,43,.1), rgba(8,25,43,.45));
+}
+.powerline__item:hover .powerline__photo img {
+  filter: brightness(.8) saturate(.8) contrast(1.06);
+  transform: scale(1.04);
+}
+.powerline__meta {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-top: 14px;
+}
+.powerline__label {
+  font-family: var(--font-util);
+  font-size: 12px;
+  letter-spacing: .22em;
+  color: var(--yellow-deep);
+}
+.powerline__title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+/* 電子が通過するまで、写真は伏せておく */
+.js .powerline__photo { clip-path: inset(100% 0 0 0); }
+.js .powerline__item.is-on .powerline__photo {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path .7s var(--ease);
+}
+.js .powerline__meta { opacity: 0; translate: 0 12px; }
+.js .powerline__item.is-on .powerline__meta {
+  opacity: 1;
+  translate: 0 0;
+  transition: opacity .5s var(--ease) .2s, translate .5s var(--ease) .2s;
+}
+
+@media (max-width: 699px) {
+  .powerline { gap: 64px; padding-top: 40px; }
+  .powerline__item { width: 82%; }
+  .powerline__item:nth-of-type(odd)  { margin-left: 0; }
+  .powerline__item:nth-of-type(even) { margin-right: 0; }
+  .powerline__title { font-size: 18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .js .powerline .wire { stroke-dashoffset: 0; transition: none; }
-  .js .powerline .pulse { animation: none !important; opacity: 0; }
   .js .powerline__photo { clip-path: none; transition: none; }
-  .js .powerline__label,
-  .js .powerline__title { opacity: 1; translate: 0 0; transition: none; }
-  .js .powerline .node { opacity: 1; fill: #FFD966; transition: none; }
+  .js .powerline__meta { opacity: 1; translate: 0 0; transition: none; }
   .powerline__item:hover .powerline__photo img { transform: none; }
 }
 
