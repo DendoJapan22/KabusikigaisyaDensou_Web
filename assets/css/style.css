@@ -719,15 +719,59 @@ a.card { display: block; color: inherit; }
   stroke-linejoin: miter;
   opacity: .9;
 }
-.powerline__wire .node {
+/* ノード＝電気の接続点。待機中は破線リングに囲まれた端子、
+   電子が到着すると点灯し、波紋がひとつ広がり、
+   引込線が写真へ降りて、破線リングが回り始める */
+.pl-node .ring {
+  fill: none;
+  stroke: rgba(238,152,0,.45);
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: stroke .3s linear;
+}
+.pl-node.is-lit .ring {
+  stroke: rgba(255,214,102,.75);
+  animation: nodeSpin 14s linear infinite;
+}
+@keyframes nodeSpin { to { transform: rotate(360deg); } }
+
+.pl-node .core {
   fill: #12283E;
   stroke: var(--yellow-deep);
-  stroke-width: 1.5;
+  stroke-width: 1.4;
   transition: fill .25s linear, filter .25s linear;
 }
-.powerline__wire .node.is-lit {
+.pl-node.is-lit .core {
   fill: #FFD966;
-  filter: drop-shadow(0 0 4px rgba(255,214,102,.9));
+  filter: drop-shadow(0 0 5px rgba(255,214,102,.95));
+}
+
+.pl-node .ripple {
+  fill: none;
+  stroke: #FFD966;
+  stroke-width: 1.5;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.pl-node.is-lit .ripple { animation: nodeRipple .8s var(--ease) both; }
+@keyframes nodeRipple {
+  0%   { opacity: .9; transform: scale(.4); }
+  100% { opacity: 0;  transform: scale(2.8); }
+}
+
+/* 引込線：ノードから写真へ降りる短い線 */
+.pl-node .stub {
+  stroke: var(--yellow-deep);
+  stroke-width: 1.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.pl-node.is-lit .stub {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset .3s linear .1s;
 }
 .powerline__wire .tip {
   fill: #FFE28A;
@@ -789,13 +833,13 @@ a.card { display: block; color: inherit; }
 .js .powerline__photo { clip-path: inset(100% 0 0 0); }
 .js .powerline__item.is-on .powerline__photo {
   clip-path: inset(0 0 0 0);
-  transition: clip-path .7s var(--ease);
+  transition: clip-path .7s var(--ease) .2s;
 }
 .js .powerline__meta { opacity: 0; translate: 0 12px; }
 .js .powerline__item.is-on .powerline__meta {
   opacity: 1;
   translate: 0 0;
-  transition: opacity .5s var(--ease) .2s, translate .5s var(--ease) .2s;
+  transition: opacity .5s var(--ease) .4s, translate .5s var(--ease) .4s;
 }
 
 @media (max-width: 699px) {
@@ -807,6 +851,9 @@ a.card { display: block; color: inherit; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .pl-node.is-lit .ring { animation: none; }
+  .pl-node.is-lit .ripple { animation: none; opacity: 0; }
+  .pl-node .stub { stroke-dashoffset: 0; transition: none; }
   .js .powerline__photo { clip-path: none; transition: none; }
   .js .powerline__meta { opacity: 1; translate: 0 0; transition: none; }
   .powerline__item:hover .powerline__photo img { transform: none; }

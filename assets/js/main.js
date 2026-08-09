@@ -155,9 +155,14 @@
           var dist = dx * dx + dy * dy;
           if (dist < bestD) { bestD = dist; best = i / 400; }
         }
-        var c = mk("circle", { cx: np[0], cy: np[1], r: 5, "class": "node" });
-        plSvg.appendChild(c);
-        return { frac: best, el: c };
+        /* ノード＝接続点：破線リング＋波紋＋芯＋写真への引込線 */
+        var g = mk("g", { "class": "pl-node", transform: "translate(" + np[0].toFixed(1) + " " + np[1].toFixed(1) + ")" });
+        g.appendChild(mk("circle", { r: 9, "class": "ring" }));
+        g.appendChild(mk("circle", { r: 6.5, "class": "ripple" }));
+        g.appendChild(mk("circle", { r: 3.2, "class": "core" }));
+        g.appendChild(mk("line", { x1: 0, y1: 7, x2: 0, y2: 27, "class": "stub", pathLength: 1 }));
+        plSvg.appendChild(g);
+        return { frac: best, el: g };
       });
       marks = nodes;
 
