@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dendojapan22.github.io/KabusikigaisyaDensou_Web/sitemap.xml

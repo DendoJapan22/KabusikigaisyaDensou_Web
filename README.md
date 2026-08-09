@@ -59,3 +59,14 @@ design.md の方針「未確定の情報をプレースホルダで出さない�
 - 会社概要に LocalBusiness 構造化データ（areaServed 1都4県）
 - JobPosting 構造化データは給与レンジ確定後に追加（未実装・仕様どおり）
 - フォームは全入力に `<label>` を紐づけ
+
+## 独自ドメイン取得時にやること
+
+canonical / OGP / sitemap / robots / 構造化データ / 404 のURLはすべて
+`https://dendojapan22.github.io/KabusikigaisyaDensou_Web/` を前提にしている。
+独自ドメインに移行するときは以下を一括で差し替えること。
+
+- 全ページの `<link rel="canonical">` と `og:url` / `og:image`
+- `sitemap.xml` / `robots.txt` の URL
+- `index.html` / `company/index.html` の JSON-LD 内 `url` / `image`
+- `404.html` 内の絶対パス（`/KabusikigaisyaDensou_Web/` → `/`）
