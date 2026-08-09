@@ -1012,7 +1012,7 @@ a.card { display: block; color: inherit; }
   grid-template-columns: 1fr minmax(0, 300px);
   align-items: center;
   gap: var(--s-5);
-  background: #091734;          /* 電球画像の地色に合わせる */
+  background: var(--navy-900);  /* 電球が透過になったのでサイトの最濃紺に統一 */
   border-radius: 18px;
   padding: var(--s-6) var(--s-6) var(--s-6) var(--s-6);
   overflow: hidden;
@@ -1033,18 +1033,17 @@ a.card { display: block; color: inherit; }
   max-width: 42em;
 }
 .recruit-banner .text-link { color: var(--yellow); border-bottom-color: var(--yellow); }
-/* 画像の地色（rgb(9,23,52)）とカードの地色を一致させ、継ぎ目を消す */
 .recruit-banner__figure {
   justify-self: end;
-  align-self: stretch;
+  align-self: center;
   display: flex;
   align-items: center;
-  margin: calc(var(--s-6) * -1) calc(var(--s-6) * -1) calc(var(--s-6) * -1) 0;
 }
 .recruit-banner__figure img {
   width: 100%;
-  max-width: 340px;
+  max-width: 210px;
   height: auto;
+  filter: drop-shadow(0 0 34px rgba(247,206,46,.28));
 }
 
 @media (max-width: 899px) {
@@ -1057,7 +1056,6 @@ a.card { display: block; color: inherit; }
   .recruit-banner__figure {
     order: -1;
     justify-self: center;
-    margin: calc(var(--s-5) * -1) 0 0 0;
   }
   .recruit-banner__figure img { width: min(220px, 55vw); }
 }
