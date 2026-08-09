@@ -669,10 +669,16 @@ a.card { display: block; color: inherit; }
    ========================================================= */
 .nightzone {
   position: relative;
-  background: var(--navy-700);
+  /* ヒーロー左パネル・フッターと同じ最濃紺 */
+  background: var(--navy-900);
   color: #fff;
-  /* 上端を弧に。左右の角が100px下がり、中央が最も高くなる */
+  /* 黄の証拠バーとの間に白の呼吸を挟む */
+  margin-top: var(--s-7);
+  /* 上端を弧に。左右の角が110px下がり、中央が最も高くなる */
   border-radius: 50% 50% 0 0 / 110px 110px 0 0;
+}
+@media (max-width: 639px) {
+  .nightzone { margin-top: var(--s-6); }
 }
 /* 弧の頂点あたりに見出しが来るよう、最初のセクションの上余白を確保 */
 .nightzone > .service-sec { padding-top: 96px; }
