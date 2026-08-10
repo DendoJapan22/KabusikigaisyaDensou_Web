@@ -937,7 +937,7 @@ a.card { display: block; color: inherit; }
   color: rgba(8,25,43,.72);
 }
 
-/* 電球：境目の上に立たせる */
+/* 背景に開けた電球型の穴。向こうに街の灯りが見える */
 .insight__visual {
   position: relative;
   justify-self: center;
@@ -951,20 +951,15 @@ a.card { display: block; color: inherit; }
   max-width: none;
   height: auto;
 }
-/* 電球の背後ににじむ光。ゆっくり明滅する */
+/* 穴から漏れて紺地ににじむ光 */
 .lightband__glow {
   position: absolute;
-  left: 50%; top: 30%;
-  width: 190%; aspect-ratio: 1;
+  left: 50%; top: 40%;
+  width: 165%; aspect-ratio: 1;
   translate: -50% -50%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(247,206,46,.5) 0%, rgba(247,206,46,.14) 45%, transparent 70%);
-  filter: blur(20px);
-  animation: bulbGlow 4.5s ease-in-out infinite;
-}
-@keyframes bulbGlow {
-  0%, 100% { opacity: .75; transform: scale(1); }
-  50%      { opacity: 1;   transform: scale(1.07); }
+  background: radial-gradient(circle, rgba(247,206,46,.20) 0%, rgba(247,206,46,.07) 42%, transparent 68%);
+  filter: blur(26px);
 }
 
 .insight__body {
@@ -1000,10 +995,6 @@ a.card { display: block; color: inherit; }
   .reason { border-left: 0; padding-inline: 0; padding-top: var(--s-3); border-top: 1px solid rgba(8,25,43,.2); }
   .reason:first-child { border-top: 0; padding-top: 0; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .lightband__glow { animation: none; }
-}
-
 /* =========================================================
    採用バナー（紺の面＋電球）
    ========================================================= */
