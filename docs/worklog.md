@@ -63,8 +63,11 @@ PRは明示的な依頼があるまで作らない。
 └ endzone ─ CTA＋フッターが一体。ライトの画像が背景
 ```
 
-キャッシュ対策：`index.html` は `style.css?v=14`、下層ページは `?v=6`。
+キャッシュ対策：`index.html` は `style.css?v=15`、下層ページは `?v=7`。
 GitHub Pages はCSSを10分キャッシュするため、CSS変更時は必ずバンプする。
+
+モバイルのハンバーガーは、トップページでは `position: fixed` ＋ 紺の面
+（スクロールしてもヘッダーごと流れない）。開いている間は面を消して紺の×だけにする。
 
 ---
 
@@ -244,6 +247,7 @@ Playwright（chromium は `/opt/pw-browsers/chromium`。`playwright install` は
 | ポスター画像が二重ダウンロード | `poster` にjpg、`<picture>` にwebp。posterもwebpに統一 |
 | 穴の空が白飛び | 画像全体にブルームをかけていた。輝度150以上のみ抽出する方式に変更 |
 | git が "not a git repository" | 連鎖コマンド内の `cd` で作業ディレクトリが変わっていた |
+| ハンバーガーを開くと1項目しか見えない | メニューのパネル（`.header-right`）で基本CSSの `height: 64px` を上書きし忘れ。`box-sizing: border-box` のためパディング160pxが下限になり、160pxの帯に潰れていた。`inset: 0` ＋ `height: auto` で全画面に |
 
 ---
 

@@ -1766,10 +1766,23 @@ body.page-recruit .split-card { background: var(--paper); }
   /* ナビはハンバーガーへ。ヘッダーには電話アイコンだけ残す */
   .site-header--sub { height: 108px; }
   .menu-toggle { display: flex; }
-  .header-right {
+  /* トップページはヘッダーごとスクロールで流れるので、
+     ハンバーガーだけ固定して常に届くようにする。
+     地色が白のセクションでも見えるよう紺の面を敷く（白線は共通のまま） */
+  .site-header--top .menu-toggle {
+    position: fixed;
+    top: 28px;   /* 電話アイコン（中心 y=50px）と中心を揃える */
+    right: 16px;
+    background: var(--navy-900);
+  }
+  /* 開いている間は白いパネルの上なので、面を消して紺の×だけにする */
+  .site-header--top .menu-toggle[aria-expanded="true"] { background: transparent; }
+  /* height はデスクトップ用の 64px/88px を引き継がない（inset:0 で全画面に）。
+     残すと border-box のためパディング160pxの帯に潰れ、1項目しか見えなくなる */
+  .site-header .header-right {
     position: fixed;
     inset: 0;
-    top: 0; right: 0;
+    height: auto;
     background: var(--paper);
     flex-direction: column;
     align-items: stretch;
