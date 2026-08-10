@@ -18,7 +18,8 @@
 | 対応エリア | 神奈川・東京・山梨・千葉・静岡（1都4県） |
 | 技術構成 | ビルド無しの静的HTML/CSS/JS。GitHub Actions → GitHub Pages |
 | リポジトリ | `DendoJapan22/KabusikigaisyaDensou_Web` |
-| 作業ブランチ | `claude/website-construction-qsimq3`（ここにのみプッシュ） |
+| 公開ブランチ | `claude/website-construction-qsimq3`（GitHub Pages はここから deploy） |
+| 公開の運用 | 作業ブランチにコミット後、qsimq3 を fast-forward して push（ユーザー承認済み・以後は都度確認不要） |
 
 PRは明示的な依頼があるまで作らない。
 
