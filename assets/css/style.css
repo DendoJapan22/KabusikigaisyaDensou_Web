@@ -1957,3 +1957,317 @@ body.page-recruit .split-card { background: var(--paper); }
   .mobile-bar { display: flex; }
   body { padding-bottom: 60px; }
 }
+
+/* =========================================================
+   /service/ 事業内容 — 職人の仕様書レイアウト
+   均等カードの一覧をやめ、主力2領域は写真を貼り込んだ見開きに、
+   残り3領域は濃紺の帯にまとめる。
+   電気の作業リストは「電気が流れる順」に並べ、
+   端子の点と1本の線でつなぐ（通電モチーフの静的な図面版）
+   ========================================================= */
+
+/* アンカーへの移動をなめらかに（動きを抑える設定では即時のまま） */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* --- 冒頭：言い切りの一文 ＋ 図面の凡例のような索引 --- */
+.svc-open { padding-block: var(--s-7) var(--s-6); }
+.svc-open__inner {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: var(--s-6);
+  align-items: center;
+}
+.svc-statement {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(28px, 3.2vw, 40px);
+  line-height: 1.55;
+  letter-spacing: .05em;
+}
+.svc-open__text {
+  margin-top: var(--s-3);
+  color: var(--ink-60);
+  max-width: 34em;
+}
+
+.svc-index { border-top: 1.5px solid var(--navy-900); }
+.svc-index a {
+  display: grid;
+  grid-template-columns: 150px 1fr auto auto;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 13px 4px;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink);
+  transition: background .2s var(--ease);
+}
+.svc-index a:hover { background: var(--mist); }
+.svc-index__en {
+  font-family: var(--font-util);
+  font-size: 11px;
+  letter-spacing: .16em;
+  color: var(--ink-40);
+}
+.svc-index__name { font-size: 15px; font-weight: 500; }
+.svc-index .chev {
+  width: 9px; height: 9px;
+  stroke: var(--yellow-deep);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+/* 「主力」の小さな札 */
+.svc-tag {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--navy-900);
+  background: var(--yellow);
+  padding: 4px 8px 3px;
+  border-radius: 2px;
+}
+
+/* --- 主力領域の見開き --- */
+.svc-domain {
+  padding-block: var(--s-7);
+  scroll-margin-top: 120px;
+}
+.svc-domain--mist { background: var(--mist); }
+.svc-domain__inner {
+  display: grid;
+  grid-template-columns: 1fr 1.12fr;
+  gap: clamp(var(--s-5), 5vw, var(--s-7));
+  align-items: center;
+}
+.svc-domain--flip .svc-domain__copy { order: 2; }
+.svc-domain--flip .svc-figs { order: 1; }
+
+.svc-chiprow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: var(--s-2);
+}
+.svc-chiprow .section__label { margin-bottom: 0; }
+.svc-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(26px, 2.6vw, 34px);
+  line-height: 1.4;
+}
+.svc-desc { margin-top: var(--s-2); color: var(--ink-60); }
+
+/* 電気：引込から器具へ、流れる順のリスト */
+.svc-flow-note {
+  margin-top: var(--s-4);
+  font-size: 12.5px;
+  letter-spacing: .06em;
+  color: var(--ink-40);
+}
+.svc-flow {
+  margin-top: var(--s-1);
+  position: relative;
+  padding-left: 26px;
+}
+.svc-flow::before {
+  content: "";
+  position: absolute;
+  left: 4.5px;
+  top: 16px;
+  bottom: 16px;
+  width: 1.5px;
+  background: var(--yellow-deep);
+  opacity: .45;
+}
+.svc-flow li {
+  position: relative;
+  padding: 8px 0;
+  font-size: 15px;
+}
+.svc-flow li::before {
+  content: "";
+  position: absolute;
+  left: -26px;
+  top: 50%;
+  translate: 0 -50%;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 2px solid var(--yellow-deep);
+}
+/* 末端の器具＝灯りがつく */
+.svc-flow li:last-child::before { background: var(--yellow); }
+
+.svc-extra {
+  margin-top: var(--s-2);
+  font-size: 13.5px;
+  color: var(--ink-60);
+}
+
+/* 内訳リスト（空調・紺の帯でも共用） */
+.svc-list { margin-top: var(--s-3); }
+.svc-list li {
+  position: relative;
+  padding: 9px 0 9px 18px;
+  border-bottom: 1px solid var(--rule);
+  font-size: 15px;
+}
+.svc-list li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  translate: 0 -50%;
+  width: 7px; height: 7px;
+  background: var(--yellow);
+}
+
+.svc-client {
+  display: flex;
+  gap: 12px;
+  margin: var(--s-3) 0 0;
+  padding-top: var(--s-2);
+  border-top: 1px solid var(--rule);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.svc-client dt { flex: none; font-weight: 700; }
+.svc-client dd { margin: 0; color: var(--ink-60); }
+
+/* --- 貼り込んだ現場写真。影は使わず、白いフチと重なりで奥行きを出す --- */
+.svc-figs figure { margin: 0; }
+.svc-figs picture {
+  display: block;
+  overflow: hidden;
+  border: 6px solid var(--paper);
+  outline: 1px solid var(--rule);
+  background: var(--paper);
+}
+.svc-figs img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.svc-figs figcaption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--ink-60);
+}
+.svc-figs figcaption::before {
+  content: "";
+  flex: none;
+  width: 14px; height: 2px;
+  background: var(--yellow-deep);
+}
+.svc-figs__tall { width: 74%; margin-left: auto; }
+.svc-figs__tall picture { aspect-ratio: 3 / 4; }
+.svc-figs__over {
+  position: relative;
+  z-index: 1;
+  width: 56%;
+  margin-top: -22%;
+}
+.svc-figs__over picture { aspect-ratio: 1 / 1; }
+.svc-figs__over--wide picture { aspect-ratio: 16 / 10; }
+.svc-domain--flip .svc-figs__tall { margin-left: 0; }
+.svc-domain--flip .svc-figs__over { margin-left: auto; }
+.svc-domain--flip .svc-figs__over figcaption { justify-content: flex-end; }
+
+/* --- 残り3領域：濃紺の帯 --- */
+.svc-others {
+  background: var(--navy-900);
+  color: #fff;
+  padding-block: var(--s-7);
+}
+.svc-others .svc-title { color: #fff; }
+.svc-others .echo-echo { color: var(--yellow); opacity: .42; }
+.js .svc-others[data-animate].is-inview .echo-echo { opacity: .42; }
+.svc-others__head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s-5);
+  align-items: end;
+  margin-bottom: var(--s-5);
+}
+.svc-others__lead {
+  color: rgba(255,255,255,.78);
+  font-size: 15px;
+  max-width: 40em;
+  padding-bottom: 6px;
+}
+.svc-others__grid {
+  display: grid;
+  grid-template-columns: 1.08fr 1fr 1fr;
+  gap: var(--s-5);
+}
+.svc-other { scroll-margin-top: 120px; }
+.svc-other picture {
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+.svc-other img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.svc-other__en {
+  display: block;
+  margin-top: var(--s-3);
+  font-family: var(--font-util);
+  font-size: 11px;
+  letter-spacing: .18em;
+  color: var(--yellow);
+}
+.svc-other__title {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 20px;
+  color: #fff;
+}
+.svc-other .svc-list { margin-top: var(--s-2); }
+.svc-other .svc-list li {
+  border-bottom-color: rgba(255,255,255,.14);
+  color: rgba(255,255,255,.85);
+  font-size: 14px;
+}
+.svc-other .svc-client {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: var(--s-2);
+  font-size: 12.5px;
+}
+.svc-other .svc-client dt { color: rgba(255,255,255,.9); }
+.svc-other .svc-client dd { color: rgba(255,255,255,.6); }
+.svc-others__foot {
+  margin-top: var(--s-6);
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  flex-wrap: wrap;
+}
+.svc-others .text-link { color: var(--yellow); border-bottom-color: rgba(247,206,46,.5); }
+.svc-others .text-link:hover { border-bottom-color: var(--yellow); }
+
+@media (max-width: 899px) {
+  .svc-open { padding-block: var(--s-6) var(--s-5); }
+  .svc-open__inner { grid-template-columns: 1fr; gap: var(--s-5); }
+  .svc-domain { padding-block: var(--s-6); }
+  .svc-domain__inner { grid-template-columns: 1fr; gap: var(--s-5); }
+  /* モバイルは写真が先 */
+  .svc-domain__copy { order: 2; }
+  .svc-figs { order: 1; }
+  .svc-figs__tall { width: 86%; }
+  .svc-figs__over { width: 58%; margin-top: -20%; }
+  .svc-others__head { grid-template-columns: 1fr; gap: var(--s-2); align-items: start; }
+  .svc-others__grid { grid-template-columns: 1fr; gap: var(--s-6); }
+}
+@media (max-width: 479px) {
+  .svc-index a { grid-template-columns: 92px 1fr auto auto; }
+  .svc-index__en { font-size: 10px; letter-spacing: .12em; }
+  .svc-index__name { font-size: 14px; }
+}
