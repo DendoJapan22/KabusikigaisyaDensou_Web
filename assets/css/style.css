@@ -2272,16 +2272,26 @@ body.page-recruit .split-card { background: var(--paper); }
   .svc-index__name { font-size: 14px; }
 }
 
-/* --- 空調の見開き：黄のベタ面（コーン色）。
-       白（電気）→ 黄（空調）→ 濃紺（残り三つ）とブランド3色が順に流れる。
-       黄の上の補足文字は rgba(8,25,43,.72)＝コントラスト 5.8:1 --- */
-.svc-domain--corn { background: var(--yellow); }
-.svc-domain--corn .section__label,
-.svc-domain--corn .svc-tag { background: var(--navy-900); color: var(--yellow); }
-.svc-domain--corn .svc-desc,
-.svc-domain--corn .svc-client dd,
-.svc-domain--corn .svc-figs figcaption { color: rgba(8,25,43,.72); }
-.svc-domain--corn .svc-list li { border-bottom-color: rgba(8,25,43,.22); }
-.svc-domain--corn .svc-list li::before { background: var(--navy-900); }
-.svc-domain--corn .svc-client { border-top-color: rgba(8,25,43,.22); }
-.svc-domain--corn .svc-figs figcaption::before { background: var(--navy-900); }
+/* --- 見開きの夜面：トップの nightzone と同じ紺（#08192B）。
+       電気 → 空調 → 残り三つが、ひと続きの紺の面になる。
+       暗い面での配色ルール：見出し白、本文 白78%、印とリンクは黄 --- */
+.svc-domain--night { background: var(--navy-900); }
+.svc-domain--night .svc-title { color: #fff; }
+.svc-domain--night .echo-echo { color: var(--yellow); opacity: .42; }
+.js .svc-domain--night[data-animate].is-inview .echo-echo { opacity: .42; }
+.svc-domain--night .svc-desc { color: rgba(255,255,255,.78); }
+.svc-domain--night .svc-flow-note { color: rgba(255,255,255,.55); }
+.svc-domain--night .svc-flow::before { opacity: .6; }
+.svc-domain--night .svc-flow li { color: rgba(255,255,255,.85); }
+/* 端子の点：暗い面では「消えている」を紺の芯で、末端の「点いた」を黄で */
+.svc-domain--night .svc-flow li::before { background: var(--navy-900); }
+.svc-domain--night .svc-flow li:last-child::before { background: var(--yellow); }
+.svc-domain--night .svc-extra { color: rgba(255,255,255,.6); }
+.svc-domain--night .svc-list li {
+  border-bottom-color: rgba(255,255,255,.14);
+  color: rgba(255,255,255,.85);
+}
+.svc-domain--night .svc-client { border-top-color: rgba(255,255,255,.18); }
+.svc-domain--night .svc-client dt { color: rgba(255,255,255,.9); }
+.svc-domain--night .svc-client dd { color: rgba(255,255,255,.6); }
+.svc-domain--night .svc-figs figcaption { color: rgba(255,255,255,.7); }
