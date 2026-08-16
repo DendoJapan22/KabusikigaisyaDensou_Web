@@ -3039,3 +3039,65 @@ body.page-recruit .split-card { background: var(--paper); }
   .area-feat { justify-content: flex-start; border-left: 0; border-top: 1px solid rgba(8,25,43,.1); padding-block: 10px; }
   .area-feat:first-child { border-top: 0; }
 }
+
+/* ---- /service/ 個人のお客様へ（旧・料金ページの統合先） ---- */
+.kojin {
+  background: linear-gradient(180deg, #F4F7FA 0%, #ECF1F7 100%);
+  scroll-margin-top: 72px;
+}
+.kojin__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-5);
+  margin-top: var(--s-4);
+  align-items: start;
+}
+.kojin__h {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy-900);
+  margin-bottom: var(--s-2);
+  padding-left: 12px;
+  border-left: 3px solid var(--yellow);
+}
+.kojin__grid .spec-table { margin-block: 0 var(--s-2); background: #fff; }
+.kojin__note {
+  font-size: 13px;
+  line-height: 1.95;
+  color: rgba(8,25,43,.75);
+  margin-bottom: var(--s-4);
+}
+.kojin__note strong { color: var(--navy-900); }
+.kojin__grid .flow { margin-block: 0; }
+.kojin__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 18px;
+  margin-bottom: var(--s-4);
+}
+.kojin__list li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--navy-900);
+  line-height: 1.7;
+}
+.kojin__list li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: .72em;
+  width: 6px; height: 1.6px;
+  background: var(--yellow-deep);
+}
+.kojin__biz {
+  font-size: 12.5px;
+  line-height: 1.9;
+  color: rgba(8,25,43,.65);
+  border-top: 1px solid rgba(8,25,43,.12);
+  padding-top: var(--s-2);
+}
+@media (max-width: 899px) {
+  .kojin__grid { grid-template-columns: 1fr; gap: var(--s-4); }
+  .kojin__list { grid-template-columns: 1fr; }
+}
