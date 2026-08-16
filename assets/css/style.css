@@ -2762,16 +2762,15 @@ body.page-recruit .split-card { background: var(--paper); }
 .area2::after {
   content: "";
   position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 62%;
+  inset: 0;
   z-index: 0;
   background-image: image-set(url("../img/machinami.webp") type("image/webp"),
                               url("../img/machinami.jpg") type("image/jpeg"));
   background-size: cover;
   background-position: center bottom;
-  opacity: .16;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 62%);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 62%);
+  opacity: .28;
+  -webkit-mask-image: linear-gradient(180deg, transparent 4%, rgba(0,0,0,.5) 48%, #000 82%);
+  mask-image: linear-gradient(180deg, transparent 4%, rgba(0,0,0,.5) 48%, #000 82%);
   pointer-events: none;
 }
 .area2__inner {
@@ -2850,7 +2849,7 @@ body.page-recruit .split-card { background: var(--paper); }
     -webkit-mask-image: radial-gradient(130% 130% at 50% 50%, #000 74%, transparent 100%);
     mask-image: radial-gradient(130% 130% at 50% 50%, #000 74%, transparent 100%);
   }
-  .area2::after { height: 48%; opacity: .13; }
+  .area2::after { opacity: .2; }
 }
 
 /* ---- /area/ ページ：対応エリア詳細 ---- */
@@ -2911,4 +2910,110 @@ body.page-recruit .split-card { background: var(--paper); }
 }
 @media (max-width: 559px) {
   .prefs { grid-template-columns: 1fr; }
+}
+
+
+/* ---- 対応エリア：taiouerea_demo.png 準拠の要素 ---- */
+.area2__sub {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(17px, 1.6vw, 21px);
+  letter-spacing: .08em;
+  color: var(--navy-900);
+  margin-bottom: var(--s-3);
+}
+.area2__text {
+  font-size: 13.5px;
+  line-height: 2.05;
+  color: rgba(8,25,43,.78);
+  margin-bottom: 14px;
+}
+/* 白いカード：斜めの黄アクセント＋ピン */
+.area-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255,255,255,.92);
+  padding: 18px 20px;
+  margin-top: var(--s-3);
+  box-shadow: 0 8px 28px rgba(8,25,43,.07);
+}
+.area-card::before {
+  content: "";
+  position: absolute;
+  left: -1px; top: 8px; bottom: 8px;
+  width: 3px;
+  background: var(--yellow);
+  transform: rotate(9deg);
+}
+.area-card__icon {
+  flex: none;
+  width: 44px; height: 44px;
+  border: 1.3px solid var(--navy-900);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+.area-card__icon svg {
+  width: 22px; height: 22px;
+  fill: none;
+  stroke: var(--navy-900);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.area-card__main {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: .04em;
+  color: var(--navy-900);
+  margin-bottom: 3px;
+}
+.area-card__sub { font-size: 11.5px; color: rgba(8,25,43,.6); }
+
+/* 3つの特徴バンド：上端が斜めに切れる白い帯 */
+.area-feats {
+  position: relative;
+  z-index: 1;
+  background: rgba(255,255,255,.94);
+  clip-path: polygon(0 18px, 100% 0, 100% 100%, 0 100%);
+  margin-top: var(--s-4);
+}
+.area-feats__inner {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding-block: calc(18px + var(--s-3)) var(--s-3);
+}
+.area-feat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding-inline: var(--s-2);
+  border-left: 1px solid rgba(8,25,43,.12);
+}
+.area-feat:first-child { border-left: 0; }
+.area-feat__icon svg {
+  width: 34px; height: 34px;
+  fill: none;
+  stroke: var(--navy-900);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.area-feat__icon .pinfill { fill: var(--yellow); stroke: var(--yellow-deep); }
+.area-feat__title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--navy-900);
+  margin-bottom: 2px;
+}
+.area-feat__sub { font-size: 11.5px; color: rgba(8,25,43,.6); }
+
+@media (max-width: 899px) {
+  .area-feats__inner { grid-template-columns: 1fr; gap: var(--s-2); }
+  .area-feat { justify-content: flex-start; border-left: 0; border-top: 1px solid rgba(8,25,43,.1); padding-block: 10px; }
+  .area-feat:first-child { border-top: 0; }
 }
