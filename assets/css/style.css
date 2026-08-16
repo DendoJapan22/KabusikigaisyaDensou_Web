@@ -3101,3 +3101,161 @@ body.page-recruit .split-card { background: var(--paper); }
   .kojin__grid { grid-template-columns: 1fr; gap: var(--s-4); }
   .kojin__list { grid-template-columns: 1fr; }
 }
+
+/* =========================================================
+   PDCA第1周：下層ページの脱・単調化
+   （代表メッセージ／会社概要の表／採用の1日タイムライン／
+     お問い合わせの種別カード・FAQ）
+   ========================================================= */
+
+/* 代表メッセージ：写真プレースホルダーを廃し、引用リード＋2段組の誌面風に */
+.msg2 { margin-top: var(--s-4); }
+.msg2__lead {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(23px, 2.9vw, 33px);
+  line-height: 1.75;
+  letter-spacing: .06em;
+  color: var(--navy-900);
+  padding-top: 20px;
+  margin-bottom: var(--s-4);
+}
+.msg2__lead::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 2px;
+  width: 46px; height: 3px;
+  background: var(--yellow);
+}
+.msg2__body {
+  columns: 2;
+  column-gap: 60px;
+  font-size: 14px;
+  line-height: 2.15;
+  color: rgba(8,25,43,.8);
+}
+.msg2__body p { margin-bottom: 1.6em; break-inside: avoid; }
+.msg2__body--single { columns: 1; max-width: 42em; }
+.msg2__sign {
+  text-align: right;
+  margin-top: var(--s-2);
+  font-size: 13px;
+  color: rgba(8,25,43,.6);
+}
+@media (max-width: 899px) {
+  .msg2__body { columns: 1; }
+  .msg2__lead br { display: none; }
+}
+
+/* 会社概要の表：灰色ゼブラをやめ、罫と余白の一覧に */
+.spec2 {
+  margin-top: var(--s-4);
+  border-top: 2px solid var(--navy-900);
+}
+.spec2 > div {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: var(--s-3);
+  padding-block: 18px;
+  border-bottom: 1px solid rgba(8,25,43,.12);
+}
+.spec2 dt {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  color: rgba(8,25,43,.52);
+  padding-top: 4px;
+}
+.spec2 dd { font-size: 14.5px; line-height: 1.95; color: var(--navy-900); }
+.spec2__tel a {
+  font-size: 25px;
+  letter-spacing: .04em;
+  color: var(--navy-900);
+  border-bottom: 2px solid var(--yellow);
+}
+.spec2__tel span { display: block; font-size: 11.5px; color: rgba(8,25,43,.55); margin-top: 5px; }
+@media (max-width: 639px) {
+  .spec2 > div { grid-template-columns: 1fr; gap: 4px; padding-block: 14px; }
+  .spec2 dt { padding-top: 0; }
+}
+
+/* 採用：1日の流れを「電線」のタイムラインに */
+.dayline {
+  position: relative;
+  margin-block: var(--s-3) var(--s-4);
+  padding-left: 32px;
+  max-width: 34em;
+  list-style: none;
+}
+.dayline::before {
+  content: "";
+  position: absolute;
+  left: 10px; top: 14px; bottom: 14px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--yellow) 0%, var(--yellow-deep) 100%);
+}
+.article .dayline li {
+  padding-left: 0;
+  position: relative;
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 14px;
+  align-items: baseline;
+  padding-block: 11px;
+}
+.article .dayline li::before {
+  content: "";
+  position: absolute;
+  left: -27px; top: 50%;
+  translate: 0 -50%;
+  width: 13px; height: 13px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2.5px solid var(--yellow-deep);
+}
+/* 退勤＝灯りがつく */
+.article .dayline li:last-child::before {
+  background: var(--yellow);
+  box-shadow: 0 0 10px rgba(247,206,46,.9);
+}
+.dayline .u-num { font-size: 18px; color: var(--yellow-deep); letter-spacing: .05em; }
+.dayline li span:last-child { font-size: 14px; line-height: 1.9; color: rgba(8,25,43,.8); }
+
+/* お問い合わせ：種別カードに斜めの黄アクセント */
+.type-card {
+  position: relative;
+  border-radius: 0;
+  padding-left: calc(var(--s-3) + 14px);
+}
+.type-card::before {
+  content: "";
+  position: absolute;
+  left: 10px; top: 12px; bottom: 12px;
+  width: 3px;
+  background: var(--yellow);
+  transform: rotate(8deg);
+}
+.type-card:hover { border-color: var(--navy-900); }
+.type-card[aria-pressed="true"]::before { background: var(--yellow); }
+
+/* FAQ：Qを紺のバッジに */
+.faq dt {
+  position: relative;
+  padding: 14px 0 2px 42px;
+}
+.faq dt::before {
+  content: "Q";
+  position: absolute;
+  left: 0; top: 12px;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--navy-900);
+  color: var(--yellow);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-util);
+  font-size: 14px;
+  letter-spacing: 0;
+}
+.faq dd { padding-left: 42px; }
