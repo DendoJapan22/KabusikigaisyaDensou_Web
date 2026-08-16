@@ -57,7 +57,8 @@ PRは明示的な依頼があるまで作らない。
    ├ 事業内容      パワーライン（蛇行する電線＋スクロール連動）
    ├ 選ばれる理由 ＋ 電球型の穴
    ├ 対応可能な工事内容（実写3枚の非対称グリッド）
-   └ 対応エリア
+   └ 対応可能な工事内容で終了
+対応エリア（氷青。支給デザイン準拠：地図＋下部に薄い街並み）
 お客様に合わせたご案内（白）
 採用バナー（ミスト）
 会社概要（白）
@@ -160,7 +161,27 @@ GitHub Pages はCSSを10分キャッシュするため、CSS変更時は必ず�
   /service/ の見出し下に移植
 - sitemap.xml から /works/ を削除
 
-### 4-5. endzone（CTA＋フッター）
+### 4-5. 対応エリア（トップ・支給デザイン準拠）
+
+クライアント支給の `taiouerea.png`（対応エリアセクションのAIモックアップ）を基に再構築。
+大型タイポグラフィ版（section--band）を置き換え、**nightzone の外**に出した。
+
+- **地図の抽出**：`taiouerea.png` から cv2.INPAINT_TELEA（半径11）で
+  見出し・チェックリスト・日本列島インセット・凡例・注記・コンパスを除去し、
+  x∈[280,1536] でクロップ → `area-map.jpg/.webp`（1256×1024）。
+  県名ラベル・平塚市のピン・同心円はそのまま残す
+- **文字はHTMLで再構築**：SERVICE AREA / 対応エリア / リード / チェック3項目
+  （丸＋チェックは CSS の ::before/::after で描画）/ 対応エリアの詳細リンク
+- **下部に街並みを薄く**（ユーザー指定）：`machinami.jpg/.webp`（富士山の見える都市の俯瞰、
+  1600w）を `.area2::after` で敷く。opacity .16、mask で上に向かってフェードアウト、
+  background-position: center bottom
+- 地図の端は radial-gradient の mask で面に溶かす
+- **罠**：data-echo の JS が付ける `.is-echo-host` は inline-block。
+  見出しを独立行にするには `display: block` で打ち消しが必要
+- 原本 `taiouerea.png` と `ChatGPT Image 2026年8月16日 13_37_30.png`（街並みの元）は
+  リポジトリに残置（未参照）
+
+### 4-6. endzone（CTA＋フッター）
 
 `aspect-ratio: 1920/852` ＋ `background-size: 100% 100%` で画像を切らずに全部入れる。
 スクリムは上が明るく下が暗いグラデーション（均一にかけるとランプの傘が溶ける）。
@@ -234,6 +255,9 @@ sticky ＋ 3.4画面のスペーサー。`clip-path: circle()` で電球のフ�
 | `circuit.*` | 回路図パターン |
 | `bg-paper-*` | 方眼＋ドットの紙テクスチャ6色 |
 | `og/*.jpg` | OGPカード9枚 |
+| `area-map.jpg/.webp` | 対応エリアの地図（taiouerea.png からデザイン要素を除去・1256×1024） |
+| `machinami.jpg/.webp` | 街並みの俯瞰写真。対応エリア下部の薄い背景 |
+| `taiouerea.png` | 支給モックアップ原本（未参照・保管） |
 
 ### 動画
 

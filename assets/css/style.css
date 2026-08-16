@@ -2747,3 +2747,108 @@ body.page-recruit .split-card { background: var(--paper); }
   .svc2-badge { justify-self: center; }
   .svc2-strip__copy br { display: none; }
 }
+
+/* =========================================================
+   対応エリア（トップ）：支給デザイン taiouerea.png 準拠
+   氷青の面に地図。下部に街並みの写真を薄く敷く
+   ========================================================= */
+.area2 {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(180deg, #F4F7FA 0%, #E9F0F7 100%);
+  overflow: hidden;
+}
+/* 下部にうっすら街並み。下に行くほど現れる */
+.area2::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 62%;
+  z-index: 0;
+  background-image: image-set(url("../img/machinami.webp") type("image/webp"),
+                              url("../img/machinami.jpg") type("image/jpeg"));
+  background-size: cover;
+  background-position: center bottom;
+  opacity: .16;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 62%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 62%);
+  pointer-events: none;
+}
+.area2__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 0.72fr 1fr;
+  gap: var(--s-5);
+  align-items: center;
+  padding-block: var(--s-6);
+}
+.area2__label {
+  background: none;
+  padding: 0;
+  color: var(--yellow-deep);
+  letter-spacing: .24em;
+}
+.area2__title {
+  display: block;   /* is-echo-host の inline-block を打ち消す */
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(30px, 3.2vw, 40px);
+  letter-spacing: .14em;
+  color: var(--navy-900);
+  margin-block: 6px var(--s-3);
+}
+.area2__lead {
+  font-size: 15px;
+  line-height: 2;
+  color: rgba(8,25,43,.8);
+  margin-bottom: var(--s-3);
+}
+.area2__checks {
+  display: grid;
+  gap: 12px;
+  margin-bottom: var(--s-4);
+}
+.area2__checks li {
+  position: relative;
+  padding-left: 32px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+.area2__checks li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 50%;
+  translate: 0 -50%;
+  width: 20px; height: 20px;
+  border: 1.4px solid var(--yellow-deep);
+  border-radius: 50%;
+}
+.area2__checks li::after {
+  content: "";
+  position: absolute;
+  left: 5px; top: 50%;
+  translate: 0 calc(-50% - 1px);
+  width: 9px; height: 5px;
+  border-left: 1.6px solid var(--yellow-deep);
+  border-bottom: 1.6px solid var(--yellow-deep);
+  rotate: -45deg;
+}
+.area2__map { position: relative; }
+.area2__map img {
+  width: 100%;
+  height: auto;
+  /* 端をぼかして面に溶かす */
+  -webkit-mask-image: radial-gradient(115% 115% at 50% 50%, #000 72%, transparent 98%);
+  mask-image: radial-gradient(115% 115% at 50% 50%, #000 72%, transparent 98%);
+}
+@media (max-width: 899px) {
+  .area2__inner { grid-template-columns: 1fr; gap: var(--s-3); padding-block: var(--s-5); }
+  .area2__map { margin-inline: calc(var(--s-3) * -1); }
+  .area2__map img {
+    -webkit-mask-image: radial-gradient(130% 130% at 50% 50%, #000 74%, transparent 100%);
+    mask-image: radial-gradient(130% 130% at 50% 50%, #000 74%, transparent 100%);
+  }
+  .area2::after { height: 48%; opacity: .13; }
+}
