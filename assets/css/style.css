@@ -999,6 +999,8 @@ a.card { display: block; color: inherit; }
    採用バナー（紺の面＋電球）
    ========================================================= */
 .recruit-banner {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: 1fr minmax(0, 300px);
   align-items: center;
@@ -1008,6 +1010,26 @@ a.card { display: block; color: inherit; }
   padding: var(--s-6) var(--s-6) var(--s-6) var(--s-6);
   overflow: hidden;
   color: #fff;
+}
+/* 背景にうっすら職人の線画。白地を反転して線だけを浮かせる */
+.recruit-banner::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 4%; bottom: -6%;
+  width: min(480px, 52%);
+  aspect-ratio: 1589 / 989;
+  background-image: image-set(url("../img/denkikouzisyaezzi.webp") type("image/webp"),
+                              url("../img/denkikouzisyaezzi.png") type("image/png"));
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: invert(1);
+  mix-blend-mode: screen;
+  opacity: .5;
+  pointer-events: none;
+}
+@media (max-width: 899px) {
+  .recruit-banner::before { width: 78%; left: -6%; bottom: -9%; opacity: .38; }
 }
 .recruit-banner__body {
   display: flex;
