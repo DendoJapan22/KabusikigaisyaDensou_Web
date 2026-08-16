@@ -180,6 +180,12 @@ GitHub Pages はCSSを10分キャッシュするため、CSS変更時は必ず�
   見出しを独立行にするには `display: block` で打ち消しが必要
 - 原本 `taiouerea.png` と `ChatGPT Image 2026年8月16日 13_37_30.png`（街並みの元）は
   リポジトリに残置（未参照）
+- **/area/ ページも同じ言語で再構築**：ヒーローは `.area2 .area2--page`（h1＋パンくず＋
+  チェック3項目＋地図）、続いて「都県ごとの対応」の6カード（神奈川に拠点タグ・黄枠）。
+  旧・矩形SVGの概略図と card-grid は撤去。
+  **罠**：`.area2--page .area2__inner` は詳細度が (0,2,0) で 899px メディアクエリの
+  `.area2__inner` (0,1,0) に勝ってしまう。モバイル1カラム化はメディアクエリ内でも
+  `--page` 付きで明示する
 
 ### 4-6. endzone（CTA＋フッター）
 
@@ -350,7 +356,6 @@ Playwright（chromium は `/opt/pw-browsers/chromium`。`playwright install` は
 ### 未着手の提案
 
 - 実写13枚のトーン統一
-- 対応エリアのSVG地図
 - 施工事例の個別記事
 - **Googleビジネスプロフィール登録**（サイト速度よりSEO効果が高いと伝えてある）
 - フォントのセルフホスト

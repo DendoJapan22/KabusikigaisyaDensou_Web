@@ -2852,3 +2852,63 @@ body.page-recruit .split-card { background: var(--paper); }
   }
   .area2::after { height: 48%; opacity: .13; }
 }
+
+/* ---- /area/ ページ：対応エリア詳細 ---- */
+.area2--page .area2__inner {
+  grid-template-columns: 0.66fr 1fr;
+  padding-block: var(--s-4) var(--s-6);
+}
+.area2--page .area2__title { font-size: clamp(34px, 3.8vw, 46px); }
+.area2--page .breadcrumb { margin: 0 0 var(--s-4); }
+.breadcrumb--onlight,
+.breadcrumb--onlight a { color: rgba(8,25,43,.55); }
+.breadcrumb--onlight a:hover { color: var(--yellow-deep); }
+
+/* 都県ごとの対応 */
+.prefs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-3);
+  margin-top: var(--s-4);
+}
+.pref {
+  position: relative;
+  background: #fff;
+  border: 1px solid rgba(8,25,43,.12);
+  padding: var(--s-3);
+}
+.pref--base { border: 1.4px solid var(--yellow-deep); }
+.pref__head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.pref__name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 21px;
+  letter-spacing: .06em;
+  color: var(--navy-900);
+}
+.pref__en {
+  font-family: var(--font-util);
+  font-size: 10px;
+  letter-spacing: .22em;
+  color: var(--yellow-deep);
+}
+.pref__head .svc-tag { translate: 0 -2px; }
+.pref__text {
+  font-size: 12.5px;
+  line-height: 1.9;
+  color: rgba(8,25,43,.72);
+}
+@media (max-width: 899px) {
+  /* --page 修飾子はメディアクエリより詳細度が高いので、ここでも明示する */
+  .area2--page .area2__inner { grid-template-columns: 1fr; }
+  .prefs { grid-template-columns: repeat(2, 1fr); gap: var(--s-2); }
+}
+@media (max-width: 559px) {
+  .prefs { grid-template-columns: 1fr; }
+}

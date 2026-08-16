@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Noto+Serif+JP:wght@400;500&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/style.css?v=10">
+<link rel="stylesheet" href="../assets/css/style.css?v=20">
 </head>
 <body>
 
@@ -53,75 +53,86 @@
 
 <main>
 
-<div class="page-head" data-animate>
-  <div class="wrap">
-    <span class="page-head__label">Area</span>
-    <h1 class="page-head__title" data-echo>対応エリア</h1>
-    <ol class="breadcrumb">
-      <li><a href="../">HOME</a></li>
-      <li aria-current="page">対応エリア</li>
-    </ol>
-  </div>
-  <div class="page-head__media" aria-hidden="true">
-    <picture>
-      <source srcset="../assets/img/hero.webp" type="image/webp">
-      <img src="../assets/img/hero.jpg" alt="" width="1600" height="900" loading="lazy">
-    </picture>
+<!-- ヒーロー：支給デザイン（taiouerea.png）準拠。抽出した地図＋下部に薄い街並み -->
+<div class="area2 area2--page" data-animate>
+  <div class="wrap area2__inner">
+    <div class="area2__copy">
+      <ol class="breadcrumb breadcrumb--onlight">
+        <li><a href="../">HOME</a></li>
+        <li aria-current="page">対応エリア</li>
+      </ol>
+      <span class="section__label area2__label">Service Area</span>
+      <h1 class="area2__title" data-echo>対応エリア</h1>
+      <p class="area2__lead">神奈川県平塚市を拠点に、<br>東京都・山梨県・千葉県・静岡県の<br>1都4県に対応しています。</p>
+      <ul class="area2__checks">
+        <li>神奈川県平塚市を拠点に、迅速に対応</li>
+        <li>見積りも施工も、代表が直接</li>
+        <li>エリア外のご相談も可能</li>
+      </ul>
+    </div>
+    <figure class="area2__map">
+      <picture>
+        <source srcset="../assets/img/area-map.webp" type="image/webp">
+        <img src="../assets/img/area-map.jpg" alt="対応エリアの地図。拠点の神奈川県平塚市を中心に、東京・山梨・千葉・静岡へ広がる" width="1256" height="1024" fetchpriority="high">
+      </picture>
+    </figure>
   </div>
 </div>
 
+<!-- 都県ごとの対応 -->
 <section class="section" data-animate>
   <div class="wrap">
-    <p class="section__lead">神奈川県平塚市を拠点に、東京都・山梨県・千葉県・静岡県の1都4県に対応しています。</p>
-
-    <div class="area-map" role="img" aria-label="対応エリアの概略図。神奈川県を中心に、東京都・千葉県・山梨県・静岡県が隣接している。">
-      <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
-        <g font-family="'Zen Kaku Gothic New', sans-serif" font-size="20" text-anchor="middle">
-          <rect x="130" y="120" width="180" height="120" rx="6" fill="#123A5E"/>
-          <text x="220" y="175" fill="#fff">山梨県</text>
-          <rect x="330" y="80" width="200" height="110" rx="6" fill="#123A5E"/>
-          <text x="430" y="130" fill="#fff">東京都</text>
-          <rect x="550" y="110" width="200" height="180" rx="6" fill="#123A5E"/>
-          <text x="650" y="195" fill="#fff">千葉県</text>
-          <rect x="330" y="210" width="200" height="120" rx="6" fill="#08192B" stroke="#B87333" stroke-width="2"/>
-          <text x="430" y="260" fill="#fff">神奈川県</text>
-          <text x="430" y="290" fill="#B87333" font-size="12">拠点</text>
-          <rect x="110" y="260" width="200" height="110" rx="6" fill="#123A5E"/>
-          <text x="210" y="320" fill="#fff">静岡県</text>
-        </g>
-      </svg>
+    <div class="svc2-head">
+      <span class="section__label">Area</span>
+      <div class="svc2-head__row">
+        <h2 class="svc2-title">都県ごとの対応</h2>
+        <span class="svc2-head__rule" aria-hidden="true"></span>
+        <p class="svc2-head__sub">日帰りで行ける範囲は、だいたい行きます。</p>
+      </div>
     </div>
-
-    <div class="card-grid" style="margin-top: var(--s-5);">
-      <div class="card">
-        <span class="card__rule" aria-hidden="true"></span>
-        <h2 class="card__title" data-echo>神奈川県</h2>
-        <p class="card__text">拠点エリア。県内全域に対応します。</p>
+    <div class="prefs" data-stagger>
+      <div class="pref pref--base">
+        <div class="pref__head">
+          <h3 class="pref__name">神奈川県</h3>
+          <span class="pref__en">KANAGAWA</span>
+          <span class="svc-tag">拠点</span>
+        </div>
+        <p class="pref__text">拠点は平塚市片岡879-5。県内全域に、最も早く動けます。</p>
       </div>
-      <div class="card">
-        <span class="card__rule" aria-hidden="true"></span>
-        <h2 class="card__title" data-echo>東京都</h2>
-        <p class="card__text">全域に対応します。島しょ部はご相談ください。</p>
+      <div class="pref">
+        <div class="pref__head">
+          <h3 class="pref__name">東京都</h3>
+          <span class="pref__en">TOKYO</span>
+        </div>
+        <p class="pref__text">全域に対応します。島しょ部はご相談ください。</p>
       </div>
-      <div class="card">
-        <span class="card__rule" aria-hidden="true"></span>
-        <h2 class="card__title" data-echo>千葉県</h2>
-        <p class="card__text">全域に対応します。</p>
+      <div class="pref">
+        <div class="pref__head">
+          <h3 class="pref__name">千葉県</h3>
+          <span class="pref__en">CHIBA</span>
+        </div>
+        <p class="pref__text">全域に対応します。</p>
       </div>
-      <div class="card">
-        <span class="card__rule" aria-hidden="true"></span>
-        <h2 class="card__title" data-echo>山梨県</h2>
-        <p class="card__text">全域に対応します。</p>
+      <div class="pref">
+        <div class="pref__head">
+          <h3 class="pref__name">山梨県</h3>
+          <span class="pref__en">YAMANASHI</span>
+        </div>
+        <p class="pref__text">全域に対応します。</p>
       </div>
-      <div class="card">
-        <span class="card__rule" aria-hidden="true"></span>
-        <h2 class="card__title" data-echo>静岡県</h2>
-        <p class="card__text">全域に対応します。</p>
+      <div class="pref">
+        <div class="pref__head">
+          <h3 class="pref__name">静岡県</h3>
+          <span class="pref__en">SHIZUOKA</span>
+        </div>
+        <p class="pref__text">全域に対応します。</p>
       </div>
-      <div class="card">
-        <span class="card__rule" aria-hidden="true"></span>
-        <h2 class="card__title" data-echo>エリア外のご相談</h2>
-        <p class="card__text">上記以外の地域も、工事内容によっては対応できる場合があります。まずはお問い合わせください。</p>
+      <div class="pref pref--out">
+        <div class="pref__head">
+          <h3 class="pref__name">エリア外のご相談</h3>
+          <span class="pref__en">AND MORE</span>
+        </div>
+        <p class="pref__text">上記以外の地域も、工事内容によっては対応できる場合があります。まずは<a class="text-link" href="../contact/">お問い合わせ</a>ください。</p>
       </div>
     </div>
   </div>

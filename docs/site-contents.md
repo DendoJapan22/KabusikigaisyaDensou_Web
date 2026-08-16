@@ -215,4 +215,4 @@
 
 ### 不足しているもの（要制作）
 - 代表者ポートレート（**実写必須**。現在 `placeholder-portrait.svg`）
-- `/service/` `/service/work/` `/price/` `/area/` `/contact/` `/company/` `/recruit/` の画像（**AI生成可**）
+- `/service/work/` `/price/` `/contact/` `/company/` `/recruit/` の画像（**AI生成可**）
