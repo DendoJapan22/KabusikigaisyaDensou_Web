@@ -218,6 +218,11 @@ GitHub Pages はCSSを10分キャッシュするため、CSS変更時は必ず�
   **罠**：`.article ul li::before`（ダッシュ罫、0-1-4）が `.dayline li::before`（0-1-1）に
   勝つ。`.article .dayline li::before`（0-2-2）で上書きする
 - **お問い合わせ**：種別カードに斜めの黄アクセント、FAQのQを紺丸バッジに
+- **見出しの残像（エコー）演出を全廃**（ユーザー評「チープ」）。
+  `.echo-echo { display:none }` とし、`.echo-solid` を
+  opacity＋translate(.3em)＋blur(7px)→0 の「にじみから結像」に変更。
+  灯りが点くイメージ。各所の echo-echo 色指定は死にコードとして残置。
+  main.js は残像スパンを生成し続けるが非表示（JS未変更・低リスク優先）
 - 次周候補：/service/work/ の8ステップも dayline 化、採用ページの2カラム化
 - **ヘッダー画像差し替え済み（ユーザー生成のChatGPT画像）**：
   会社概要 → `company-head.jpg/.webp`（夕暮れの住宅街と灯りのついたマンション。回路図から差し替え）
