@@ -1814,6 +1814,9 @@ body.page-recruit .split-card { background: var(--paper); }
     align-items: stretch;
     gap: var(--s-3);
   }
+  /* デスクトップの横並びflex（.header-main > .global-nav）を打ち消す。
+     これを忘れると ul が中身の幅に潰れ、項目と罫線が細切れになる */
+  .header-main > .global-nav { display: block; }
   .global-nav ul { flex-direction: column; align-items: stretch; gap: 0; }
   .global-nav a {
     color: var(--ink);

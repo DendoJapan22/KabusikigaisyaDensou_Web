@@ -338,6 +338,7 @@ Playwright（chromium は `/opt/pw-browsers/chromium`。`playwright install` は
 
 | 症状 | 原因 |
 |---|---|
+| ハンバーガーを開くと項目が細切れ（幅81px） | モバイルCSSは `.global-nav ul` だけ縦並びにしていたが、親 `.header-main > .global-nav` がデスクトップの `display:flex`（横並び）のままで、ulが中身の幅に潰れていた。メディアクエリ内で `display:block` に上書きして解決 |
 | index.html に孤児マークアップが残った | 非貪欲な正規表現 `<div ...>.*?</div>` が最初の内側 `</div>` で止まった |
 | `.page-head > .wrap` が284pxに潰れた | grid item に `margin-inline: auto` → shrink-to-fit。`width: 100%` で解決 |
 | page-head の写真が帯を破壊 | 高さ auto の親の中で `<img height:100%>` が自然高にフォールバック |
