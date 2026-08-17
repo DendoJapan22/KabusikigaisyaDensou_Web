@@ -218,8 +218,11 @@ GitHub Pages はCSSを10分キャッシュするため、CSS変更時は必ず�
   **罠**：`.article ul li::before`（ダッシュ罫、0-1-4）が `.dayline li::before`（0-1-1）に
   勝つ。`.article .dayline li::before`（0-2-2）で上書きする
 - **お問い合わせ**：種別カードに斜めの黄アクセント、FAQのQを紺丸バッジに
-- 次周候補：/service/work/ の8ステップも dayline 化、採用ページの2カラム化、
-  ページヘッダー画像の生成差し替え
+- 次周候補：/service/work/ の8ステップも dayline 化、採用ページの2カラム化
+- **ヘッダー画像差し替え済み（ユーザー生成のChatGPT画像）**：
+  会社概要 → `company-head.jpg/.webp`（夕暮れの住宅街と灯りのついたマンション。回路図から差し替え）
+  採用 → `recruit-head.jpg/.webp`（紺の工具箱とケーブル。ブランド色と一致）
+  原本2枚（日付名PNG）はリポジトリに残置（未参照）
 
 ### 4-7. endzone（CTA＋フッター）
 
