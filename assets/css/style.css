@@ -3245,3 +3245,29 @@ body.page-recruit .split-card { background: var(--paper); }
   letter-spacing: 0;
 }
 .faq dd { padding-left: 42px; }
+
+/* =========================================================
+   背景の電球輪郭（ナイトゾーン後半）
+   スクロールで口金から左右2本の光が輪郭をなぞり、底で合流する。
+   要素は main.js が生成。紺の面の上・コンテンツの下に敷く
+   ========================================================= */
+.nightzone { isolation: isolate; }
+.bulbline-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+.bulbline { position: absolute; }
+.bulbline path { fill: none; }
+.bulbline__ghost { stroke: rgba(255,255,255,.05); stroke-width: 2; }
+.bulbline__glow  { stroke: rgba(255,214,102,.13); stroke-width: 9; }
+.bulbline__lit   { stroke: rgba(255,214,102,.45); stroke-width: 2; }
+.bulbline__head {
+  stroke: #FFE28A;
+  stroke-width: 3;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 5px rgba(255,214,102,.9));
+  opacity: 0;
+}

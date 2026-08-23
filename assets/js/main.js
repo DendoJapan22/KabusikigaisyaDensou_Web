@@ -261,6 +261,107 @@
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
 
+  /* ---------- 背景の電球輪郭（ナイトゾーン後半） ----------
+     denkyuu1.png から抽出した輪郭。スクロールに合わせて、
+     吊りコード→口金→ガラスの左右→底で合流、の順に光がなぞる。
+     電球そのものを見せる演出ではなく、背景でうっすら動くだけにする */
+  var bulbHost = document.querySelector(".nightzone");
+  var bulbAnchor = document.querySelector(".insight");
+  if (bulbHost && bulbAnchor) {
+  var BULB_W = 1024, BULB_H = 1443;
+  var BULB_LEFT = "M483 0L483 6L483 12L483 18L483 24L483 30L483 36L483 42L483 48L479 53L473 56L467 59L463 64L462 70L463 76L462 82L462 88L462 94L462 100L462 106L462 112L460 118L455 122L449 124L443 127L437 131L432 137L426 140L420 142L414 144L408 146L402 149L396 153L390 156L384 161L378 167L374 173L371 179L369 185L367 191L366 197L366 203L366 209L366 215L366 221L366 227L366 233L365 239L365 245L365 251L363 257L362 263L362 269L362 275L362 281L361 287L361 293L361 299L361 305L362 311L364 317L365 323L365 329L365 335L365 341L365 347L364 353L364 359L364 365L364 371L364 377L364 383L364 389L364 395L364 401L364 407L364 413L364 419L364 425L364 431L364 437L363 443L364 449L363 455L366 461L371 466L375 472L374 478L370 484L366 490L362 496L359 502L356 508L354 514L352 520L351 526L350 532L349 538L349 544L348 550L348 556L347 562L346 568L346 574L345 580L344 586L343 592L342 598L341 604L339 610L337 616L336 622L333 628L331 634L328 640L325 646L322 652L319 658L315 664L311 670L307 676L302 682L297 688L292 694L287 700L281 706L275 712L270 718L264 723L258 729L253 735L247 740L241 746L236 752L230 758L225 764L219 770L214 776L209 782L204 788L199 794L195 800L190 806L186 812L182 818L178 824L174 830L171 836L167 842L164 848L160 854L158 860L155 866L152 872L149 878L146 884L144 890L142 896L140 902L138 908L136 914L134 920L132 926L131 932L129 938L128 944L127 950L126 956L124 962L124 968L123 974L122 980L121 986L121 992L120 998L120 1004L120 1010L119 1016L119 1022L119 1028L119 1034L119 1040L120 1046L120 1052L120 1058L121 1064L122 1070L122 1076L123 1082L124 1088L125 1094L126 1100L127 1106L129 1112L130 1118L132 1124L133 1130L135 1136L137 1142L139 1148L141 1154L143 1160L145 1166L148 1172L150 1178L153 1184L156 1190L159 1196L162 1202L165 1208L169 1214L172 1220L176 1226L180 1232L184 1238L189 1244L193 1250L198 1256L203 1262L208 1268L213 1274L219 1280L224 1286L230 1292L236 1297L242 1302L248 1307L254 1312L260 1317L266 1322L272 1326L278 1331L284 1335L290 1339L296 1343L302 1346L308 1350L314 1353L320 1357L326 1360L332 1363L338 1366L344 1368L350 1371L356 1374L362 1376L368 1378L374 1381L380 1383L386 1385L392 1387L398 1389L404 1391L410 1392L416 1394L422 1395L428 1397L434 1398L440 1399L446 1400L452 1402L458 1404L464 1407L470 1412L476 1418L481 1424L485 1430L491 1435L497 1440L503 1442L505 1443";
+  var BULB_RIGHT = "M483 0L489 0L495 0L501 0L507 0L513 0L519 0L525 0L531 0L537 0L540 3L540 9L540 15L540 21L540 27L540 33L540 39L540 45L542 51L548 54L554 57L559 61L561 67L561 73L561 79L561 85L562 91L562 97L562 103L562 109L563 115L567 120L573 122L579 125L585 128L590 133L595 138L601 141L607 143L613 145L619 147L625 150L631 154L637 158L643 163L648 169L652 175L655 181L657 187L659 193L659 199L659 205L660 211L660 217L660 223L660 229L660 235L660 241L660 247L661 253L663 259L663 265L663 271L663 277L663 283L663 289L663 295L663 301L663 307L662 313L660 319L660 325L660 331L660 337L660 343L660 349L660 355L660 361L661 367L661 373L661 379L661 385L661 391L661 397L661 403L661 409L661 415L661 421L661 427L661 433L661 439L661 445L661 451L660 457L656 463L650 468L649 474L651 480L656 486L660 492L664 498L667 504L669 510L672 516L673 522L674 528L675 534L675 540L676 546L676 552L677 558L677 564L678 570L679 576L680 582L681 588L682 594L683 600L684 606L686 612L688 618L690 624L692 630L695 636L698 642L701 648L704 654L707 660L711 666L715 672L719 678L724 684L729 690L734 696L739 702L745 708L750 714L756 720L762 726L768 732L774 738L780 744L785 750L791 756L797 762L802 768L807 774L812 780L817 786L821 792L826 798L831 804L835 810L839 816L843 822L847 828L850 834L854 840L857 846L860 852L863 858L866 864L869 870L871 876L874 882L876 888L878 894L881 900L882 906L884 912L886 918L888 924L890 930L891 936L893 942L894 948L895 954L896 960L897 966L898 972L899 978L900 984L900 990L901 996L901 1002L902 1008L902 1014L902 1020L902 1026L902 1032L902 1038L902 1044L901 1050L901 1056L900 1062L899 1068L899 1074L898 1080L897 1086L896 1092L895 1098L893 1104L892 1110L890 1116L889 1122L887 1128L885 1134L883 1140L881 1146L879 1152L877 1158L874 1164L872 1170L869 1176L866 1182L863 1188L861 1194L857 1200L854 1206L850 1212L847 1218L843 1224L839 1230L835 1236L831 1242L826 1248L821 1254L817 1260L812 1266L807 1272L801 1278L796 1284L790 1289L784 1295L778 1301L772 1306L766 1311L760 1316L754 1321L748 1326L742 1330L736 1334L730 1338L724 1342L718 1346L712 1349L706 1353L700 1356L694 1359L688 1362L682 1365L676 1368L670 1371L664 1373L658 1376L652 1378L646 1380L640 1383L634 1385L628 1387L622 1389L616 1391L610 1392L604 1394L598 1395L592 1397L586 1398L580 1399L574 1401L568 1402L562 1404L556 1408L550 1413L545 1419L540 1425L535 1431L529 1437L523 1440L517 1442L511 1443L505 1443";
+    var BNS = "http://www.w3.org/2000/svg";
+    var bsvg = document.createElementNS(BNS, "svg");
+    bsvg.setAttribute("class", "bulbline");
+    bsvg.setAttribute("viewBox", "0 0 " + BULB_W + " " + BULB_H);
+    bsvg.setAttribute("preserveAspectRatio", "none");
+    bsvg.setAttribute("aria-hidden", "true");
+    var bmk = function (cls, d) {
+      var p = document.createElementNS(BNS, "path");
+      p.setAttribute("class", cls);
+      p.setAttribute("d", d);
+      p.setAttribute("vector-effect", "non-scaling-stroke");
+      bsvg.appendChild(p);
+      return p;
+    };
+    var bGhostL = bmk("bulbline__ghost", BULB_LEFT);
+    var bGhostR = bmk("bulbline__ghost", BULB_RIGHT);
+    var bGlowL = bmk("bulbline__glow", BULB_LEFT);
+    var bGlowR = bmk("bulbline__glow", BULB_RIGHT);
+    var bLitL = bmk("bulbline__lit", BULB_LEFT);
+    var bLitR = bmk("bulbline__lit", BULB_RIGHT);
+    var bHeadL = bmk("bulbline__head", BULB_LEFT);
+    var bHeadR = bmk("bulbline__head", BULB_RIGHT);
+    var bwrap = document.createElement("div");
+    bwrap.className = "bulbline-wrap";
+    bwrap.setAttribute("aria-hidden", "true");
+    bwrap.appendChild(bsvg);
+    bulbHost.insertBefore(bwrap, bulbHost.firstChild);
+
+    var bLenL = 0, bLenR = 0;
+    var bulbLayout = function () {
+      var top = bulbAnchor.offsetTop;
+      var h = bulbHost.offsetHeight - top;
+      /* スマホ：画面より広く置いて弧だけ見せる（縦に引き伸ばす）。
+         PC：素の比率のまま範囲の高さに合わせる */
+      var w = window.innerWidth < 900
+        ? Math.round(window.innerWidth * 1.5)
+        : Math.round(h * BULB_W / BULB_H);
+      bsvg.style.top = top + "px";
+      bsvg.style.height = h + "px";
+      bsvg.style.width = w + "px";
+      bsvg.style.left = "50%";
+      bsvg.style.marginLeft = (-w / 2) + "px";
+      bLenL = bLitL.getTotalLength();
+      bLenR = bLitR.getTotalLength();
+      bLitL.style.strokeDasharray = bLenL + " " + bLenL;
+      bLitR.style.strokeDasharray = bLenR + " " + bLenR;
+      bGlowL.style.strokeDasharray = bLenL + " " + bLenL;
+      bGlowR.style.strokeDasharray = bLenR + " " + bLenR;
+    };
+
+    var bulbDraw = function () {
+      var rect = bsvg.getBoundingClientRect();
+      var p = (window.innerHeight * 0.72 - rect.top) / rect.height;
+      p = Math.max(0, Math.min(1, p));
+      var setSide = function (lit, glow, head, L) {
+        var pos = L * p;
+        lit.style.strokeDashoffset = L - pos;
+        glow.style.strokeDashoffset = L - pos;
+        var eff = Math.min(34, pos);
+        head.style.strokeDasharray = eff + " " + (L + 999);
+        head.style.strokeDashoffset = eff - pos;
+        head.style.opacity = (p > 0.005 && p < 0.995) ? 1 : 0;
+      };
+      setSide(bLitL, bGlowL, bHeadL, bLenL);
+      setSide(bLitR, bGlowR, bHeadR, bLenR);
+    };
+
+    if (reducedPl()) {
+      /* 動きを減らす設定では、薄い輪郭だけを静かに置く */
+      bulbLayout();
+      [bGlowL, bGlowR, bLitL, bLitR, bHeadL, bHeadR].forEach(function (p) {
+        p.style.display = "none";
+      });
+    } else {
+      bulbLayout();
+      bulbDraw();
+      var bTick = false;
+      window.addEventListener("scroll", function () {
+        if (bTick) return;
+        bTick = true;
+        requestAnimationFrame(function () { bTick = false; bulbDraw(); });
+      }, { passive: true });
+      var bResize = null;
+      window.addEventListener("resize", function () {
+        clearTimeout(bResize);
+        bResize = setTimeout(function () { bulbLayout(); bulbDraw(); }, 150);
+      });
+      window.addEventListener("load", function () { bulbLayout(); bulbDraw(); });
+    }
+  }
+
   /* ---------- 証拠バー：数字のカウントアップ ---------- */
   var nums = document.querySelectorAll(".trust__value strong");
   if (nums.length && !reduced && "IntersectionObserver" in window) {
