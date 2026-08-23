@@ -334,6 +334,9 @@
       };
       setSide(bLitL, bGlowL, bHeadL, bLenL);
       setSide(bLitR, bGlowR, bHeadR, bLenR);
+      /* なぞり終えたら点灯。少し戻ったら消す（境目でチラつかないよう幅を持たせる） */
+      if (p >= 0.995) bulbFig.classList.add("is-on");
+      else if (p < 0.9) bulbFig.classList.remove("is-on");
     };
 
     if (reducedPl()) {
@@ -342,6 +345,7 @@
       bLitR.style.strokeDashoffset = 0;
       bGlowL.style.strokeDashoffset = 0;
       bGlowR.style.strokeDashoffset = 0;
+      bulbFig.classList.add("is-on");
     } else {
       bulbDraw();
       var bTick = false;

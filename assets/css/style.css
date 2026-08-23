@@ -922,7 +922,13 @@ a.card { display: block; color: inherit; }
 
 /* 背景の電球：denkyuu1 を暗めに沈めて左下に敷き、文字がその上に載る。
    輪郭をなぞる光（SVG）は main.js が挿入する */
-.insight__inner { position: relative; z-index: 1; }
+.insight__inner {
+  position: relative;
+  z-index: 1;
+  /* 背景の電球（点灯時の明部）に文字がかかっても読めるよう、
+     紺地では見えない程度の影を全テキストに敷く */
+  text-shadow: 0 1px 2px rgba(8,25,43,.6), 0 0 10px rgba(8,25,43,.45);
+}
 .bulbfig {
   position: absolute;
   z-index: 0;
@@ -937,6 +943,44 @@ a.card { display: block; color: inherit; }
   height: auto;
   opacity: .32;                      /* 背景に馴染ませる：暗めに沈める */
   filter: brightness(.6) saturate(.9);  /* フィラメントの白飛びを抑え、上の文字を守る */
+  transition: opacity .5s var(--ease), filter .5s var(--ease);
+}
+/* なぞり終えたら点灯：2度瞬いてから安定して灯る */
+.bulbfig.is-on .bulbfig__img {
+  opacity: .42;
+  filter: brightness(.78) saturate(1);
+  animation: bulbIgnite .85s linear 1;
+}
+/* 点灯時に電球のまわりへにじむ光暈 */
+.bulbfig::after {
+  content: "";
+  position: absolute;
+  inset: -14%;
+  background: radial-gradient(closest-side at 50% 45%,
+    rgba(255,214,102,.26) 0%, rgba(255,214,102,.08) 55%, transparent 78%);
+  opacity: 0;
+  transition: opacity .6s var(--ease);
+  pointer-events: none;
+}
+.bulbfig.is-on::after {
+  opacity: 1;
+  animation: bulbBreath 4.5s ease-in-out 1.2s infinite;
+}
+@keyframes bulbIgnite {
+  0%, 14%   { opacity: .32; filter: brightness(.6) saturate(.9); }
+  15%, 24%  { opacity: .42; filter: brightness(.78) saturate(1); }
+  25%, 38%  { opacity: .33; filter: brightness(.62) saturate(.9); }
+  39%, 55%  { opacity: .42; filter: brightness(.78) saturate(1); }
+  56%, 64%  { opacity: .37; filter: brightness(.7) saturate(.95); }
+  65%, 100% { opacity: .42; filter: brightness(.78) saturate(1); }
+}
+@keyframes bulbBreath {
+  0%, 100% { opacity: .8; }
+  50%      { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bulbfig.is-on .bulbfig__img { animation: none; }
+  .bulbfig.is-on::after { animation: none; }
 }
 .bulbfig__line {
   position: absolute;

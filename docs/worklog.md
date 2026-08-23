@@ -252,6 +252,12 @@ GitHub Pages はCSSを10分キャッシュするため、CSS変更時は必ず�
   Safari では「なぞられず、ある点で突然全部つく」壊れ方になる。
   → vector-effect をやめ、線の太さを表示倍率から逆算してSVG座標で指定
   （`strokeWidth = px * (BULB_W / 表示幅)`、リサイズで再計算）
+- **点灯（is-on）**：p≥0.995 で付与、p<0.9 で解除（ヒステリシス）。
+  イグニッション（0.85sで2度瞬く keyframes）→ 安定点灯（opacity .42 / brightness .78）
+  ＋ 光暈 `::after`（radial-gradient）が4.5sで呼吸。
+  文字保護：`.insight__inner` に紺地では見えない text-shadow を敷く
+  （点灯時の最明部はガラス縁のハイライト＋光の帯の重なりで、画像側の減光では下がらない）。
+  reduced-motion はアニメ無しで点灯状態を静的表示
 
 - **電球型の穴（bulb-hole）は廃止・削除**（ユーザー指示）。`lightband__glow` も撤去
 - `denkyuu1.png`（吊り下げペンダント球・透過RGBA）→ 表示用 `denkyuu1-view.png/.webp`（733×1100）
