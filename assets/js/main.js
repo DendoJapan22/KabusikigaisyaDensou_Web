@@ -275,11 +275,14 @@
     bsvg.setAttribute("class", "bulbfig__line");
     bsvg.setAttribute("viewBox", "0 0 " + BULB_W + " " + BULB_H);
     bsvg.setAttribute("aria-hidden", "true");
+    /* vector-effect: non-scaling-stroke は使わない。
+       Safari は破線をスクリーン座標で解釈し、Chrome とズレて
+       「なぞられずに突然全部つく」壊れ方をするため。
+       線の太さは表示倍率から逆算して SVG 座標系で指定する */
     var bmk = function (cls, d) {
       var pth = document.createElementNS(BNS, "path");
       pth.setAttribute("class", cls);
       pth.setAttribute("d", d);
-      pth.setAttribute("vector-effect", "non-scaling-stroke");
       bsvg.appendChild(pth);
       return pth;
     };
@@ -297,6 +300,21 @@
     bLitR.style.strokeDasharray = bLenR + " " + bLenR;
     bGlowL.style.strokeDasharray = bLenL + " " + bLenL;
     bGlowR.style.strokeDasharray = bLenR + " " + bLenR;
+
+    var bulbStroke = function () {
+      var wpx = bulbFig.getBoundingClientRect().width;
+      if (!wpx) return;
+      var k = BULB_W / wpx;   /* 画面1pxぶんのSVG座標 */
+      bGlowL.style.strokeWidth = bGlowR.style.strokeWidth = 8 * k;
+      bLitL.style.strokeWidth = bLitR.style.strokeWidth = 1.7 * k;
+      bHeadL.style.strokeWidth = bHeadR.style.strokeWidth = 2.8 * k;
+    };
+    bulbStroke();
+    var bRs = null;
+    window.addEventListener("resize", function () {
+      clearTimeout(bRs);
+      bRs = setTimeout(bulbStroke, 150);
+    });
 
     var bulbDraw = function () {
       /* 電球そのものが画面に入ってから、上へ抜けるまでの間で進める。

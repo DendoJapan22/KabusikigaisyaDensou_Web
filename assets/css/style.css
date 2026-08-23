@@ -947,11 +947,10 @@ a.card { display: block; color: inherit; }
   pointer-events: none;
 }
 .bulbfig__line path { fill: none; }
-.bulbfig__glow { stroke: rgba(255,214,102,.15); stroke-width: 8; }
-.bulbfig__lit  { stroke: rgba(255,222,120,.7); stroke-width: 1.6; }
+.bulbfig__glow { stroke: rgba(255,214,102,.15); }  /* 太さはJSが倍率から算出 */
+.bulbfig__lit  { stroke: rgba(255,222,120,.7); }
 .bulbfig__head {
   stroke: #FFF3C4;
-  stroke-width: 2.6;
   stroke-linecap: round;
   filter: drop-shadow(0 0 6px rgba(255,214,102,.95));
   opacity: 0;
