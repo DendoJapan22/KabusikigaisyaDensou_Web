@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Noto+Serif+JP:wght@400;500&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=27">
+<link rel="stylesheet" href="assets/css/style.css?v=28">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -244,13 +244,14 @@
       </div>
 
       <div class="insight__visual">
-        <span class="lightband__glow" aria-hidden="true"></span>
-        <picture>
-          <source srcset="assets/img/bulb-hole.webp" type="image/webp">
-          <img class="insight__bulb" src="assets/img/bulb-hole.png"
-               alt="電球のかたちに切り抜かれた窓の向こうに、灯りのともった住宅街が見える"
-               width="532" height="918" loading="lazy">
-        </picture>
+        <div class="bulbfig" aria-hidden="true">
+          <picture>
+            <source srcset="assets/img/denkyuu1-view.webp" type="image/webp">
+            <img class="bulbfig__img" src="assets/img/denkyuu1-view.png"
+                 alt="" width="733" height="1100" loading="lazy">
+          </picture>
+          <!-- 輪郭をなぞる光は main.js がここへ SVG を挿入する -->
+        </div>
       </div>
 
       <div class="insight__body">
@@ -427,6 +428,6 @@
   <a class="mobile-bar__contact" href="contact/">お問い合わせ</a>
 </div>
 
-<script src="assets/js/main.js?v=7" defer></script>
+<script src="assets/js/main.js?v=8" defer></script>
 </body>
 </html>
