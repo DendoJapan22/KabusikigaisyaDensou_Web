@@ -299,8 +299,11 @@
     bGlowR.style.strokeDasharray = bLenR + " " + bLenR;
 
     var bulbDraw = function () {
-      var rect = bulbSec.getBoundingClientRect();
-      var p = (window.innerHeight * 0.85 - rect.top) / (rect.height + window.innerHeight * 0.1);
+      /* 電球そのものが画面に入ってから、上へ抜けるまでの間で進める。
+         セクション基準にすると、電球が見える前になぞり終わってしまう */
+      var rect = bulbFig.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var p = (vh - rect.top) / (vh * 0.72 + rect.height * 0.5);
       p = Math.max(0, Math.min(1, p));
       var setSide = function (lit, glow, head, L) {
         var pos = L * p;
