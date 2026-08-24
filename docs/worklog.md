@@ -516,6 +516,45 @@ Playwright（chromium は `/opt/pw-browsers/chromium`。`playwright install` は
 
 ---
 
+### 4-12. 実務トーンへの全面リデザイン P0-P4（2026-08-24・CSS v=38）
+
+ユーザー指示：「地域密着・即日対応の実務路線に統一。素人っぽさの原因を段階的に直す」。
+P0→P4 の順に実装（各段階でコミット分離）。
+
+- **トーン一本化**：--font-display を明朝→Zen Kaku Gothic New に（1行で全ページの
+  見出しがゴシック化）。Noto Serif JP の読み込み自体を全ページから削除。
+  詩的見出し「灯りがつくまでの、裏側。」はセクションごと廃止（P4）
+- **P0 FV**：縦書きキャッチ→横書き（clamp min(2.9vw, 6svh) で幅・高さ両追従）。
+  FVは「キャッチ＋補足1行＋CTA」のみ。実績バッジは hero 内 absolute から
+  直下の独立セクションへ（.trust--hero 廃止）。CTAは電話=Primary/問合せ=Secondary
+- **P1 CTA 3種**：.btn-primary（黄ベタ紺文字56px高radius8）/.btn-secondary（枠線、
+  --light は紺地用）/.text-link（下線＋::after「→」）。旧 .btn-solid/.btn-form 廃止、
+  全ページの btn-form → btn-primary へ置換
+- **P2 背景ルール**：紺=情緒（FV・選ばれる理由・最終CTA）/白=情報（事業内容・
+  対応エリア・法人個人）。**nightzone を解体**（夜景2枚敷き・弧・isolation ごと削除）。
+  powerline を白地対応（減光filter除去・文字紺・尾をアンバー・node core 白）。
+  fx-glass/moon/rings/wave/streams の抽象装飾を全て撤去（意味を持つ装飾だけ残す方針：
+  電球なぞり・電線・endzone夜景）。白連続の境界は .section--rule（罫線）
+- **P3 見出し統一**：.section__label を黄文字・.26em（チップ廃止、白地は yellow-deep、
+  紺地は yellow、aria-hidden）。全セクション「英字＋日本語」形式、見出し28px/700
+- **P4 7ブロック再編**：FV/実績/事業内容/選ばれる理由/対応エリア/法人個人/最終CTA。
+  works-pick・採用バナー・会社概要サマリ・insight右カラムを削除、
+  法人個人の末尾に .sub-links（工事内容の詳細/工事の流れ/会社概要/採用情報）で集約。
+  powerline を圧縮（gap92→48・item58%→48%）。ページ全長 8380px→5945px（-29%）
+
+**罠**：
+- .insight__heading の文字色は基底ルールが後方にあり同詳細度で負ける
+  → `.insight .insight__heading` で勝たせる（紺地に紺文字で見えなくなっていた）
+- モバイルの .insight に旧・明→紺グラデの media 上書きが残り、白地に白文字が発生
+  → 紺一色に統一
+- 削除した3セクションと共に、bulb-edison（採用バナー）と tube-lamp（会社概要）の
+  使用箇所が消えた。denkyuu1（なぞり電球）と night-grid（endzone）は現役
+
+検証：hscroll 390/910/1024/1140/1440 全て0、JSエラー無し、
+powerline 5項目の点灯・電球なぞり動作維持、FV3サイズで要素重なりなし。
+
+---
+
 ## 10. 残タスク
 
 ### 画像制作（AI生成可）

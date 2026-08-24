@@ -493,6 +493,16 @@ table { border-collapse: collapse; width: 100%; }
 .section--mist { background: var(--mist); }
 /* 同色セクションが連続するときの区切り罫 */
 .section--rule { border-top: 1px solid var(--rule); }
+/* 下層ページへの集約リンク（TOPは各テーマをリンク1本で受ける） */
+.sub-links {
+  max-width: var(--wrap);
+  margin: 48px auto 0;
+  padding: 24px var(--s-3) 0;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 40px;
+}
 .section__head {
   margin-bottom: var(--s-5);
   display: flex;
@@ -695,12 +705,12 @@ a.card { display: block; color: inherit; }
    ========================================================= */
 .powerline {
   position: relative;
-  margin-top: var(--s-5);
+  margin-top: var(--s-4);
   display: flex;
   flex-direction: column;
-  gap: 92px;
-  padding-top: 56px;
-  padding-bottom: 32px;
+  gap: 48px;
+  padding-top: 40px;
+  padding-bottom: 24px;
 }
 .powerline__wire {
   position: absolute;
@@ -794,7 +804,7 @@ a.card { display: block; color: inherit; }
 .powerline__item {
   position: relative;
   z-index: 1;
-  width: min(58%, 560px);
+  width: min(48%, 480px);
   color: var(--navy-900);
 }
 .powerline__item:nth-of-type(odd)  { align-self: flex-start; margin-left: 5%; }
@@ -884,7 +894,7 @@ a.card { display: block; color: inherit; }
   margin-inline: auto;
   padding-inline: var(--s-3);
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
+  grid-template-columns: 1fr;
   align-items: center;
   gap: var(--s-5);
 }
@@ -1053,9 +1063,7 @@ a.card { display: block; color: inherit; }
 @media (max-width: 899px) {
   .insight {
     padding-block: var(--s-6);
-    background: linear-gradient(178deg,
-      #E9EAEA 0%, #E9EAEA 34%, #9AA3AC 44%,
-      #22334B 54%, var(--navy-900) 64%, var(--navy-900) 100%);
+    background: var(--navy-900);  /* デスクトップと同じ紺一色 */
   }
   .insight__inner { grid-template-columns: 1fr; gap: var(--s-4); }
   .bulbfig { width: min(300px, 72vw); left: -10vw; bottom: 0; }
