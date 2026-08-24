@@ -499,23 +499,25 @@ table { border-collapse: collapse; width: 100%; }
   flex-direction: column;
   align-items: flex-start;
 }
+/* 英字小見出し（全セクション共通フォーマット）：黄文字・広レタースペース */
 .section__label {
-  display: inline-block;
+  display: block;
   font-family: var(--font-util);
   font-size: 13px;
-  letter-spacing: .2em;
-  color: var(--navy-900);
-  background: var(--yellow);
-  padding: 3px 12px 2px;
-  border-radius: 3px;
+  letter-spacing: .26em;
+  color: var(--yellow-deep);   /* 白地では濃い黄 */
   text-transform: uppercase;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   font-weight: 400;
 }
+/* 紺地では明るい黄 */
+.insight .section__label,
+.cta-block .section__label,
+.recruit-banner .section__label { color: var(--yellow); }
 .section__title {
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 32px;
+  font-weight: 700;
+  font-size: 28px;
   line-height: 1.5;
 }
 .section__lead { margin-top: var(--s-2); color: var(--ink-60); max-width: 720px; }
@@ -888,8 +890,8 @@ a.card { display: block; color: inherit; }
 }
 .insight__heading {
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 30px;
+  font-weight: 700;
+  font-size: 28px;
   letter-spacing: .08em;
   color: var(--navy-900);
   margin-bottom: var(--s-4);
@@ -1267,8 +1269,8 @@ a.card { display: block; color: inherit; }
 }
 .cta-block__title {
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 32px;
+  font-weight: 700;
+  font-size: 28px;
   line-height: 1.6;
 }
 .cta-block__note { margin-top: var(--s-1); font-size: 14px; color: rgba(255,255,255,.92); }
@@ -2895,8 +2897,8 @@ body.page-recruit .split-card { background: var(--paper); }
 .area2__title {
   display: block;   /* is-echo-host の inline-block を打ち消す */
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(30px, 3.2vw, 40px);
+  font-weight: 700;
+  font-size: 28px;
   letter-spacing: .14em;
   color: var(--navy-900);
   margin-block: 6px var(--s-3);
