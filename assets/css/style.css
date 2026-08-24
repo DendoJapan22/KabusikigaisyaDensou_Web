@@ -407,33 +407,47 @@ table { border-collapse: collapse; width: 100%; }
   /* 上は左上ロゴプレートの逃げ */
   padding: 120px 48px 64px;
 }
-.hero[data-hero="split"] .hero__body { position: relative; }
+.hero[data-hero="split"] .hero__body {
+  position: relative;
+  /* 縦書きコピー（右）＋ 補足とCTAの列（左・下寄せ） */
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: stretch;
+  gap: clamp(16px, 2.4vw, 40px);
+}
 
-/* --- キャッチ（横組み）＋補足＋CTA の3点だけ --- */
+/* --- キャッチ（縦組み）＋補足＋CTA --- */
 .hero__copy {
+  writing-mode: vertical-rl;   /* 右→左に列が進む */
+  text-orientation: mixed;
   font-family: var(--font-display);
-  font-weight: 700;
-  /* 画面の幅と高さの両方に追従して縮む。要素の重なりを構造的に防ぐ */
-  font-size: clamp(26px, min(2.9vw, 6svh), 40px);
-  letter-spacing: .04em;
-  line-height: 1.4;
+  font-weight: 400;
+  /* 幅と高さの両方に追従して縮む。要素の重なりを構造的に防ぐ */
+  font-size: clamp(24px, min(2.6vw, 5.2svh), 42px);
+  letter-spacing: .12em;
+  line-height: 2.0;            /* 縦組みでは列の間隔 */
   color: #fff;
 }
 .hero__copy .hero__line { display: block; }
 /* 「三十年」だけ黄。ここが一番言いたいところ */
 .hero__accent { color: var(--yellow); font-style: normal; }
+.hero__aside {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-width: 0;
+}
 .hero__sub {
-  margin-top: 16px;
-  font-size: 15px;
-  line-height: 1.8;
+  font-size: 14px;
+  line-height: 1.9;
   color: rgba(255,255,255,.82);
 }
 .hero__cta {
-  margin-top: 32px;
+  margin-top: 24px;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;      /* 縦書きの隣で細い列に収める */
+  align-items: stretch;
   gap: 16px;
-  align-items: center;
 }
 .hero__copy .hero__line {
   opacity: 0;
@@ -693,19 +707,31 @@ a.card { display: block; color: inherit; }
   position: relative;
   isolation: isolate;   /* ::before/::after(z:-1) を自背景の上・内容の下に収める */
   overflow: hidden;
-  /* 左中央に稲妻バッジの透かし。バッジ(乗算相当)の上に半透明の白を重ねて濃さを作る */
+  /* 中間帯のガラス2枚（アルファ50%焼き込み済みの -soft 版）＋
+     稲妻バッジの透かし（乗算の上に半透明の白ベールで濃さを作る）。
+     白ベールより上の層は減光されないので、順序は［硝子, 硝子, ベール, バッジ］ */
   background-color: var(--paper);
   background-image:
+    url("../img/fx-glass-soft-flip.png"),
+    url("../img/fx-glass-soft.png"),
     linear-gradient(rgba(255,255,255,.80), rgba(255,255,255,.80)),
     url("../img/inazumasinboru.png");
   background-image:
+    image-set(url("../img/fx-glass-soft-flip.webp") type("image/webp"),
+              url("../img/fx-glass-soft-flip.png") type("image/png")),
+    image-set(url("../img/fx-glass-soft.webp") type("image/webp"),
+              url("../img/fx-glass-soft.png") type("image/png")),
     linear-gradient(rgba(255,255,255,.80), rgba(255,255,255,.80)),
     image-set(url("../img/inazumasinboru.webp") type("image/webp"),
               url("../img/inazumasinboru.png") type("image/png"));
   background-repeat: no-repeat;
-  background-size: auto, min(380px, 28vw);
-  background-position: 0 0, left max(-70px, -5vw) top 46%;
-  background-blend-mode: normal, multiply;
+  background-size: min(460px, 34vw), min(420px, 32vw), auto, min(380px, 28vw);
+  background-position:
+    left max(-90px, -6vw) top 31%,
+    right max(-80px, -5vw) top 60%,
+    0 0,
+    left max(-70px, -5vw) top 46%;
+  background-blend-mode: normal, normal, normal, multiply;
 }
 /* 事業内容の右上：重なるガラスパネル（透過PNG）。白地では淡い青硝子に見える */
 .service-sec::before {
@@ -786,7 +812,14 @@ a.card { display: block; color: inherit; }
   text-shadow: 0 0 10px #fff, 0 0 18px #fff, 0 0 26px #fff;
 }
 @media (max-width: 899px) {
-  .service-sec { background-size: auto, 46vw; background-position: 0 0, left -10vw top 40%; }
+  .service-sec {
+    background-size: 58vw, 54vw, auto, 46vw;
+    background-position:
+      left -14vw top 30%,
+      right -12vw top 62%,
+      0 0,
+      left -10vw top 44%;
+  }
   .service-sec::before { width: 62vw; right: -8vw; opacity: .42; }
   .guide-sec::before { width: 74vw; right: -10vw; opacity: .24; }
   .guide-sec::after { width: 56vw; left: -12vw; opacity: .36; }
@@ -2135,10 +2168,11 @@ body.page-recruit .split-card { background: var(--paper); }
 @media (max-width: 639px) {
   /* 縦書きは維持する */
   .hero__copy {
-    font-size: clamp(1.75rem, 8.5vw, 2.5rem);
+    font-size: clamp(24px, 7vw, 32px);
     letter-spacing: .1em;
     line-height: 1.9;
   }
+  .hero[data-hero="split"] .hero__body { gap: 20px; }
   .hero[data-hero="photo"] .hero__body {
     left: auto;
     right: 8%;
