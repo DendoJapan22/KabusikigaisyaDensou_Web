@@ -619,8 +619,26 @@ a.card { display: block; color: inherit; }
    ========================================================= */
 .nightzone {
   position: relative;
-  /* ヒーロー左パネル・フッターと同じ最濃紺 */
-  background: var(--navy-900);
+  /* ヒーロー左パネル・フッターと同じ最濃紺。
+     その上に night-grid を上下2箇所（事業内容の頭・工事内容の裾）へ敷き、
+     紺のグラデで沈めて中央（選ばれる理由＝電球と管ランプの帯）は素の紺に戻す。
+     グラデ層は画像より先に書く＝上に重なる。サイズ・位置は層ごとに指定 */
+  background-color: var(--navy-900);
+  background-image:
+    linear-gradient(180deg, rgba(8,25,43,.60) 0%, rgba(8,25,43,.74) 55%, #08192B 100%),
+    url("../img/night-grid.jpg"),
+    linear-gradient(0deg, rgba(8,25,43,.55) 0%, rgba(8,25,43,.72) 52%, #08192B 100%),
+    url("../img/night-grid.jpg");
+  background-image:
+    linear-gradient(180deg, rgba(8,25,43,.60) 0%, rgba(8,25,43,.74) 55%, #08192B 100%),
+    image-set(url("../img/night-grid.webp") type("image/webp"),
+              url("../img/night-grid.jpg") type("image/jpeg")),
+    linear-gradient(0deg, rgba(8,25,43,.55) 0%, rgba(8,25,43,.72) 52%, #08192B 100%),
+    image-set(url("../img/night-grid.webp") type("image/webp"),
+              url("../img/night-grid.jpg") type("image/jpeg"));
+  background-size: 100% 56.3vw, 100% auto, 100% 62vw, 100% auto;
+  background-position: top center, top center, bottom center, bottom center;
+  background-repeat: no-repeat;
   color: #fff;
   /* 黄の証拠バーとの間に白の呼吸を挟む */
   margin-top: var(--s-7);
@@ -1064,7 +1082,17 @@ a.card { display: block; color: inherit; }
   grid-template-columns: 1fr minmax(0, 300px);
   align-items: center;
   gap: var(--s-5);
-  background: var(--navy-900);  /* 電球が透過になったのでサイトの最濃紺に統一 */
+  /* 最濃紺の上に night-grid をごく薄く敷いて、平板な紺に奥行きを足す */
+  background-color: var(--navy-900);
+  background-image:
+    linear-gradient(180deg, rgba(8,25,43,.84), rgba(8,25,43,.78)),
+    url("../img/night-grid.jpg");
+  background-image:
+    linear-gradient(180deg, rgba(8,25,43,.84), rgba(8,25,43,.78)),
+    image-set(url("../img/night-grid.webp") type("image/webp"),
+              url("../img/night-grid.jpg") type("image/jpeg"));
+  background-size: auto, cover;
+  background-position: center, center right;
   border-radius: 18px;
   padding: var(--s-6) var(--s-6) var(--s-6) var(--s-6);
   overflow: hidden;
@@ -1534,6 +1562,22 @@ a.card { display: block; color: inherit; }
   font-weight: 500;
 }
 .spec-table .u-num { font-size: 17px; }
+
+/* 会社概要サマリ：紺の帯にして、直後のCTA帯（夜景）へ夜を繋ぐ */
+.company-sum {
+  position: relative;
+  overflow: hidden;
+  background: var(--navy-900);
+  color: #fff;
+}
+.company-sum .wrap { position: relative; }  /* DOM順で管ランプより後＝文字が上 */
+.company-sum .section__title { color: #fff; }
+.company-sum .spec-table th,
+.company-sum .spec-table td { border-color: rgba(255,255,255,.16); }
+.company-sum .spec-table th { background: rgba(255,255,255,.06); color: #fff; }
+.company-sum .spec-table td { color: rgba(255,255,255,.85); }
+.company-sum .text-link { color: var(--yellow); border-bottom-color: rgba(247,206,46,.5); }
+.company-sum .text-link:hover { border-bottom-color: var(--yellow); }
 
 /* 施工の流れ（連番可の唯一の例外） */
 .flow { counter-reset: flow; margin-block: var(--s-3); }
