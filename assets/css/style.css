@@ -688,11 +688,24 @@ a.card { display: block; color: inherit; }
 .js .insight [data-animate].is-inview .echo-echo { opacity: .42; }
 
 /* 事業内容の見出しだけは、弧の頂点に合わせて中央へ */
-/* 白地セクションの背景に透過素材をうっすら敷く（ユーザー指定） */
+/* 白地セクションの背景に透過素材を敷く（ユーザー指定） */
 .service-sec {
   position: relative;
-  isolation: isolate;   /* ::before(z:-1) を自背景の上・内容の下に収める */
+  isolation: isolate;   /* ::before/::after(z:-1) を自背景の上・内容の下に収める */
   overflow: hidden;
+  /* 左中央に稲妻バッジの透かし。バッジ(乗算相当)の上に半透明の白を重ねて濃さを作る */
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(rgba(255,255,255,.80), rgba(255,255,255,.80)),
+    url("../img/inazumasinboru.png");
+  background-image:
+    linear-gradient(rgba(255,255,255,.80), rgba(255,255,255,.80)),
+    image-set(url("../img/inazumasinboru.webp") type("image/webp"),
+              url("../img/inazumasinboru.png") type("image/png"));
+  background-repeat: no-repeat;
+  background-size: auto, min(380px, 28vw);
+  background-position: 0 0, left max(-70px, -5vw) top 46%;
+  background-blend-mode: normal, multiply;
 }
 /* 事業内容の右上：重なるガラスパネル（透過PNG）。白地では淡い青硝子に見える */
 .service-sec::before {
@@ -708,10 +721,27 @@ a.card { display: block; color: inherit; }
                               url("../img/fx-glass.png") type("image/png"));
   background-size: contain;
   background-repeat: no-repeat;
-  opacity: .34;
+  opacity: .55;
   pointer-events: none;
 }
-/* 法人/個人の右下：職人の線画（白地PNG）を乗算でごく薄く */
+/* 事業内容の下端：街並みを薄く（対応エリアと同じ言語） */
+.service-sec::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0; right: 0; bottom: 0;
+  height: min(420px, 34vw);
+  background-image: url("../img/machinami.jpg");
+  background-image: image-set(url("../img/machinami.webp") type("image/webp"),
+                              url("../img/machinami.jpg") type("image/jpeg"));
+  background-size: cover;
+  background-position: center bottom;
+  opacity: .18;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 72%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 72%);
+  pointer-events: none;
+}
+/* 法人/個人：右下に職人の線画（乗算）、左上に反転したガラスパネル */
 .guide-sec {
   position: relative;
   isolation: isolate;
@@ -723,7 +753,7 @@ a.card { display: block; color: inherit; }
   z-index: -1;
   right: max(-48px, -3vw);
   bottom: -4%;
-  width: min(560px, 42vw);
+  width: min(600px, 44vw);
   aspect-ratio: 1589 / 989;
   background-image: url("../img/denkikouzisyaezzi.png");
   background-image: image-set(url("../img/denkikouzisyaezzi.webp") type("image/webp"),
@@ -731,12 +761,35 @@ a.card { display: block; color: inherit; }
   background-size: contain;
   background-repeat: no-repeat;
   mix-blend-mode: multiply;   /* 白地は消え、線だけ残る */
-  opacity: .16;
+  opacity: .30;
   pointer-events: none;
 }
+.guide-sec::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -60px;
+  left: max(-150px, -11vw);   /* 見出しの文字に被らないよう外へ逃がす */
+  width: min(400px, 30vw);
+  aspect-ratio: 1400 / 831;
+  background-image: url("../img/fx-glass.png");
+  background-image: image-set(url("../img/fx-glass.webp") type("image/webp"),
+                              url("../img/fx-glass.png") type("image/png"));
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: scaleX(-1);   /* 事業内容と向きを変えて単調さを避ける */
+  opacity: .45;
+  pointer-events: none;
+}
+/* ガラスの端が見出しに触れても読めるよう、白のハロを敷く（白地では不可視） */
+.guide-sec .section__head {
+  text-shadow: 0 0 10px #fff, 0 0 18px #fff, 0 0 26px #fff;
+}
 @media (max-width: 899px) {
-  .service-sec::before { width: 62vw; right: -8vw; opacity: .26; }
-  .guide-sec::before { width: 70vw; right: -10vw; opacity: .12; }
+  .service-sec { background-size: auto, 46vw; background-position: 0 0, left -10vw top 40%; }
+  .service-sec::before { width: 62vw; right: -8vw; opacity: .42; }
+  .guide-sec::before { width: 74vw; right: -10vw; opacity: .24; }
+  .guide-sec::after { width: 56vw; left: -12vw; opacity: .36; }
 }
 
 .service-sec .section__head {
