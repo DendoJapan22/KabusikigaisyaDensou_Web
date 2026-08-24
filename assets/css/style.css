@@ -26,8 +26,8 @@
   --ink-40: rgba(8,25,43,.40);
   --rule:   rgba(8,25,43,.12);  /* 表組みの罫 */
 
-  /* 書体 */
-  --font-display: "Noto Serif JP", "游明朝", serif;
+  /* 書体：実務トーンに統一。見出しも明朝ではなくゴシック */
+  --font-display: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
   --font-body:    "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
   --font-util:    "Anton", "Zen Kaku Gothic New", sans-serif;
 
@@ -340,7 +340,7 @@ table { border-collapse: collapse; width: 100%; }
    ========================================================= */
 .hero {
   position: relative;
-  min-height: 100svh;
+  min-height: min(100svh, 900px);
   overflow: hidden;
 }
 .hero__media { position: absolute; inset: 0; }
@@ -399,89 +399,91 @@ table { border-collapse: collapse; width: 100%; }
 .hero[data-hero="split"] .hero__panel {
   grid-column: 1;
   grid-row: 1;
-  /* 紺のパネルに光の流線をごく薄く。電気が流れるイメージをコピーの下に敷く */
-  background-color: var(--navy-900);
-  background-image:
-    linear-gradient(180deg, rgba(8,25,43,.52), rgba(8,25,43,.60)),
-    url("../img/fx-streams.jpg");
-  background-image:
-    linear-gradient(180deg, rgba(8,25,43,.52), rgba(8,25,43,.60)),
-    image-set(url("../img/fx-streams.webp") type("image/webp"),
-              url("../img/fx-streams.jpg") type("image/jpeg"));
-  background-size: auto, cover;
-  background-position: center;
+  background: var(--navy-900);
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  /* 上：左上ロゴプレートの逃げ（無いと縦書きコピーの頭「三」が隠れる）
-     下：証拠バーの逃げ */
-  padding-top: 150px;
-  padding-bottom: 110px;
-}
-/* 背の低い画面では余白と行送りを詰めてコピーを収める */
-@media (min-width: 900px) and (max-height: 1020px) {
-  .hero[data-hero="split"] .hero__panel { padding-top: 118px; padding-bottom: 64px; }
-  /* 基底の .hero__copy がこのブロックより後にあるため、詳細度で勝たせる */
-  .hero .hero__copy { line-height: 1.75; font-size: clamp(1.9rem, 3.4vw, 3.1rem); }
+  /* 上は左上ロゴプレートの逃げ */
+  padding: 120px 48px 64px;
 }
 .hero[data-hero="split"] .hero__body { position: relative; }
 
-/* --- 縦書きコピー --- */
+/* --- キャッチ（横組み）＋補足＋CTA の3点だけ --- */
 .hero__copy {
-  writing-mode: vertical-rl;   /* 右→左に列が進む */
-  text-orientation: mixed;
   font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(2.25rem, 4.4vw, 4rem);
-  letter-spacing: .14em;       /* 縦組みでは字送り＝縦方向 */
-  line-height: 2.05;           /* 縦組みでは行送り＝列の間隔 */
+  font-weight: 700;
+  /* 画面の幅と高さの両方に追従して縮む。要素の重なりを構造的に防ぐ */
+  font-size: clamp(26px, min(2.9vw, 6svh), 40px);
+  letter-spacing: .04em;
+  line-height: 1.4;
   color: #fff;
-  text-shadow: 0 1px 24px rgba(8,25,43,.35);
 }
 .hero__copy .hero__line { display: block; }
 /* 「三十年」だけ黄。ここが一番言いたいところ */
 .hero__accent { color: var(--yellow); font-style: normal; }
-/* 通電後にフェードイン：右列 → 左列 */
+.hero__sub {
+  margin-top: 16px;
+  font-size: 15px;
+  line-height: 1.8;
+  color: rgba(255,255,255,.82);
+}
+.hero__cta {
+  margin-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
 .hero__copy .hero__line {
   opacity: 0;
-  animation: heroFade 900ms var(--ease) forwards;
+  animation: heroFade 700ms var(--ease) forwards;
 }
-/* 導線に光が流れ切ってから現れる */
-.hero__copy .hero__line:nth-child(1) { animation-delay: 1600ms; }
-.hero__copy .hero__line:nth-child(2) { animation-delay: 2000ms; }
+.hero__copy .hero__line:nth-child(1) { animation-delay: 200ms; }
+.hero__copy .hero__line:nth-child(2) { animation-delay: 420ms; }
 @keyframes heroFade { to { opacity: 1; } }
 
-/* --- Signature：「導線」 --- */
-.hero__copywrap { position: relative; padding-right: 64px; }
-.hero__rule {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 1px;
-  height: calc(100% + 64px);
-  background: rgba(184,115,51,.55);
-  overflow: hidden;
-}
-.hero__rule::after {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  height: 88px;
-  background: linear-gradient(180deg, transparent, #E8A96A, transparent);
-  /* 9秒周期：最初の1.4秒だけ光が流れ、残りは休む */
-  animation: current 9s var(--ease) 200ms infinite both;
-}
-@keyframes current {
-  0%          { top: -88px; opacity: 1; }
-  15.5%       { top: 100%;  opacity: 1; }
-  15.6%, 100% { top: 100%;  opacity: 0; }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .hero__rule::after { display: none; }
   .hero__copy .hero__line { opacity: 1; animation: none; }
 }
+
+/* =========================================================
+   CTA共通コンポーネント（3種のみ）
+   Primary   = 黄ベタ＋濃紺文字。1画面に1つ。最終アクション用
+   Secondary = 枠線ボタン。ページ遷移用（--light は紺地用）
+   Text link = 下線＋矢印。補足リンク用（.text-link）
+   ========================================================= */
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 56px;
+  padding: 8px 32px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  transition: background .2s var(--ease), color .2s var(--ease), filter .2s var(--ease);
+}
+.btn-primary {
+  background: var(--yellow);
+  color: var(--navy-900);
+}
+.btn-primary:hover { filter: brightness(1.05); }
+.btn-primary .icon-tel { width: 20px; height: 20px; fill: currentColor; }
+.btn-secondary {
+  border: 1.5px solid rgba(8,25,43,.55);
+  color: var(--navy-900);
+  background: transparent;
+}
+.btn-secondary:hover { background: rgba(8,25,43,.06); }
+.btn-secondary--light {
+  border-color: rgba(255,255,255,.65);
+  color: #fff;
+}
+.btn-secondary--light:hover { background: rgba(255,255,255,.1); }
 
 /* =========================================================
    セクション共通（トップページ）
@@ -2094,7 +2096,7 @@ body.page-recruit .split-card { background: var(--paper); }
   .hero[data-hero="split"] .hero__panel {
     grid-column: 1;
     grid-row: 2;
-    padding-block: var(--s-6) 140px;
+    padding: 48px 24px 56px;
   }
 
   .cta-block__inner { flex-direction: column; align-items: flex-start; }
@@ -2119,7 +2121,6 @@ body.page-recruit .split-card { background: var(--paper); }
   /* 和文の項目だけは折り返しを許して画面外へ出さない */
   .trust__value--text { font-size: 16px; white-space: normal; line-height: 1.6; }
   .trust--hero { left: 0; border-radius: 0; }
-  .hero[data-hero="split"] .hero__panel { padding-bottom: 280px; }
   .card-grid--area { grid-template-columns: repeat(2, 1fr); }
   .message { flex-direction: column; }
   .type-cards { grid-template-columns: 1fr; }
