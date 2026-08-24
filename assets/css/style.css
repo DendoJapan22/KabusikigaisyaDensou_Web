@@ -705,50 +705,29 @@ a.card { display: block; color: inherit; }
 /* 白地セクションの背景に透過素材を敷く（ユーザー指定） */
 .service-sec {
   position: relative;
-  isolation: isolate;   /* ::before/::after(z:-1) を自背景の上・内容の下に収める */
+  isolation: isolate;   /* ::after(z:-1) を自背景の上・内容の下に収める */
   overflow: hidden;
-  /* 中間帯のガラス2枚（アルファ50%焼き込み済みの -soft 版）＋
-     稲妻バッジの透かし（乗算の上に半透明の白ベールで濃さを作る）。
-     白ベールより上の層は減光されないので、順序は［硝子, 硝子, ベール, バッジ］ */
+  /* 図面の方眼＋稲妻バッジの透かし（乗算の上に半透明の白ベールで濃さを作る） */
   background-color: var(--paper);
   background-image:
-    url("../img/fx-glass-soft-flip.png"),
-    url("../img/fx-glass-soft.png"),
+    repeating-linear-gradient(0deg,  rgba(19,52,89,.055) 0 1px, transparent 1px 72px),
+    repeating-linear-gradient(90deg, rgba(19,52,89,.055) 0 1px, transparent 1px 72px),
+    repeating-linear-gradient(0deg,  rgba(19,52,89,.024) 0 1px, transparent 1px 18px),
+    repeating-linear-gradient(90deg, rgba(19,52,89,.024) 0 1px, transparent 1px 18px),
     linear-gradient(rgba(255,255,255,.80), rgba(255,255,255,.80)),
     url("../img/inazumasinboru.png");
   background-image:
-    image-set(url("../img/fx-glass-soft-flip.webp") type("image/webp"),
-              url("../img/fx-glass-soft-flip.png") type("image/png")),
-    image-set(url("../img/fx-glass-soft.webp") type("image/webp"),
-              url("../img/fx-glass-soft.png") type("image/png")),
+    repeating-linear-gradient(0deg,  rgba(19,52,89,.055) 0 1px, transparent 1px 72px),
+    repeating-linear-gradient(90deg, rgba(19,52,89,.055) 0 1px, transparent 1px 72px),
+    repeating-linear-gradient(0deg,  rgba(19,52,89,.024) 0 1px, transparent 1px 18px),
+    repeating-linear-gradient(90deg, rgba(19,52,89,.024) 0 1px, transparent 1px 18px),
     linear-gradient(rgba(255,255,255,.80), rgba(255,255,255,.80)),
     image-set(url("../img/inazumasinboru.webp") type("image/webp"),
               url("../img/inazumasinboru.png") type("image/png"));
-  background-repeat: no-repeat;
-  background-size: min(460px, 34vw), min(420px, 32vw), auto, min(380px, 28vw);
-  background-position:
-    left max(-90px, -6vw) top 31%,
-    right max(-80px, -5vw) top 60%,
-    0 0,
-    left max(-70px, -5vw) top 46%;
-  background-blend-mode: normal, normal, normal, multiply;
-}
-/* 事業内容の右上：重なるガラスパネル（透過PNG）。白地では淡い青硝子に見える */
-.service-sec::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: 16px;
-  right: max(-64px, -4vw);
-  width: min(640px, 44vw);
-  aspect-ratio: 1400 / 831;
-  background-image: url("../img/fx-glass.png");
-  background-image: image-set(url("../img/fx-glass.webp") type("image/webp"),
-                              url("../img/fx-glass.png") type("image/png"));
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: .55;
-  pointer-events: none;
+  background-repeat: repeat, repeat, repeat, repeat, no-repeat, no-repeat;
+  background-size: auto, auto, auto, auto, auto, min(380px, 28vw);
+  background-position: 0 0, 0 0, 0 0, 0 0, 0 0, left max(-70px, -5vw) top 46%;
+  background-blend-mode: normal, normal, normal, normal, normal, multiply;
 }
 /* 事業内容の下端：街並みを薄く（対応エリアと同じ言語） */
 .service-sec::after {
@@ -787,24 +766,7 @@ a.card { display: block; color: inherit; }
   background-size: contain;
   background-repeat: no-repeat;
   mix-blend-mode: multiply;   /* 白地は消え、線だけ残る */
-  opacity: .30;
-  pointer-events: none;
-}
-.guide-sec::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: -60px;
-  left: max(-150px, -11vw);   /* 見出しの文字に被らないよう外へ逃がす */
-  width: min(400px, 30vw);
-  aspect-ratio: 1400 / 831;
-  background-image: url("../img/fx-glass.png");
-  background-image: image-set(url("../img/fx-glass.webp") type("image/webp"),
-                              url("../img/fx-glass.png") type("image/png"));
-  background-size: contain;
-  background-repeat: no-repeat;
-  transform: scaleX(-1);   /* 事業内容と向きを変えて単調さを避ける */
-  opacity: .45;
+  opacity: .46;
   pointer-events: none;
 }
 /* ガラスの端が見出しに触れても読めるよう、白のハロを敷く（白地では不可視） */
@@ -813,16 +775,10 @@ a.card { display: block; color: inherit; }
 }
 @media (max-width: 899px) {
   .service-sec {
-    background-size: 58vw, 54vw, auto, 46vw;
-    background-position:
-      left -14vw top 30%,
-      right -12vw top 62%,
-      0 0,
-      left -10vw top 44%;
+    background-size: auto, auto, auto, auto, auto, 46vw;
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0, left -10vw top 44%;
   }
-  .service-sec::before { width: 62vw; right: -8vw; opacity: .42; }
-  .guide-sec::before { width: 74vw; right: -10vw; opacity: .24; }
-  .guide-sec::after { width: 56vw; left: -12vw; opacity: .36; }
+  .guide-sec::before { width: 74vw; right: -10vw; opacity: .30; }
 }
 
 .service-sec .section__head {
@@ -845,8 +801,8 @@ a.card { display: block; color: inherit; }
   margin-top: var(--s-4);
   display: flex;
   flex-direction: column;
-  gap: 48px;
-  padding-top: 40px;
+  gap: 72px;
+  padding-top: 48px;
   padding-bottom: 24px;
 }
 .powerline__wire {
@@ -860,9 +816,9 @@ a.card { display: block; color: inherit; }
 .powerline__wire .wire {
   fill: none;
   stroke: var(--yellow-deep);
-  stroke-width: 1.8;
+  stroke-width: 2.4;
   stroke-linejoin: miter;
-  opacity: .9;
+  opacity: .95;
 }
 /* ノード＝電気の接続点。待機中は破線リングに囲まれた端子、
    電子が到着すると点灯し、波紋がひとつ広がり、
@@ -937,15 +893,22 @@ a.card { display: block; color: inherit; }
   filter: drop-shadow(0 0 3px rgba(255,214,102,.6));
 }
 
-/* 項目：左右交互に置く大きなカード */
+/* 項目：写真＋説明の全幅行。偶数行は左右反転 */
 .powerline__item {
   position: relative;
   z-index: 1;
-  width: min(48%, 480px);
+  display: grid;
+  grid-template-columns: 54% 1fr;
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+  width: 100%;
+  max-width: 1040px;
+  margin-inline: auto;
   color: var(--navy-900);
 }
-.powerline__item:nth-of-type(odd)  { align-self: flex-start; margin-left: 5%; }
-.powerline__item:nth-of-type(even) { align-self: flex-end;  margin-right: 5%; }
+.powerline__item:nth-of-type(even) { grid-template-columns: 1fr 54%; }
+.powerline__item:nth-of-type(even) .powerline__photo { order: 2; }
+.powerline__item:nth-of-type(even) .powerline__meta  { order: 1; }
 
 .powerline__photo {
   display: block;               /* span のため明示。aspect-ratio と clip-path を効かせる */
@@ -954,6 +917,7 @@ a.card { display: block; color: inherit; }
   aspect-ratio: 16 / 10;
   overflow: hidden;
   border-radius: 6px;
+  box-shadow: 0 18px 40px -22px rgba(8,25,43,.45);
 }
 .powerline__photo img {
   width: 100%; height: 100%;
@@ -966,23 +930,59 @@ a.card { display: block; color: inherit; }
   background: linear-gradient(180deg, rgba(8,25,43,0), rgba(8,25,43,.16));
 }
 .powerline__item:hover .powerline__photo img { transform: scale(1.04); }
+/* 縦長スナップの見せ場に合わせた切り抜き位置 */
+.powerline__item:nth-of-type(5) .powerline__photo img { object-position: center 72%; }
 .powerline__meta {
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-  margin-top: 14px;
+  display: block;
+  position: relative;
+}
+.powerline__no {
+  display: block;
+  font-family: var(--font-util);
+  font-size: clamp(34px, 3.4vw, 46px);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(19,52,89,.35);
+  margin-bottom: 10px;
 }
 .powerline__label {
+  display: block;
   font-family: var(--font-util);
   font-size: 12px;
   letter-spacing: .22em;
   color: var(--yellow-deep);
+  margin-bottom: 6px;
 }
 .powerline__title {
-  font-size: 20px;
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2vw, 26px);
   font-weight: 700;
   letter-spacing: .04em;
+  margin-bottom: 10px;
 }
+.powerline__desc {
+  display: block;
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--ink-soft, #45525f);
+  margin-bottom: 14px;
+}
+.powerline__more {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy-700, #133459);
+  border-bottom: 1px solid rgba(19,52,89,.4);
+  padding-bottom: 2px;
+}
+.powerline__more::after {
+  content: "→";
+  margin-left: 6px;
+  display: inline-block;
+  transition: translate .25s var(--ease);
+}
+.powerline__item:hover .powerline__more::after { translate: 4px 0; }
 
 /* 電子が通過するまで、写真は伏せておく */
 .js .powerline__photo { clip-path: inset(100% 0 0 0); }
@@ -998,11 +998,13 @@ a.card { display: block; color: inherit; }
 }
 
 @media (max-width: 699px) {
-  .powerline { gap: 64px; padding-top: 40px; }
-  .powerline__item { width: 82%; }
-  .powerline__item:nth-of-type(odd)  { margin-left: 0; }
-  .powerline__item:nth-of-type(even) { margin-right: 0; }
-  .powerline__title { font-size: 18px; }
+  .powerline { gap: 56px; padding-top: 40px; }
+  .powerline__item,
+  .powerline__item:nth-of-type(even) { grid-template-columns: 1fr; gap: 18px; }
+  .powerline__item:nth-of-type(even) .powerline__photo { order: 1; }
+  .powerline__item:nth-of-type(even) .powerline__meta  { order: 2; }
+  .powerline__no { font-size: 30px; margin-bottom: 6px; }
+  .powerline__title { font-size: 20px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1384,18 +1386,41 @@ a.card { display: block; color: inherit; }
   gap: var(--s-4);
 }
 .split-card {
-  background: var(--paper);
+  position: relative;
+  background: #fff;
   border: 1px solid var(--rule);
-  border-radius: 4px;
+  border-radius: 6px;
   padding: var(--s-4);
+  box-shadow: 0 16px 36px -26px rgba(8,25,43,.4);
+  transition: translate .3s var(--ease), box-shadow .3s var(--ease);
+}
+.split-card::before {
+  content: "";
+  position: absolute;
+  top: -1px; left: 24px;
+  width: 56px; height: 4px;
+  background: linear-gradient(90deg, var(--yellow), var(--yellow-deep));
+  border-radius: 0 0 3px 3px;
+}
+.split-card:hover {
+  translate: 0 -4px;
+  box-shadow: 0 24px 46px -26px rgba(8,25,43,.5);
 }
 .split-card__rule {
   display: block;
-  width: 32px; height: 3px;
-  background: var(--yellow);
-  margin-bottom: var(--s-2);
+  font-family: var(--font-util);
+  font-size: 11px;
+  letter-spacing: .24em;
+  color: var(--yellow-deep);
+  margin-bottom: 10px;
 }
-.split-card__title { font-size: 20px; font-weight: 700; margin-bottom: var(--s-1); }
+.split-card__rule::before { content: attr(data-en); }
+.split-card__title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: var(--s-1);
+}
 .split-card__text { font-size: 14px; color: var(--ink-60); margin-bottom: var(--s-2); }
 
 /* =========================================================

@@ -126,7 +126,9 @@
       var pts = [[W / 2, 0]];
       var nodePts = [];
       plItems.forEach(function (it) {
-        var r = it.getBoundingClientRect();
+        /* ノードは項目全体ではなく写真の真上に置く（項目は全幅の行になったため） */
+        var ph = it.querySelector(".powerline__photo") || it;
+        var r = ph.getBoundingClientRect();
         var cx = r.left - box.left + r.width / 2;
         var ny = r.top - box.top - 30;
         var prev = pts[pts.length - 1];
