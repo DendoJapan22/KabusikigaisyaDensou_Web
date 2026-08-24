@@ -491,6 +491,8 @@ table { border-collapse: collapse; width: 100%; }
    ========================================================= */
 .section { padding-block: var(--s-7); }
 .section--mist { background: var(--mist); }
+/* 同色セクションが連続するときの区切り罫 */
+.section--rule { border-top: 1px solid var(--rule); }
 .section__head {
   margin-bottom: var(--s-5);
   display: flex;
@@ -649,127 +651,29 @@ a.card { display: block; color: inherit; }
    ナイトゾーン：事業内容〜対応エリアを包む、濃紺のひと続きの面
    上端は中央が持ち上がる緩やかな弧。その頂点に見出しが乗る
    ========================================================= */
-.nightzone {
-  position: relative;
-  /* ヒーロー左パネル・フッターと同じ最濃紺。
-     その上に night-grid を上下2箇所（事業内容の頭・工事内容の裾）へ敷き、
-     紺のグラデで沈めて中央（選ばれる理由＝電球と管ランプの帯）は素の紺に戻す。
-     グラデ層は画像より先に書く＝上に重なる。サイズ・位置は層ごとに指定 */
-  background-color: var(--navy-900);
-  background-image:
-    linear-gradient(180deg, rgba(8,25,43,.46) 0%, rgba(8,25,43,.62) 55%, #08192B 100%),
-    url("../img/night-grid.jpg"),
-    linear-gradient(0deg, rgba(8,25,43,.42) 0%, rgba(8,25,43,.60) 52%, #08192B 100%),
-    url("../img/night-grid.jpg");
-  background-image:
-    linear-gradient(180deg, rgba(8,25,43,.46) 0%, rgba(8,25,43,.62) 55%, #08192B 100%),
-    image-set(url("../img/night-grid.webp") type("image/webp"),
-              url("../img/night-grid.jpg") type("image/jpeg")),
-    linear-gradient(0deg, rgba(8,25,43,.42) 0%, rgba(8,25,43,.60) 52%, #08192B 100%),
-    image-set(url("../img/night-grid.webp") type("image/webp"),
-              url("../img/night-grid.jpg") type("image/jpeg"));
-  background-size: 100% 56.3vw, 100% auto, 100% 62vw, 100% auto;
-  background-position: top center, top center, bottom center, bottom center;
-  background-repeat: no-repeat;
-  /* fx系の装飾（負のz-index）が自分の背景の上・文字の下に入るための文脈 */
-  isolation: isolate;
-  /* 右端に食み出させた装飾を面の中で切る（横スクロール防止） */
-  overflow: hidden;
-  color: #fff;
-  /* 黄の証拠バーとの間に白の呼吸を挟む */
-  margin-top: var(--s-7);
-  /* 上端を弧に。左右の角が110px下がり、中央が最も高くなる */
-  border-radius: 50% 50% 0 0 / 110px 110px 0 0;
-}
-@media (max-width: 639px) {
-  .nightzone { margin-top: var(--s-6); }
-}
-/* 弧の頂点あたりに見出しが来るよう、最初のセクションの上余白を確保 */
-.nightzone > .service-sec { padding-top: 96px; position: relative; }
+/* 旧 .nightzone（紺の一枚面）は廃止。背景ルール：紺=情緒 / 白=情報 */
+.service-sec { position: relative; }
 
-/* 事業内容の右上：重なるガラスパネル（透過PNG）。図面が重なるイメージ */
-.service-sec::before {
-  content: "";
-  position: absolute;
-  z-index: -1;                 /* nightzone が isolate なので背景の上・文字の下 */
-  top: 34px;
-  right: max(-60px, -4vw);
-  width: min(700px, 48vw);
-  aspect-ratio: 1400 / 831;
-  background-image: url("../img/fx-glass.png");
-  background-image: image-set(url("../img/fx-glass.webp") type("image/webp"),
-                              url("../img/fx-glass.png") type("image/png"));
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: .6;
-  pointer-events: none;
-}
 
-/* 選ばれる理由の帯：下中央に三日月状の光暈（screen合成で紺に溶かす） */
-.insight::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  bottom: -30px;
-  right: 24%;
-  width: min(460px, 32vw);
-  aspect-ratio: 616 / 454;
-  background-image: url("../img/fx-moon.jpg");
-  background-image: image-set(url("../img/fx-moon.webp") type("image/webp"),
-                              url("../img/fx-moon.jpg") type("image/jpeg"));
-  background-size: cover;
-  mix-blend-mode: screen;
-  opacity: .55;
-  pointer-events: none;
-}
 
-/* 工事内容の右上：円と金線のノード図形（screen合成） */
-.works-sec { position: relative; }
-.works-sec::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: -20px;
-  right: max(-40px, -3vw);
-  width: min(480px, 34vw);
-  aspect-ratio: 612 / 594;
-  background-image: url("../img/fx-rings.jpg");
-  background-image: image-set(url("../img/fx-rings.webp") type("image/webp"),
-                              url("../img/fx-rings.jpg") type("image/jpeg"));
-  background-size: cover;
-  mix-blend-mode: screen;
-  opacity: .55;
-  pointer-events: none;
-}
 
-/* 内側のセクションは自前の地色を持たない */
-.nightzone .service-sec,
-.nightzone .section--band { background: none; }
-/* 電球の帯：左のグレーをやめ、紺一色の中に電球を立てる */
-.nightzone .insight { background: none; }
-.nightzone .insight__heading { color: #fff; }
-.nightzone .section--band::before,
-.nightzone .insight::after { display: none; }
 
-/* 濃紺の上での文字色 */
-.nightzone .section__title,
-.nightzone .insight__heading,
-.nightzone .reason__title,
-.nightzone .works-pick__title { color: #fff; }
-.nightzone .section__lead,
-.nightzone .reason__text,
-.nightzone .works-pick__text,
-.nightzone .area-note { color: rgba(255,255,255,.78); }
-.nightzone .reason__n { color: var(--yellow); }
-.nightzone .reason { border-left-color: rgba(255,255,255,.24); }
+/* 選ばれる理由＝紺のブランド帯。帯の中の文字色はここで持つ */
+.insight .section__title,
+.insight .insight__heading,
+.insight .reason__title { color: #fff; }
+.insight .section__lead,
+.insight .reason__text { color: rgba(255,255,255,.78); }
+.insight .reason__n { color: var(--yellow); }
+.insight .reason { border-left-color: rgba(255,255,255,.24); }
 @media (max-width: 899px) {
-  .nightzone .reason { border-top-color: rgba(255,255,255,.24); }
+  .insight .reason { border-top-color: rgba(255,255,255,.24); }
 }
-.nightzone .text-link { color: var(--yellow); border-bottom-color: rgba(247,206,46,.5); }
-.nightzone .text-link:hover { border-bottom-color: var(--yellow); }
+.insight .text-link { color: var(--yellow); border-bottom-color: rgba(247,206,46,.5); }
+.insight .text-link:hover { border-bottom-color: var(--yellow); }
 /* 見出しの残像は、暗い地では黄で置く */
-.nightzone .echo-echo { color: var(--yellow); opacity: .42; }
-.js .nightzone [data-animate].is-inview .echo-echo { opacity: .42; }
+.insight .echo-echo { color: var(--yellow); opacity: .42; }
+.js .insight [data-animate].is-inview .echo-echo { opacity: .42; }
 
 /* 事業内容の見出しだけは、弧の頂点に合わせて中央へ */
 .service-sec .section__head {
@@ -830,7 +734,7 @@ a.card { display: block; color: inherit; }
 @keyframes nodeSpin { to { transform: rotate(360deg); } }
 
 .pl-node .core {
-  fill: #12283E;
+  fill: #fff;
   stroke: var(--yellow-deep);
   stroke-width: 1.4;
   transition: fill .25s linear, filter .25s linear;
@@ -872,13 +776,13 @@ a.card { display: block; color: inherit; }
 /* 電子の尾：長い淡い光と短い強い光を重ねて彗星にする */
 .powerline__wire .tail-far {
   fill: none;
-  stroke: rgba(255,214,102,.28);
+  stroke: rgba(238,152,0,.30);
   stroke-width: 2.5;
   stroke-linecap: round;
 }
 .powerline__wire .tail-near {
   fill: none;
-  stroke: rgba(255,226,138,.75);
+  stroke: rgba(238,152,0,.72);
   stroke-width: 3.2;
   stroke-linecap: round;
   filter: drop-shadow(0 0 3px rgba(255,214,102,.6));
@@ -889,7 +793,7 @@ a.card { display: block; color: inherit; }
   position: relative;
   z-index: 1;
   width: min(58%, 560px);
-  color: #fff;
+  color: var(--navy-900);
 }
 .powerline__item:nth-of-type(odd)  { align-self: flex-start; margin-left: 5%; }
 .powerline__item:nth-of-type(even) { align-self: flex-end;  margin-right: 5%; }
@@ -905,18 +809,14 @@ a.card { display: block; color: inherit; }
 .powerline__photo img {
   width: 100%; height: 100%;
   object-fit: cover;
-  filter: brightness(.62) saturate(.68) contrast(1.08);
-  transition: filter .4s var(--ease), transform .6s var(--ease);
+  transition: transform .6s var(--ease);
 }
 .powerline__photo::after {
   content: "";
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(8,25,43,.1), rgba(8,25,43,.45));
+  background: linear-gradient(180deg, rgba(8,25,43,0), rgba(8,25,43,.16));
 }
-.powerline__item:hover .powerline__photo img {
-  filter: brightness(.8) saturate(.8) contrast(1.06);
-  transform: scale(1.04);
-}
+.powerline__item:hover .powerline__photo img { transform: scale(1.04); }
 .powerline__meta {
   display: flex;
   align-items: baseline;
@@ -973,9 +873,7 @@ a.card { display: block; color: inherit; }
   position: relative;
   padding-block: var(--s-7);
   overflow: hidden;
-  background: linear-gradient(96deg,
-    #E9EAEA 0%, #E9EAEA 37%, #9AA3AC 45%,
-    #22334B 53%, var(--navy-900) 63%, var(--navy-900) 100%);
+  background: var(--navy-900);
 }
 .insight__inner {
   position: relative;
@@ -1636,23 +1534,6 @@ a.card { display: block; color: inherit; }
   isolation: isolate;          /* ::before(z:-1) を自背景の上・文字の下に */
   background: var(--navy-900);
   color: #fff;
-}
-/* 左下：ドットの波（screen合成）。右端の管ランプと対角のバランス */
-.company-sum::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  left: -30px;
-  bottom: -10px;
-  width: min(720px, 58vw);
-  aspect-ratio: 812 / 240;
-  background-image: url("../img/fx-wave.jpg");
-  background-image: image-set(url("../img/fx-wave.webp") type("image/webp"),
-                              url("../img/fx-wave.jpg") type("image/jpeg"));
-  background-size: cover;
-  mix-blend-mode: screen;
-  opacity: .6;
-  pointer-events: none;
 }
 .company-sum .wrap { position: relative; }  /* DOM順で管ランプより後＝文字が上 */
 .company-sum .section__title { color: #fff; }
