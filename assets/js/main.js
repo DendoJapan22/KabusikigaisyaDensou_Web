@@ -57,7 +57,13 @@
             io.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.18 });
+      }, {
+        /* 割合しきい値だと、ビューポートより遥かに背の高い要素（スマホの
+           svc2-main は約7,700px）が永遠に発火しない。「下端から14%の線を
+           要素が越えたら」に変え、要素の高さに依存しないようにする */
+        threshold: 0,
+        rootMargin: "0px 0px -14% 0px"
+      });
       animated.forEach(function (el) { io.observe(el); });
     } else {
       animated.forEach(function (el) { el.classList.add("is-inview"); });

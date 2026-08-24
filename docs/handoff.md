@@ -2,7 +2,7 @@
 
 > 次のセッションはこのファイルを最初に読むこと。
 > 詳細な実装履歴は `docs/worklog.md`（633行）にある。こちらは「いま何をすべきか」に絞った要約。
-> 最終更新：2026-08-24（デザインPDCA後） / CSS `v=43` / main.js `v=12`
+> 最終更新：2026-08-24（デザインPDCA後） / CSS `v=43` / main.js `v=13`
 > 公開ブランチ `claude/website-construction-qsimq3` の HEAD が常に本番（push で Pages が走る）
 
 ---
@@ -169,6 +169,7 @@ sed -i 's/style\.css?v=41/style.css?v=42/g' index.html area/index.html company/i
 | CSS詳細度で基底ルールに負ける | 指定が効かない（紺地に紺文字など） | セレクタを1段深くして勝たせる（例：`.insight .insight__heading`） |
 | `vector-effect: non-scaling-stroke` + `stroke-dasharray` | **Safariだけ**なぞりが壊れる | 使用禁止。線幅を表示倍率から逆算してSVG座標で指定 |
 | `.is-echo-host`（JSが付与）が inline-block | 見出しが横並びになる | `display: block` で打ち消し |
+| IntersectionObserver の `threshold: 0.18` | ビューポートより遥かに背の高い要素（スマホの svc2-main ≈7,700px）は18%が同時に見えず**永遠に発火しない**→子が opacity:0 のまま真っ白 | 割合でなく線で判定：`threshold: 0` + `rootMargin: "0px 0px -14% 0px"`（修正済み） |
 
 ---
 
