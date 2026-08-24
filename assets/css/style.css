@@ -429,11 +429,12 @@ table { border-collapse: collapse; width: 100%; }
 }
 .hero[data-hero="split"] .hero__body {
   position: relative;
-  /* 縦書きコピー（右）＋ 補足とCTAの列（左・下寄せ） */
+  /* 縦書きキャッチ（上）→ 補足文 → CTA（下）の縦積み。中央軸で揃える */
   display: flex;
-  flex-direction: row-reverse;
-  align-items: stretch;
-  gap: clamp(16px, 2.4vw, 40px);
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(24px, 3.6svh, 40px);
+  width: 100%;
 }
 
 /* --- キャッチ（縦組み）＋補足＋CTA --- */
@@ -443,7 +444,7 @@ table { border-collapse: collapse; width: 100%; }
   font-family: var(--font-display);
   font-weight: 400;
   /* 幅と高さの両方に追従して縮む。要素の重なりを構造的に防ぐ */
-  font-size: clamp(24px, min(2.6vw, 5.2svh), 42px);
+  font-size: clamp(22px, min(2.6vw, 4.6svh), 40px);
   letter-spacing: .12em;
   line-height: 2.0;            /* 縦組みでは列の間隔 */
   color: #fff;
@@ -454,15 +455,15 @@ table { border-collapse: collapse; width: 100%; }
 .hero__aside {
   display: flex;
   flex-direction: column;
-  /* 補足は上端・CTAは下端。縦書きキャッチと上下が揃った矩形として読ませる */
-  justify-content: space-between;
-  gap: 28px;
-  min-width: 0;
+  gap: 24px;
+  width: 100%;
+  max-width: 360px;
 }
 .hero__sub {
   font-size: 14px;
   line-height: 1.9;
   color: rgba(255,255,255,.82);
+  text-align: center;
 }
 .hero__cta {
   display: flex;
