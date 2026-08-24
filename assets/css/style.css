@@ -402,10 +402,30 @@ table { border-collapse: collapse; width: 100%; }
   grid-row: 1;
   background: var(--navy-900);
   position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: flex;
   align-items: center;
   /* 上は左上ロゴプレートの逃げ */
   padding: 120px 48px 64px;
+}
+/* 紺の濃さは保ったまま、光の流線だけを浮かせる（screenは暗部を変えない） */
+.hero[data-hero="split"] .hero__panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url("../img/fx-streams.jpg");
+  background-image: image-set(url("../img/fx-streams.webp") type("image/webp"),
+                              url("../img/fx-streams.jpg") type("image/jpeg"));
+  background-size: cover;
+  background-position: 30% 78%;
+  mix-blend-mode: screen;
+  opacity: .34;
+  /* 文字の乗る上半分は静かに、下へ向かって光が流れる */
+  -webkit-mask-image: linear-gradient(200deg, transparent 12%, #000 55%);
+  mask-image: linear-gradient(200deg, transparent 12%, #000 55%);
+  pointer-events: none;
 }
 .hero[data-hero="split"] .hero__body {
   position: relative;
@@ -434,7 +454,9 @@ table { border-collapse: collapse; width: 100%; }
 .hero__aside {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  /* 補足は上端・CTAは下端。縦書きキャッチと上下が揃った矩形として読ませる */
+  justify-content: space-between;
+  gap: 28px;
   min-width: 0;
 }
 .hero__sub {
@@ -443,11 +465,20 @@ table { border-collapse: collapse; width: 100%; }
   color: rgba(255,255,255,.82);
 }
 .hero__cta {
-  margin-top: 24px;
   display: flex;
   flex-direction: column;      /* 縦書きの隣で細い列に収める */
   align-items: stretch;
   gap: 16px;
+}
+/* 電話番号が途中で折れると読めないので、ヒーローのボタンは常に1行 */
+.hero__cta .btn-primary,
+.hero__cta .btn-secondary { white-space: nowrap; }
+/* 分割ヒーローが狭くなる帯：パネルを広げ、ボタンを細身にして折返しを防ぐ */
+@media (min-width: 900px) and (max-width: 1199px) {
+  .hero[data-hero="split"] { grid-template-columns: 42% 58%; }
+  .hero[data-hero="split"] .hero__panel { padding: 110px 36px 56px; }
+  .hero__cta .btn-primary,
+  .hero__cta .btn-secondary { padding-inline: 16px; font-size: 15px; }
 }
 .hero__copy .hero__line {
   opacity: 0;
