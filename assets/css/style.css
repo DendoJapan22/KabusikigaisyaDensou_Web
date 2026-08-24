@@ -27,7 +27,7 @@
   --rule:   rgba(8,25,43,.12);  /* 表組みの罫 */
 
   /* 書体：実務トーンに統一。見出しも明朝ではなくゴシック */
-  --font-display: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+  --font-display: "Noto Serif JP", "游明朝", serif;
   --font-body:    "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
   --font-util:    "Anton", "Zen Kaku Gothic New", sans-serif;
 
@@ -688,6 +688,57 @@ a.card { display: block; color: inherit; }
 .js .insight [data-animate].is-inview .echo-echo { opacity: .42; }
 
 /* 事業内容の見出しだけは、弧の頂点に合わせて中央へ */
+/* 白地セクションの背景に透過素材をうっすら敷く（ユーザー指定） */
+.service-sec {
+  position: relative;
+  isolation: isolate;   /* ::before(z:-1) を自背景の上・内容の下に収める */
+  overflow: hidden;
+}
+/* 事業内容の右上：重なるガラスパネル（透過PNG）。白地では淡い青硝子に見える */
+.service-sec::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 16px;
+  right: max(-64px, -4vw);
+  width: min(640px, 44vw);
+  aspect-ratio: 1400 / 831;
+  background-image: url("../img/fx-glass.png");
+  background-image: image-set(url("../img/fx-glass.webp") type("image/webp"),
+                              url("../img/fx-glass.png") type("image/png"));
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: .34;
+  pointer-events: none;
+}
+/* 法人/個人の右下：職人の線画（白地PNG）を乗算でごく薄く */
+.guide-sec {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.guide-sec::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  right: max(-48px, -3vw);
+  bottom: -4%;
+  width: min(560px, 42vw);
+  aspect-ratio: 1589 / 989;
+  background-image: url("../img/denkikouzisyaezzi.png");
+  background-image: image-set(url("../img/denkikouzisyaezzi.webp") type("image/webp"),
+                              url("../img/denkikouzisyaezzi.png") type("image/png"));
+  background-size: contain;
+  background-repeat: no-repeat;
+  mix-blend-mode: multiply;   /* 白地は消え、線だけ残る */
+  opacity: .16;
+  pointer-events: none;
+}
+@media (max-width: 899px) {
+  .service-sec::before { width: 62vw; right: -8vw; opacity: .26; }
+  .guide-sec::before { width: 70vw; right: -10vw; opacity: .12; }
+}
+
 .service-sec .section__head {
   flex-direction: column;
   align-items: center;

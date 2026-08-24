@@ -555,6 +555,20 @@ powerline 5項目の点灯・電球なぞり動作維持、FV3サイズで要素
 
 ---
 
+### 4-13. 明朝復帰＋白地に透過素材（2026-08-24・CSS v=39）
+
+P0-P4後のユーザー評価：「フォントが納得いかないので前に戻す。背景の白は良い。
+白背景に透過画像を入れてほしい」。
+
+- --font-display を Noto Serif JP に復帰、全7ページの Google Fonts リンクにも
+  Noto Serif JP を戻した（ゴシック統一は撤回。白地構成・CTA3種・7ブロックは維持）
+- 白地セクションの透過素材：事業内容右上に fx-glass（透過PNG・opacity .34）、
+  法人/個人（.guide-sec 追加）右下に職人線画 denkikouzisyaezzi（multiply .16）。
+  対応エリアは既存の machinami 透過をそのまま
+- どちらも isolation:isolate ＋ ::before(z:-1) ＋ overflow:hidden の定石で
+
+---
+
 ## 10. 残タスク
 
 ### 画像制作（AI生成可）
