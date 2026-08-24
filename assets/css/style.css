@@ -937,6 +937,28 @@ a.card { display: block; color: inherit; }
   width: min(430px, 30vw);
   pointer-events: none;
 }
+/* 右端の管ランプ：紺ゾーンにスクリーン合成で溶かす縦の光。左下の電球と対。
+   注意：blend は .tubefig 自体に載せる。transform（や z-index）が
+   スタッキングコンテキストを作るため、img 側に付けると .insight の
+   背景まで届かず黒地がそのまま見える */
+.tubefig {
+  position: absolute;
+  right: max(-36px, -2.5vw);
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(230px, 15vw);
+  pointer-events: none;
+  mix-blend-mode: screen;   /* 黒地は紺に消え、光だけが残る */
+  opacity: .55;
+}
+.tubefig img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+@media (max-width: 899px) {
+  .tubefig { display: none; }  /* モバイルは電球なぞりに一本化 */
+}
 .bulbfig__img {
   display: block;
   width: 100%;
@@ -1091,9 +1113,10 @@ a.card { display: block; color: inherit; }
 }
 .recruit-banner__figure img {
   width: 100%;
-  max-width: 210px;
+  max-width: 280px;
   height: auto;
-  filter: drop-shadow(0 0 34px rgba(247,206,46,.28));
+  /* 黒地ごとスクリーン合成：黒は紺に溶け、光だけが残る */
+  mix-blend-mode: screen;
 }
 
 @media (max-width: 899px) {
@@ -1241,6 +1264,8 @@ a.card { display: block; color: inherit; }
   font-size: 44px;
   color: #fff;
   line-height: 1.1;
+  /* 背景写真の分電盤の明部に重なっても読めるよう、紺の影を敷く */
+  text-shadow: 0 1px 2px rgba(8,25,43,.7), 0 0 12px rgba(8,25,43,.55);
 }
 .cta-block__tel .icon-tel { width: 28px; height: 28px; }
 .cta-block__hours { font-size: 13px; color: rgba(255,255,255,.7); margin-top: 4px; }
@@ -1287,12 +1312,12 @@ a.card { display: block; color: inherit; }
   position: relative;
   isolation: isolate;
   background-color: var(--navy-900);
-  background-image: url("../img/footer.jpg");
+  background-image: url("../img/night-grid.jpg");
   background-image: image-set(
-    url("../img/footer.webp") type("image/webp"),
-    url("../img/footer.jpg") type("image/jpeg"));
+    url("../img/night-grid.webp") type("image/webp"),
+    url("../img/night-grid.jpg") type("image/jpeg"));
   /* 画像を切らずに丸ごと収める。この面が画像と同じ縦横比を持つ */
-  aspect-ratio: 1920 / 852;
+  aspect-ratio: 1672 / 941;
   background-size: 100% 100%;
   background-position: center;
   min-height: 620px;
@@ -1309,9 +1334,18 @@ a.card { display: block; color: inherit; }
   inset: 0;
   z-index: -1;
   background: linear-gradient(180deg,
-    rgba(8,25,43,.18) 0%, rgba(8,25,43,.14) 20%,
-    rgba(8,25,43,.34) 44%, rgba(8,25,43,.62) 64%,
-    rgba(8,25,43,.80) 82%, rgba(8,25,43,.86) 100%);
+    rgba(8,25,43,.06) 0%, rgba(8,25,43,.08) 24%,
+    rgba(8,25,43,.26) 48%, rgba(8,25,43,.52) 66%,
+    rgba(8,25,43,.72) 84%, rgba(8,25,43,.80) 100%);
+}
+/* 中間幅では比率を固定しない。aspect-ratio があると min-height:620px が
+   比率経由で min-width:1102px に転移し、帯が視口からはみ出す */
+@media (min-width: 900px) and (max-width: 1140px) {
+  .endzone {
+    aspect-ratio: auto;
+    background-size: cover;
+    background-position: center;
+  }
 }
 
 .site-footer {
@@ -1358,7 +1392,7 @@ a.card { display: block; color: inherit; }
   font-family: var(--font-util);
   font-size: 12px;
   letter-spacing: .08em;
-  color: rgba(255,255,255,.45);
+  color: rgba(255,255,255,.58);
 }
 
 /* =========================================================
@@ -1964,14 +1998,14 @@ body.page-recruit .split-card { background: var(--paper); }
     /* 帯の中に文字は来ないので膜をかけない。画像が終わる位置で紺へ溶かす */
     background: linear-gradient(180deg,
       rgba(8,25,43,0) 0,
-      rgba(8,25,43,0) 34vw,
-      rgba(8,25,43,.60) 44.4vw,
-      rgba(8,25,43,.92) 50vw,
+      rgba(8,25,43,0) 43vw,
+      rgba(8,25,43,.60) 56.3vw,
+      rgba(8,25,43,.92) 62vw,
       rgba(8,25,43,.94) 100%);
   }
-  /* 画像の高さ＝幅÷2.253。その下から CTA を始める */
-  .cta-block { padding-block: calc(44.4vw + var(--s-4)) var(--s-5); }
-  .endzone > .site-footer:first-child { padding-top: calc(44.4vw + var(--s-4)); }
+  /* 画像の高さ＝幅÷1.777。その下から CTA を始める */
+  .cta-block { padding-block: calc(56.3vw + var(--s-4)) var(--s-5); }
+  .endzone > .site-footer:first-child { padding-top: calc(56.3vw + var(--s-4)); }
   .endzone > .site-footer:first-child::before { display: none; }
   .site-footer nav ul { grid-template-columns: repeat(2, 1fr); gap: 10px var(--s-4); }
 }

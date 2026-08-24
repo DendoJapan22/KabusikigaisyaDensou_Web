@@ -279,6 +279,43 @@ GitHub Pages はCSSを10分キャッシュするため、CSS変更時は必ず�
 モバイルは `background-size: 100% auto` ＋ `background-position: left top`、
 `.cta-block` の上パディングを `calc(44.4vw + var(--s-4))` にして画像の下から始める。
 
+### 4-9. ユーザー支給の新画像3枚を背景に統合（2026-08-24・CSS v=32）
+
+ユーザーが `assets/img/` 直下に生成画像3枚を追加（「背景に差し込んで、チープな
+AIっぽさを無くして」）。原本は `new-images/` に改名して保管、表示用を最適化して生成：
+
+- **night-grid.jpg/webp**（1672×941・夜の街並み＋天井配管＋分電盤＋金の回路線）
+  → **endzone の背景を footer.jpg から差し替え**（全7ページ共通）。
+  `aspect-ratio: 1672/941` に変更、スクリムは新画像が元々暗いので少し軽く
+  （0%:.06 → 100%:.80）。モバイルの vw 値も全て更新（44.4vw → 56.3vw 系）。
+  電話番号が分電盤の明部に重なる（3.61:1）ので `.cta-block__tel` に紺の text-shadow
+- **bulb-edison.jpg/webp**（エジソン球の実写調）→ トップ採用バナーの図版を
+  denkyuu-real.png から差し替え。**黒背景ごと `mix-blend-mode: screen`** で紺に溶かす。
+  元画像の縁は輝度20前後あり四角が浮くため、**スムーズステップの窓関数で
+  縁を純黒に落としてから書き出し**（scratchpad処理・全縁 0.0 を確認）
+- **tube-lamp.jpg/webp**（縦の管ランプ）→ `.tubefig` として insight セクション右端に
+  screen 合成・opacity .55 で配置（左下の電球なぞりと対になる縦の光）。
+  モバイルでは非表示（電球なぞりに一本化）
+
+**罠2件（重要）**：
+- **`mix-blend-mode` はスタッキングコンテキストに閉じ込められる**。
+  `.tubefig` の `transform: translateY(-50%)`（や z-index）がコンテキストを作り、
+  img 側に blend を付けると `.insight` の背景まで届かず黒地がそのまま描かれる
+  （opacity合成そのままの画素値になるので判別可能）。
+  → **blend は transform を持つ要素自身に載せる**と、その要素が親コンテキストの
+  背景に対して合成されるので解決
+- **`aspect-ratio` があると `min-height` が比率経由で min-width に転移する**。
+  endzone の `min-height: 620px` が幅 620×1.777=1102px に転移し、
+  900〜1102px の視口で帯がはみ出し横スクロールが発生（旧比率2.253でも
+  1397px以下で起きていた既存バグ。1440/390しか検証していなかったため見逃し）。
+  → `@media (900px〜1140px)` で `aspect-ratio: auto` ＋ `background-size: cover`。
+  **以後、横スクロール検証は 390/910/1024/1140/1440 の5点で行う**
+
+検証済み：hscroll 5点0px、JSエラー無し、電球なぞり・点灯動作維持、
+endzone 文字コントラスト実測（tel 3.61:1 は大文字AA＋影で補強、他は6:1以上。
+モバイルの footer meta 1.57:1 は固定モバイルバーが計測枠に重なった偽陽性）。
+denkyuu-real.png/webp は未参照になった（削除は未実施）。
+
 ---
 
 ## 5. 保留中の構想：電球ポータル
