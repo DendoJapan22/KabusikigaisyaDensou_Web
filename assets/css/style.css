@@ -237,7 +237,8 @@ table { border-collapse: collapse; width: 100%; }
   font-weight: 700;
 }
 .btn-cta .icon-mail { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; }
-.btn-cta:hover { background: var(--yellow-deep); color: var(--navy-900); }
+/* ホバー挙動を Primary と共通化 */
+.btn-cta:hover { filter: brightness(1.05); }
 
 /* ハンバーガー（<900pxで表示） */
 .menu-toggle {
@@ -517,15 +518,25 @@ table { border-collapse: collapse; width: 100%; }
 }
 .section__lead { margin-top: var(--s-2); color: var(--ink-60); max-width: 720px; }
 
+/* Text link（共通コンポーネント）：下線＋矢印。補足リンク用 */
 .text-link {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   color: var(--blue-500);
   font-size: 15px;
-  border-bottom: 1px solid var(--copper);
+  font-weight: 500;
+  border-bottom: 1px solid rgba(27,77,128,.35);
   padding-bottom: 2px;
+  transition: border-color .2s var(--ease);
 }
+.text-link::after {
+  content: "→";
+  font-family: var(--font-body);
+  transition: translate .2s var(--ease);
+}
+.text-link:hover { border-bottom-color: currentColor; }
+.text-link:hover::after { translate: 4px 0; }
 
 /* カードグリッド（T-A 共通） */
 .card-grid {
@@ -1378,34 +1389,9 @@ a.card { display: block; color: inherit; }
 .cta-block__tel .icon-tel { width: 28px; height: 28px; }
 .cta-block__hours { font-size: 13px; color: rgba(255,255,255,.7); margin-top: 4px; }
 /* 黄のベタ面ボタン。角は落とさない。矢印は右端に置く */
-.btn-solid,
-.btn-form {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s-5);
-  min-width: 300px;
-  height: 56px;
-  padding: 0 26px;
-  border-radius: 2px;
-  background: var(--yellow);
-  color: var(--navy-900);
-  font-size: 15px;
-  font-weight: 700;
-}
-.btn-form { margin-top: var(--s-3); }
-.btn-solid .icon-arrow,
-.btn-form .icon-arrow {
-  flex: none;
-  width: 22px; height: 10px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.4;
-  transition: transform .3s var(--ease);
-}
-.btn-solid:hover, .btn-form:hover { background: var(--yellow-deep); color: var(--navy-900); }
-.btn-solid:hover .icon-arrow,
-.btn-form:hover .icon-arrow { transform: translateX(4px); }
+/* 旧 .btn-solid / .btn-form は廃止。
+   CTAは .btn-primary / .btn-secondary / .text-link の3種のみ（定義はヒーロー直後） */
+.cta-block__contact .btn-primary { margin-top: 24px; }
 @media (max-width: 479px) {
   .btn-solid, .btn-form { min-width: 0; width: 100%; gap: var(--s-3); }
 }
