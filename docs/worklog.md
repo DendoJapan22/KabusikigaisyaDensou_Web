@@ -338,6 +338,47 @@ denkyuu-real.png/webp は未参照になった（削除は未実施）。
 コントラスト実測：works文 6.5:1・works見出し10.8:1・会社td 10.9:1・採用文 11.2:1。
 hscroll デスクトップ/モバイル 0px、JSエラー無し。
 
+### 4-11. 追加素材6枚の展開＋背景の主張を一段階アップ（2026-08-24・CSS v=34）
+
+ユーザーが new-images に追加（ガラスパネル透過PNG＋参考スクリーンショット5枚）。
+「背景が薄すぎるのでほんの少し強く」も同時対応。
+
+**下処理**（scratchpad、fx-* として書き出し）：スクショ5枚は黒レベルが#1E1E22程度
+あるため四隅の中央値を引いて黒基準化→縁をスムーズステップで黒へフェード→
+2倍Lanczos拡大＋GaussianBlur(1.1)でドット感を消す。ガラスパネルは透過のまま
+bboxトリム＋1400幅（fx-glass.png/webp）。
+
+**配置**：
+- ヒーロー紺パネル：fx-streams を cover＋紺グラデ(.52/.60)で敷く（電気の流線）
+- 事業内容右上：fx-glass（::before・通常合成・opacity .6）
+- 選ばれる理由：fx-moon を下中央に（::before・screen・.55）
+- 工事内容右上：fx-rings（works-sec クラス追加・::before・screen・.55）
+- 会社概要左下：fx-wave（::before・screen・.6）＝右端の管ランプと対角
+- fx-pendant は未使用（電球モチーフが既に2つあり重複のため保留）
+
+**強調**：nightzone 上 .60/.74→.46/.62・下 .55/.72→.42/.60、
+採用バナー .84/.78→.74/.66、tubefig opacity .55→.68
+
+**罠3件**：
+- 負z-indexの::before装飾は、親が isolate でないと**祖先の背景の裏**に消える
+  → .nightzone / .company-sum に isolation:isolate（tubefig には z-index 厳禁のまま。
+  ::before 側は isolate された祖先の中なので z:-1 でも blend が背景に届く）
+- 右へ食み出す装飾で hscroll 58px → .nightzone に overflow:hidden
+- **ヘッドレスChromiumはプロキシを使わずGoogle Fontsに到達できない**
+  （curl は $HTTPS_PROXY 経由でOK、Chromium は ERR_CONNECTION_RESET）。
+  日本語Webフォント不在→縦書きメトリクスが無い代替で**縦書きだけ崩れて見える**。
+  検証法：フォントCSSとwoff2をcurlでDL→URL書換→**CORSヘッダ付き**ローカル
+  サーバ(scratchpad/corssrv.py, :8343)から add_style_tag で注入
+  （CORS無しだと跨オリジンフォントが弾かれ document.fonts が0のまま）
+
+**実フォントで発覚した既存バグ（修正済み）**：縦書きコピー「三十年…」の頭
+「三」が左上ロゴプレートの裏に隠れていた（高さ~1000px以下の画面）。
+デスクトップの .hero__panel に padding-top:150px、
+@media (min-width:900px) and (max-height:1020px) で 118px＋コピー縮小
+（.hero .hero__copy — 基底ルールが後ろにあるので詳細度で勝たせる）。
+1280×800/1440×900/1680×1000/1920×1080/2560×1310 でプレート回避と
+証拠バー非重複を座標実測で確認。
+
 ---
 
 ## 5. 保留中の構想：電球ポータル

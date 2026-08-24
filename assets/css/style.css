@@ -399,12 +399,31 @@ table { border-collapse: collapse; width: 100%; }
 .hero[data-hero="split"] .hero__panel {
   grid-column: 1;
   grid-row: 1;
-  background: var(--navy-900);
+  /* 紺のパネルに光の流線をごく薄く。電気が流れるイメージをコピーの下に敷く */
+  background-color: var(--navy-900);
+  background-image:
+    linear-gradient(180deg, rgba(8,25,43,.52), rgba(8,25,43,.60)),
+    url("../img/fx-streams.jpg");
+  background-image:
+    linear-gradient(180deg, rgba(8,25,43,.52), rgba(8,25,43,.60)),
+    image-set(url("../img/fx-streams.webp") type("image/webp"),
+              url("../img/fx-streams.jpg") type("image/jpeg"));
+  background-size: auto, cover;
+  background-position: center;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 110px; /* 証拠バーの逃げ */
+  /* 上：左上ロゴプレートの逃げ（無いと縦書きコピーの頭「三」が隠れる）
+     下：証拠バーの逃げ */
+  padding-top: 150px;
+  padding-bottom: 110px;
+}
+/* 背の低い画面では余白と行送りを詰めてコピーを収める */
+@media (min-width: 900px) and (max-height: 1020px) {
+  .hero[data-hero="split"] .hero__panel { padding-top: 118px; padding-bottom: 64px; }
+  /* 基底の .hero__copy がこのブロックより後にあるため、詳細度で勝たせる */
+  .hero .hero__copy { line-height: 1.75; font-size: clamp(1.9rem, 3.4vw, 3.1rem); }
 }
 .hero[data-hero="split"] .hero__body { position: relative; }
 
@@ -625,20 +644,24 @@ a.card { display: block; color: inherit; }
      グラデ層は画像より先に書く＝上に重なる。サイズ・位置は層ごとに指定 */
   background-color: var(--navy-900);
   background-image:
-    linear-gradient(180deg, rgba(8,25,43,.60) 0%, rgba(8,25,43,.74) 55%, #08192B 100%),
+    linear-gradient(180deg, rgba(8,25,43,.46) 0%, rgba(8,25,43,.62) 55%, #08192B 100%),
     url("../img/night-grid.jpg"),
-    linear-gradient(0deg, rgba(8,25,43,.55) 0%, rgba(8,25,43,.72) 52%, #08192B 100%),
+    linear-gradient(0deg, rgba(8,25,43,.42) 0%, rgba(8,25,43,.60) 52%, #08192B 100%),
     url("../img/night-grid.jpg");
   background-image:
-    linear-gradient(180deg, rgba(8,25,43,.60) 0%, rgba(8,25,43,.74) 55%, #08192B 100%),
+    linear-gradient(180deg, rgba(8,25,43,.46) 0%, rgba(8,25,43,.62) 55%, #08192B 100%),
     image-set(url("../img/night-grid.webp") type("image/webp"),
               url("../img/night-grid.jpg") type("image/jpeg")),
-    linear-gradient(0deg, rgba(8,25,43,.55) 0%, rgba(8,25,43,.72) 52%, #08192B 100%),
+    linear-gradient(0deg, rgba(8,25,43,.42) 0%, rgba(8,25,43,.60) 52%, #08192B 100%),
     image-set(url("../img/night-grid.webp") type("image/webp"),
               url("../img/night-grid.jpg") type("image/jpeg"));
   background-size: 100% 56.3vw, 100% auto, 100% 62vw, 100% auto;
   background-position: top center, top center, bottom center, bottom center;
   background-repeat: no-repeat;
+  /* fx系の装飾（負のz-index）が自分の背景の上・文字の下に入るための文脈 */
+  isolation: isolate;
+  /* 右端に食み出させた装飾を面の中で切る（横スクロール防止） */
+  overflow: hidden;
   color: #fff;
   /* 黄の証拠バーとの間に白の呼吸を挟む */
   margin-top: var(--s-7);
@@ -649,7 +672,62 @@ a.card { display: block; color: inherit; }
   .nightzone { margin-top: var(--s-6); }
 }
 /* 弧の頂点あたりに見出しが来るよう、最初のセクションの上余白を確保 */
-.nightzone > .service-sec { padding-top: 96px; }
+.nightzone > .service-sec { padding-top: 96px; position: relative; }
+
+/* 事業内容の右上：重なるガラスパネル（透過PNG）。図面が重なるイメージ */
+.service-sec::before {
+  content: "";
+  position: absolute;
+  z-index: -1;                 /* nightzone が isolate なので背景の上・文字の下 */
+  top: 34px;
+  right: max(-60px, -4vw);
+  width: min(700px, 48vw);
+  aspect-ratio: 1400 / 831;
+  background-image: url("../img/fx-glass.png");
+  background-image: image-set(url("../img/fx-glass.webp") type("image/webp"),
+                              url("../img/fx-glass.png") type("image/png"));
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: .6;
+  pointer-events: none;
+}
+
+/* 選ばれる理由の帯：下中央に三日月状の光暈（screen合成で紺に溶かす） */
+.insight::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  bottom: -30px;
+  right: 24%;
+  width: min(460px, 32vw);
+  aspect-ratio: 616 / 454;
+  background-image: url("../img/fx-moon.jpg");
+  background-image: image-set(url("../img/fx-moon.webp") type("image/webp"),
+                              url("../img/fx-moon.jpg") type("image/jpeg"));
+  background-size: cover;
+  mix-blend-mode: screen;
+  opacity: .55;
+  pointer-events: none;
+}
+
+/* 工事内容の右上：円と金線のノード図形（screen合成） */
+.works-sec { position: relative; }
+.works-sec::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -20px;
+  right: max(-40px, -3vw);
+  width: min(480px, 34vw);
+  aspect-ratio: 612 / 594;
+  background-image: url("../img/fx-rings.jpg");
+  background-image: image-set(url("../img/fx-rings.webp") type("image/webp"),
+                              url("../img/fx-rings.jpg") type("image/jpeg"));
+  background-size: cover;
+  mix-blend-mode: screen;
+  opacity: .55;
+  pointer-events: none;
+}
 
 /* 内側のセクションは自前の地色を持たない */
 .nightzone .service-sec,
@@ -967,7 +1045,7 @@ a.card { display: block; color: inherit; }
   width: min(230px, 15vw);
   pointer-events: none;
   mix-blend-mode: screen;   /* 黒地は紺に消え、光だけが残る */
-  opacity: .55;
+  opacity: .68;
 }
 .tubefig img {
   display: block;
@@ -1085,10 +1163,10 @@ a.card { display: block; color: inherit; }
   /* 最濃紺の上に night-grid をごく薄く敷いて、平板な紺に奥行きを足す */
   background-color: var(--navy-900);
   background-image:
-    linear-gradient(180deg, rgba(8,25,43,.84), rgba(8,25,43,.78)),
+    linear-gradient(180deg, rgba(8,25,43,.74), rgba(8,25,43,.66)),
     url("../img/night-grid.jpg");
   background-image:
-    linear-gradient(180deg, rgba(8,25,43,.84), rgba(8,25,43,.78)),
+    linear-gradient(180deg, rgba(8,25,43,.74), rgba(8,25,43,.66)),
     image-set(url("../img/night-grid.webp") type("image/webp"),
               url("../img/night-grid.jpg") type("image/jpeg"));
   background-size: auto, cover;
@@ -1567,8 +1645,26 @@ a.card { display: block; color: inherit; }
 .company-sum {
   position: relative;
   overflow: hidden;
+  isolation: isolate;          /* ::before(z:-1) を自背景の上・文字の下に */
   background: var(--navy-900);
   color: #fff;
+}
+/* 左下：ドットの波（screen合成）。右端の管ランプと対角のバランス */
+.company-sum::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -30px;
+  bottom: -10px;
+  width: min(720px, 58vw);
+  aspect-ratio: 812 / 240;
+  background-image: url("../img/fx-wave.jpg");
+  background-image: image-set(url("../img/fx-wave.webp") type("image/webp"),
+                              url("../img/fx-wave.jpg") type("image/jpeg"));
+  background-size: cover;
+  mix-blend-mode: screen;
+  opacity: .6;
+  pointer-events: none;
 }
 .company-sum .wrap { position: relative; }  /* DOM順で管ランプより後＝文字が上 */
 .company-sum .section__title { color: #fff; }
