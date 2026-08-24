@@ -1643,6 +1643,16 @@ a.card { display: block; color: inherit; }
 /* T-B 記事型 */
 .article { padding-block: var(--s-7); }
 .article__body { max-width: 720px; }
+/* 広い画面では本文カラムを中央に置き、右側が空きっぱなしにならないようにする */
+@media (min-width: 1000px) {
+  .article__body { max-width: 760px; margin-inline: auto; }
+  .article__body .flow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--s-5);
+  }
+  .article__body .flow li:nth-last-child(-n+2) { border-bottom: 0; }
+}
 .article h2 {
   font-family: var(--font-display);
   font-weight: 500;
