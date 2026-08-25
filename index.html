@@ -98,14 +98,14 @@
          ループさせず1回だけ再生し、灯りきった最後のコマで止める。
          JS無効・データ節約モード・prefers-reduced-motion ではポスター画像を出す -->
     <video class="hero__video" autoplay muted playsinline preload="auto"
-           poster="assets/img/hero-poster.webp"
+           poster="assets/img/hero-poster.webp?v=2"
            aria-label="夕暮れから夜へ、灯りがともっていく住宅街のタイムラプス">
-      <source src="assets/video/hero-dusk.webm" type="video/webm">
-      <source src="assets/video/hero-dusk.mp4" type="video/mp4">
+      <source src="assets/video/hero-dusk.webm?v=2" type="video/webm">
+      <source src="assets/video/hero-dusk.mp4?v=2" type="video/mp4">
     </video>
     <picture class="hero__fallback" aria-hidden="true">
-      <source srcset="assets/img/hero-poster.webp" type="image/webp">
-      <img src="assets/img/hero-poster.jpg" alt="" width="1280" height="720" fetchpriority="high">
+      <source srcset="assets/img/hero-poster.webp?v=2" type="image/webp">
+      <img src="assets/img/hero-poster.jpg?v=2" alt="" width="1280" height="720" fetchpriority="high">
     </picture>
   </div>
   <div class="hero__panel">
