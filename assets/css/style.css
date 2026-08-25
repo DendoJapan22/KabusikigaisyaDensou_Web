@@ -3600,8 +3600,7 @@ body.page-recruit .split-card { background: var(--paper); }
   transition: transform .4s var(--ease);
 }
 .type-card:hover .type-card__ph img { transform: scale(1.05); }
-/* 縦長スナップは見せ場（計器窓）に合わせて切り抜く */
-.type-card[data-type="corporate"] .type-card__ph img { object-position: 50% 26%; }
+
 .type-card__title, .type-card__text { padding-inline: 18px; }
 .type-card:hover { border-color: var(--navy-900); }
 
